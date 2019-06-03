@@ -1,0 +1,72 @@
+body{
+    background-color:#5286F3;
+    font-size:18px;
+    font-family: Lato;
+    color:#fff;
+}
+.registration-container{
+    width:700px;
+    max-width:100%;
+    margin:50px auto;
+    border-style: groove;
+    border-color: #252525;
+    border-width: 1px;
+}
+
+.registration-container form{
+    
+    padding: 30px 50px 50px 50px;
+}
+.title{
+    background-color:#FAFAFA;
+    height: 54px;
+    padding: 10px 0 0 0;
+    font-weight: bold;
+
+}
+h4{
+    text-align:center;
+    align-content: center;
+    font-size:18px;
+    background-color:#FAFAFA;
+    vertical-align:middle;
+}
+
+
+.registration-container input{
+   height: 54px;
+   font-size: 18px;
+  
+}
+
+.registration-container .btn-register{
+    border-style: grove;
+    border-color: #8367D8;
+    border-width: 3px;
+    background-color:#fff;
+    color:#252525;
+}
+
+.registration-container input[type="checkbox"]{margin-right: 5px;}
+.registration-container p{
+  display: inline-block;
+  text-align:center !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+.registration-container a{
+    color:#8367D8;
+    
+    
+}
+
+.registration-container .social-btn{
+    font-weight: 100;
+    height: 54px;
+    color:white;
+    width:100%;
+    font-size: 18px;
+}
+.facebook-btn{  background-color:#3C589C; }
+.google-btn{ background-color: #DF4B3B; }

@@ -1,0 +1,66 @@
+body{
+    background-color:#5286F3;
+    font-size:18px;
+    font-family: Lato;
+    color:#fff;
+}
+.simple-login-container{
+    width:700px;
+    max-width:100%;
+    margin:50px auto;
+    border-style: groove;
+    border-width: 1px;
+    border-color: #D8D8D8;
+}
+
+.simple-login-container form{
+    
+    padding: 30px 50px 50px 50px;
+}
+.title{
+    background-color:#FAFAFA;
+    height: 54px;
+    padding: 10px 0 0 0;
+}
+h4{
+    text-align:center;
+    align-content: center;
+    font-size:18px;
+    background-color:#FAFAFA;
+    vertical-align:middle;
+}
+
+
+.simple-login-container input{
+   height: 54px;
+   font-size: 18px;
+}
+
+.simple-login-container .btn-login{
+    background-color:#8367D8;
+    color:#fff;
+}
+
+.simple-login-container input[type="checkbox"]{margin-right: 5px;}
+.simple-login-container p{
+  display: inline-block;
+  text-align:center !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+.simple-login-container a{
+    color:#8367D8;
+    
+    
+}
+
+.simple-login-container .social-btn{
+    font-weight: 100;
+    height: 54px;
+    color:white;
+    width:100%;
+    font-size: 18px;
+}
+.facebook-btn{  background-color:#3C589C; }
+.google-btn{ background-color: #DF4B3B; }
