@@ -1,6 +1,6 @@
 .navbar-first{
     color: white;
-    background-color: #212529;
+    background-color: rgba(33, 37, 41, 0.795);
 }
 .navbar-first a{
     color:white;
@@ -8,7 +8,23 @@
 .navbar-second{
     color: #212529;
     background-color: #f8f9fa;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 .navbar-second a{
     color:#212529;
+}
+
+.form-search{
+    width: 100%;
+    max-width: 300px;
+    
+}
+.input-search{
+    width: 100%;
+    max-width: 300px;
+    background-color: white;
+    padding: 5px;
+    margin: 5px;
+    border: 0;
 }

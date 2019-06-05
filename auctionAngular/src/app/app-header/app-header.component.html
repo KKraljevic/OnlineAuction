@@ -43,19 +43,19 @@
 <div class="navbar navbar-second">
   <a class="navbar-brand" href="#">AUCTION</a>
 
-  <form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  <form class="form-inline form-search">
+    <input class="input-search" type="search" placeholder="Search">
 
   </form>
   <ul class="nav">
-    <li class="nav-item">
-      <a class="nav-link" role="link" routerLink="/">HOME</a>
+    <li class="nav-item py-0">
+      <a class="nav-link py-0" role="link" routerLink="/">HOME</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">SHOP</a>
+    <li class="nav-item  py-0">
+      <a class="nav-link py-0" href="#">SHOP</a>
     </li>
-    <li class="nav-item" *ngIf="currentUser">
-      <a class="nav-link" role="link" [routerLink]="['/profile', currentUser.id]">MY ACCOUNT</a>
+    <li class="nav-item  py-0" *ngIf="currentUser">
+      <a class="nav-link py-0" role="link" [routerLink]="['/profile', currentUser.id]">MY ACCOUNT</a>
     </li>
 
   </ul>
