@@ -1,4 +1,4 @@
-<div class="navbar navbar-dark bg-dark">
+<div class="navbar navbar-first">
   <ul class="nav">
     <li class="nav-item">
       <a class="nav-link" href="#"><i class="fa fa-facebook-official"></i></a>
@@ -13,26 +13,34 @@
       <a class="nav-link" href="#"><i class="fa fa-google-plus-official"></i></a>
     </li>
   </ul>
-
-  <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link" role="link" routerLink="login">Login</a>
-    </li>
-    <li class="nav-item ">
-      <a class="nav-link disabled" href="#">or</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" role="link" routerLink="registration">Create an account</a>
-    </li>
-    <li class="nav-item" *ngIf="currentUser">
-        <a class="nav-link">Profile</a>
+  <div *ngIf="currentUser; else elseBlock">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <p class="nav-link">Welcome {{currentUser.firstName}} {{currentUser.lastName}}!</p>
       </li>
-  </ul>
+      <li class="nav-item">
+          <a class="nav-link" role="link" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <ng-template #elseBlock>
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link" role="link" routerLink="login">Login</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link disabled" href="#">or</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="link" routerLink="registration">Create an account</a>
+      </li>
+    </ul>
 
+  </ng-template>
 
 </div>
 
-<div class="navbar navbar-expand-lg navbar-light bg-light form-inline">
+<div class="navbar navbar-second">
   <a class="navbar-brand" href="#">AUCTION</a>
 
   <form class="form-inline my-2 my-lg-0">
@@ -40,14 +48,14 @@
 
   </form>
   <ul class="nav">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">HOME</a>
+    <li class="nav-item">
+      <a class="nav-link" role="link" routerLink="/">HOME</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">SHOP</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">MY ACCOUNT</a>
+    <li class="nav-item" *ngIf="currentUser">
+      <a class="nav-link" role="link" [routerLink]="['/profile', currentUser.id]">MY ACCOUNT</a>
     </li>
 
   </ul>

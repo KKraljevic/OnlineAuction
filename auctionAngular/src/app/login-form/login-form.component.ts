@@ -44,20 +44,6 @@ export class LoginFormComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    /*else {
-      this.user.email = this.loginForm.get('email').value;
-      this.user.password = this.loginForm.get('password').value;
-
-      this.userService.findUser(this.user).subscribe(
-        r => {
-          if (r != null) {
-            this.gotoUserProfile(r.id);
-          }
-          else
-            alert("Incorrect email or password!");
-        });
-    }*/
-
     this.authService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(

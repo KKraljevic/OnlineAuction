@@ -1,6 +1,8 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { User } from '../user';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -8,18 +10,18 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./app-header.component.css']
 })
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  declarations: [AppHeaderComponent]
-})
-export class AppHeaderComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit() {
+export class AppHeaderComponent {
+
+  currentUser: User;
+
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
 }

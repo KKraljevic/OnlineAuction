@@ -1,36 +1,27 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../user';
-import { UserService } from '../user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
 
- user: User;
- id: number;
- sub: Subscription;
+  currentUser: User;
+  id: number;
+  sub: Subscription;
 
-  constructor(private userService: UserService,private router: Router, private route: ActivatedRoute) {
-  this.user=new User();
-   }
-
-  ngOnInit() {
-      this.route.paramMap.subscribe(params => {
-      this.id = Number.parseInt(params.get("id"))
-    });
-    this.userService.findById(this.id).subscribe(data => {
-    this.user= data});
-
+  constructor(private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {
+    this.currentUser = new User();
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
-  
 
 }
 
 
 
- 
+

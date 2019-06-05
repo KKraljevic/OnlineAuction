@@ -1,3 +1,14 @@
-a{
+.navbar-first{
+    color: white;
+    background-color: #212529;
+}
+.navbar-first a{
     color:white;
+}
+.navbar-second{
+    color: #212529;
+    background-color: #f8f9fa;
+}
+.navbar-second a{
+    color:#212529;
 }

@@ -13,6 +13,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from './registration/registration.component';
+import { AppFooterComponent } from './app-footer/app-footer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RegistrationComponent } from './registration/registration.component';
     LoginFormComponent,
     LandingPageComponent,
     AppHeaderComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    AppFooterComponent
   ],
   imports: [
     BrowserModule,
