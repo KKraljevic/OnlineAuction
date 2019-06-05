@@ -4,23 +4,31 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user-service.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
+import { first } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css']
 })
-export class LoginFormComponent implements OnInit{
- 
-  
- @Input() user: User;
+export class LoginFormComponent implements OnInit {
+
+
+  user: User;
   loginForm: FormGroup;
   submitted = false;
-  
-  constructor(private route: ActivatedRoute, private router: Router,private formBuilder: FormBuilder, private userService: UserService) {
-  this.user=new User();
+  returnUrl: string;
+  error: string;
+
+  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private userService: UserService, private authService: AuthenticationService) {
+    this.user = new User();
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
-  
+
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -31,29 +39,41 @@ export class LoginFormComponent implements OnInit{
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.submitted=true;
-    
+    this.submitted = true;
+
     if (this.loginForm.invalid) {
       return;
     }
-    else {
-      this.user.email=this.loginForm.get('email').value;
-      this.user.password=this.loginForm.get('password').value;
+    /*else {
+      this.user.email = this.loginForm.get('email').value;
+      this.user.password = this.loginForm.get('password').value;
 
       this.userService.findUser(this.user).subscribe(
         r => {
-            if (r!=null)
-              {
-                this.gotoUserProfile(r.id);
-              }
-            else
-              alert("Incorrect email or password!");
+          if (r != null) {
+            this.gotoUserProfile(r.id);
+          }
+          else
+            alert("Incorrect email or password!");
         });
-    }
+    }*/
+
+    this.authService.login(this.f.email.value, this.f.password.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          if (data != null) {
+            this.router.navigate(['/']);
+          }
+          else
+            alert("Incorrect email or password!");
+        });
+
+
   }
- 
-  gotoUserProfile(id){
-      this.router.navigate(['/profile/', id]);
+
+  gotoUserProfile(id) {
+    this.router.navigate(['/profile/', id]);
   }
   gotoUserList() {
     this.router.navigate(['/users']);

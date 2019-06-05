@@ -10,7 +10,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent},
+  { path: '', component: AppComponent},
   { path: 'users', component: UsersListComponent },
   { path: 'login', component: LoginFormComponent },
   { path: 'profile', component: UserProfileComponent },
