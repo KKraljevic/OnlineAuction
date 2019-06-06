@@ -8,14 +8,16 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { AuthGuard } from './auth-guard';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent},
   { path: 'users', component: UsersListComponent },
   { path: 'login', component: LoginFormComponent },
-  { path: 'profile', component: UserProfileComponent },
-  { path: 'registration', component: RegistrationComponent },
-  { path: 'profile/:id', component: UserProfileComponent}
+  { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]},
+  { path: 'registration', component: RegistrationComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: UserProfileComponent, canActivate: [AuthGuard]},
+  { path: '**', redirectTo: '' }
 ];
 
   @NgModule({

@@ -1,22 +1,22 @@
 <div class="navbar navbar-first">
   <ul class="nav">
     <li class="nav-item">
-      <a class="nav-link" href="#"><i class="fa fa-facebook-official"></i></a>
+      <a class="nav-link p-1" href="#"><i class="fa fa-facebook-official"></i></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#"><i class="fa fa-instagram"></i></a>
+      <a class="nav-link p-1" href="#"><i class="fa fa-instagram"></i></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#"><i class="fa fa-twitter-square"></i></a>
+      <a class="nav-link p-1" href="#"><i class="fa fa-twitter-square"></i></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#"><i class="fa fa-google-plus-official"></i></a>
+      <a class="nav-link p-1" href="#"><i class="fa fa-google-plus-official"></i></a>
     </li>
   </ul>
   <div *ngIf="currentUser; else elseBlock">
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <p class="nav-link">Welcome {{currentUser.firstName}} {{currentUser.lastName}}!</p>
+        <p class="nav-link mb-0">Welcome {{currentUser.firstName}} {{currentUser.lastName}}!</p>
       </li>
       <li class="nav-item">
           <a class="nav-link" role="link" (click)="logout()">Logout</a>
@@ -48,13 +48,13 @@
 
   </form>
   <ul class="nav">
-    <li class="nav-item py-0">
+    <li class="nav-item">
       <a class="nav-link py-0" role="link" routerLink="/">HOME</a>
     </li>
-    <li class="nav-item  py-0">
+    <li class="nav-item">
       <a class="nav-link py-0" href="#">SHOP</a>
     </li>
-    <li class="nav-item  py-0" *ngIf="currentUser">
+    <li class="nav-item" *ngIf="currentUser">
       <a class="nav-link py-0" role="link" [routerLink]="['/profile', currentUser.id]">MY ACCOUNT</a>
     </li>
 
