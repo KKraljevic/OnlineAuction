@@ -31,8 +31,12 @@ public class UserController {
 
     @PostMapping("/create")
     public User addUser(@RequestBody User user) {
-        userRepository.save(user);
-        return user;
+        if (userRepository.findByEmail(user.getEmail())!=null)
+            return null;
+        else {
+            userRepository.save(user);
+            return user;
+        }
     }
 
     @GetMapping("/users")

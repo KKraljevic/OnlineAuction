@@ -33,6 +33,7 @@ export class LoginFormComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
+      remember: []
     });
   }
 
@@ -44,7 +45,7 @@ export class LoginFormComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.authService.login(this.f.email.value, this.f.password.value)
+    this.authService.login(this.f.email.value, this.f.password.value,this.f.remember.value)
       .pipe(first())
       .subscribe(
         data => {

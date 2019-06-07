@@ -27,13 +27,16 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public login(email, password) {
+  public login(email, password,remember) {
     this.user.email=email;
     this.user.password=password;
     return this.http.post<User>(`${this.usersUrl}/login`,this.user)
       .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        if(remember)
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        else
+          localStorage.setItem('currentUser',null);
+
         this.currentUserSubject.next(user);
         return user;
       }));

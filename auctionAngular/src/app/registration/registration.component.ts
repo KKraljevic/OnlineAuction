@@ -44,7 +44,13 @@ export class RegistrationComponent implements OnInit {
       this.user.email=this.registerForm.get('email').value;
       this.user.password=this.registerForm.get('password').value;
       this.userService.save(this.user).subscribe(
-        r=> this.gotoUserProfile(r.id))
+        r=>{
+          if (r != null) {
+            this.gotoUserProfile(r.id);
+          }
+          else
+            alert("Email already exist!");
+        });
     }
 
   }
