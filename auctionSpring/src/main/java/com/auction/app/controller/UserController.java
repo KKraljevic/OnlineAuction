@@ -19,19 +19,19 @@ public class UserController {
     UserRepository userRepository;
 
     @PostMapping("/login")
-    public User findUser(@RequestBody User user){
-        return userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword());
+    public User findUser(@RequestBody User user) {
+        return userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
     }
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<User> findLogUser(@PathVariable("id") Integer id){
-        User user=userRepository.findById(id).get();
+    public ResponseEntity<User> findLogUser(@PathVariable("id") Integer id) {
+        User user = userRepository.findById(id).get();
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @PostMapping("/create")
     public User addUser(@RequestBody User user) {
-        if (userRepository.findByEmail(user.getEmail())!=null)
+        if (userRepository.findByEmail(user.getEmail()) != null)
             return null;
         else {
             userRepository.save(user);
@@ -41,13 +41,10 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        System.out.println("Get all users...");
-
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
 
         return users;
     }
-
 
 }

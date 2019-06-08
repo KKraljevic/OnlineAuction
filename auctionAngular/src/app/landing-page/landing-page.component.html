@@ -1,1 +1,80 @@
-<p>Landing page</p>
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-3">
+
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-title">
+                        <h5>CATEGORIES</h5>
+                    </div>
+                    <ul class="categories list-group">
+                        <li *ngFor="let category of categories" (click)="onClick(category.category_id)">
+                            <a [attr.aria-expanded]="!isCollapsed"
+                                aria-controls="collapseSubcategories">{{category.categoryName}}</a>
+                            <div *ngIf="parent_id==category.category_id">
+                                <div id="collapseSubcategories" [ngbCollapse]="isCollapsed">
+                                    <ul class="subcategories list-group">
+                                        <li *ngFor="let subcategory of subcategories">
+                                            <a href="">{{subcategory.categoryName}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- end Categories -->
+
+        <div class="col-lg-9">
+
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-sm-6 d-flex align-items-center">
+                        <header class="intro-wrap text-black">
+                            <!-- Item name-->
+                            <h4>Running shoes</h4>
+                            <!-- Item start price-->
+                            <p>Start from - 240$</p>
+                            <!-- Item descr-->
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Quisque tempus egestas tellus, non gravida sem consequat eget.
+                                Fusce ac tortor tortor. Nunc vel tortor non sem porttitor aliquam.
+                                Vivamus efficitur orci vitae velit fermentum efficitur.
+                            </p>
+                            <a href="#" class="btn btn-bid">BID NOW ></a>
+                        </header> <!-- intro-wrap .// -->
+                    </div> <!-- col.// -->
+                    <div class="col-sm-6 text-right">
+                        <img src="https://df0a04043ae3b0be60ce-0769ebb99367e103e6cc409064fb3339.ssl.cf2.rackcdn.com/a8681683-3315-4d18-b878-eefce76b8762__L.jpg"
+                            class="img-fluid my-5" width="auto">
+                    </div> <!-- col.// -->
+                </div> <!-- row.// -->
+            </div>
+        </div>
+        <div class="container">
+            <h5>Featured items</h5>
+            <hr>
+            <div class="row">
+                <div class="card col-lg-3">
+                        <a href="#"><img class="card-img-top" src="https://placehold.it/300x300" alt="Card image cap"></a>
+                        <div class="card-body">
+                          <h5 class="card-title"><a href="#">Item Six</a></h5>
+                          <p class="card-text">Start from 120$</p>
+                        </div>
+                      </div>
+            </div>
+
+
+
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+</div>
+<!-- /.container -->

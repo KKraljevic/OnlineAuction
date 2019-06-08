@@ -14,6 +14,8 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from './registration/registration.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    NgbModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
