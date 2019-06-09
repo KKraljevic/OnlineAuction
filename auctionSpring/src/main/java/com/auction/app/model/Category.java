@@ -25,6 +25,10 @@ public class Category {
     @JsonIgnoreProperties("parent")
     private List<Category> children = new ArrayList<Category>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnoreProperties("category")
+    private List<AuctionItem> items = new ArrayList<AuctionItem>();
+
     public Category(){};
 
     public Category(int category_id, String categoryName) {

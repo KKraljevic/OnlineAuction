@@ -1,5 +1,5 @@
-<div class="navbar navbar-first">
-  <ul class="nav">
+<div class="navbar navbar-first" px-auto>
+  <ul class=" nav">
     <li class="nav-item">
       <a class="nav-link p-1" href="#"><i class="fa fa-facebook-official"></i></a>
     </li>
@@ -19,7 +19,7 @@
         <p class="nav-link mb-0">Welcome {{currentUser.firstName}} {{currentUser.lastName}}!</p>
       </li>
       <li class="nav-item">
-          <a class="nav-link" role="link" (click)="logout()">Logout</a>
+        <a class="nav-link" role="link" (click)="logout()">Logout</a>
       </li>
     </ul>
   </div>
@@ -35,14 +35,10 @@
         <a class="nav-link" role="link" routerLink="registration">Create an account</a>
       </li>
     </ul>
-
   </ng-template>
-
 </div>
-
 <div class="navbar navbar-second">
   <a class="navbar-brand" href="#">AUCTION</a>
-
   <form class="form-inline form-search">
     <input class="input-search" type="search" placeholder="Search">
 

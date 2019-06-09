@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<User> findLogUser(@PathVariable("id") Integer id) {
+    public ResponseEntity<User> findLogUser(@PathVariable Integer id) {
         User user = userRepository.findById(id).get();
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }

@@ -7,7 +7,7 @@
 }
 .navbar-second{
     color: #212529;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -26,5 +26,8 @@
     background-color: white;
     padding: 8px;
     margin: 5px;
-    border: 0;
+    border: 1px;
+    border-color: lightgrey;
+    box-shadow:3px 3px 3px 3px silver;
+    
 }

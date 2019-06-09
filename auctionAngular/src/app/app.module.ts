@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { RegistrationComponent } from './registration/registration.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ItemDetailsComponent } from './item-details/item-details.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     LandingPageComponent,
     AppHeaderComponent,
     RegistrationComponent,
-    AppFooterComponent
+    AppFooterComponent,
+    ItemDetailsComponent
   ],
   imports: [
     BrowserModule,

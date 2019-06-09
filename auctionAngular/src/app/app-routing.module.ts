@@ -9,6 +9,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthGuard } from './auth-guard';
+import { ItemDetailsComponent } from './item-details/item-details.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]},
   { path: 'registration', component: RegistrationComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: UserProfileComponent, canActivate: [AuthGuard]},
+  { path: 'item/:id', component: ItemDetailsComponent},
   { path: '**', redirectTo: '' }
 ];
 

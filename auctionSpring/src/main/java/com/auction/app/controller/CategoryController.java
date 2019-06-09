@@ -32,6 +32,7 @@ public class CategoryController {
     public Category getCategory(@PathVariable("id") Integer id) {
         return categoryRepository.findById(id).get();
     }
+
     @GetMapping("/categories/{id}/children")
     public List<Category> getSubcategories(@PathVariable("id") Integer id) {
         List<Category> subcategories = new ArrayList<Category>();

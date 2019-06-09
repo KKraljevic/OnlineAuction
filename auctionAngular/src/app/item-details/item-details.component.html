@@ -1,0 +1,48 @@
+<div class="navbar navbar-item">
+  <div class="navbar-brand">SINGLE PRODUCT</div>
+  <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
+    <ol class="breadcrumb navbar-item">
+      <li class="breadcrumb-item">SHOP</li>
+      <li class="breadcrumb-item active" aria-current="page">{{item.category.categoryName}}</li>
+    </ol>
+  </nav>
+</div>
+<div class=container>
+  <div class="row">
+
+    <div class="col-lg-5 col-sm-5">
+      <div>
+        <img src="https://placehold.it/200x200" class="card-img-top" alt="">
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 col-sm-7">
+      <h2>{{item.name}}</h2>
+      <h5>Start from - ${{item.startPrice}}</h5>
+      <input class="input-price p-1" type="number" /> <button class="btn btn-bid ml-2">PLACE BID ></button>
+      <p>Enter ${{item.startPrice+10}} or more<br><br>
+        Highest bid: ${{item.currentPrice}}<br>
+        No bid: <br>
+        End date: {{item.endDate}} <br>
+      </p>
+      <button class="btn bg-secondary">Watchlist</button>
+      <h6>Details</h6>
+      <hr>
+      <p>{{item.description}}</p>
+    </div>
+  </div>
+</div>

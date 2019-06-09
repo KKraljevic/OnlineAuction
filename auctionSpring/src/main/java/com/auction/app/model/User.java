@@ -1,6 +1,10 @@
 package com.auction.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +25,10 @@ public class User{
 
     @Column(name="lastname")
     private String lastName;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnoreProperties("user")
+    private List<AuctionItem> items = new ArrayList<AuctionItem>();
 
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;
@@ -61,6 +69,10 @@ public class User{
     public String getLastName() { return lastName; }
 
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public List<AuctionItem> getItems() { return items; }
+
+    public void setItems(List<AuctionItem> items) { this.items = items; }
 
     @Override
     public String toString() {

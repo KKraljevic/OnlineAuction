@@ -1,15 +1,18 @@
 package com.auction.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "auctionItems")
 public class AuctionItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
+    private int item_id;
 
     @Column
     private String name;
@@ -29,13 +32,19 @@ public class AuctionItem {
     @Column
     private Float currentPrice;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name ="id")
+    @JsonIgnoreProperties("items")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("items")
+    private Category category;
 
     public AuctionItem(){};
     public AuctionItem(int id, String name, String description, int quantity, Date endDate, Float startPrice, Float currentPrice) {
-        this.id = id;
+        this.item_id = id;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
@@ -43,9 +52,12 @@ public class AuctionItem {
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
     }
+    public int getId() {
+        return item_id;
+    }
 
     public void setId(int id) {
-        this.id = id;
+        this.item_id = id;
     }
 
     public String getName() {
@@ -95,4 +107,12 @@ public class AuctionItem {
     public void setCurrentPrice(Float currentPrice) {
         this.currentPrice = currentPrice;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public Category getCategory() { return category; }
+
+    public void setCategory(Category category) { this.category = category; }
 }

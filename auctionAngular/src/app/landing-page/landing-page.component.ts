@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../category';
 import { CategoryService } from '../category-service.service';
+import { Item } from '../item';
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,15 +17,17 @@ export class LandingPageComponent implements OnInit {
   canCollapse: boolean;
   parent_id:number;
 
-  constructor(private categoryService: CategoryService) {
+  items: Item[];
+
+  constructor(private categoryService: CategoryService,private itemService: ItemService) {
     this.isCollapsed=false;
   }
   ngOnInit(): void {
     this.categoryService.findAll().subscribe(data => {this.categories = data;});
-
+    this.itemService.findAll().subscribe(data => {this.items = data;});
   }
 
-  onClick(id:number){
+  onClickCategory(id:number){
     this.parent_id=id;
     this.isCollapsed=!this.isCollapsed;
     this.categoryService.findAllSubcategories(id).subscribe
@@ -37,6 +41,9 @@ export class LandingPageComponent implements OnInit {
         this.subcategories = null;
       }
     });
+  }
+  onClickItem(id:number){
+    
   }
 
 }
