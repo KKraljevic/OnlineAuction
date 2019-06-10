@@ -12,7 +12,11 @@
     padding-bottom: 3px;
 }
 .navbar-second a{
-    color:#212529;
+    color: rgb(206, 204, 204);
+}
+.active-link{
+    color:#8367D8 !important;
+    font-weight: bold;
 }
 
 .form-search{
@@ -21,13 +25,20 @@
     
 }
 .input-search{
-    width: 100%;
-    max-width: 300px;
     background-color: white;
     padding: 8px;
     margin: 5px;
-    border: 1px;
-    border-color: lightgrey;
-    box-shadow:3px 3px 3px 3px silver;
-    
+    border: 2px;
+    border-style: solid;
+    border-color: rgb(206, 204, 204);
+    box-shadow:2px 2px 2px rgb(206, 204, 204);
+}
+.input-search input{
+    border: 0;
+    width: 90%;
+}
+.input-search button{
+    background-color: transparent;
+    border: 0;
+    width: 10%;
 }

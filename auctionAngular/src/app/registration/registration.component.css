@@ -57,8 +57,6 @@ h4{
 }
 .registration-container a{
     color:#8367D8;
-    
-    
 }
 
 .registration-container .social-btn{
@@ -67,6 +65,10 @@ h4{
     color:white;
     width:100%;
     font-size: 18px;
+}
+.navbar-item{
+    color: #212529;
+    background-color: #f8f9fa;
 }
 .facebook-btn{  background-color:#3C589C; }
 .google-btn{ background-color: #DF4B3B; }

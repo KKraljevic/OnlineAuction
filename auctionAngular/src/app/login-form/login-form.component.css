@@ -4,6 +4,10 @@ body{
     font-family: Lato;
     color:#fff;
 }
+.navbar-item{
+    color: #212529;
+    background-color: #f8f9fa;
+}
 .simple-login-container{
     width:700px;
     max-width:100%;

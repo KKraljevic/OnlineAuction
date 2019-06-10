@@ -1,4 +1,4 @@
-<div class="navbar navbar-first" px-auto>
+<div class="navbar navbar-first px-5">
   <ul class=" nav">
     <li class="nav-item">
       <a class="nav-link p-1" href="#"><i class="fa fa-facebook-official"></i></a>
@@ -26,7 +26,7 @@
   <ng-template #elseBlock>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="nav-link" role="link" routerLink="login">Login</a>
+        <a class="nav-link" role="link" routerLink="login" >Login</a>
       </li>
       <li class="nav-item ">
         <a class="nav-link disabled" href="#">or</a>
@@ -37,21 +37,21 @@
     </ul>
   </ng-template>
 </div>
-<div class="navbar navbar-second">
-  <a class="navbar-brand" href="#">AUCTION</a>
-  <form class="form-inline form-search">
-    <input class="input-search" type="search" placeholder="Search">
-
+<div class="navbar navbar-second px-5">
+  <a class="navbar-brand col pl-0">AUCTION</a>
+  <form class="input-group col-5 input-search">
+    <input type="text" placeholder="Try enter : Shoes" name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
   </form>
-  <ul class="nav">
+  <ul class="nav col justify-content-end">
     <li class="nav-item">
-      <a class="nav-link py-0" role="link" routerLink="/">HOME</a>
+      <a class="nav-link py-0" role="link" routerLink="/" routerLinkActive="active-link">HOME</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link py-0" href="#">SHOP</a>
+      <a class="nav-link py-0">SHOP</a>
     </li>
     <li class="nav-item" *ngIf="currentUser">
-      <a class="nav-link py-0" role="link" [routerLink]="['/profile', currentUser.id]">MY ACCOUNT</a>
+      <a class="nav-link py-0" role="link" [routerLink]="['/profile', currentUser.id]" routerLinkActive="active-link">MY ACCOUNT</a>
     </li>
 
   </ul>
