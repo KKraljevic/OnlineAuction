@@ -7,15 +7,21 @@
 }
 .card{
     border-style: groove;
-    border-top-width: 0;
-    border-left-width: 0;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    border-color: lightgray;
+    border-width: 0;
     border-radius: 0;
 }
 .card-title h6{
     color:#8367D8;
+}
+.card-img-top{
+    width: 100%;
+    border-radius: 0;
+}
+.card a{
+    color: #252525;
+}
+.list-group-item{
+    cursor: pointer;
 }
 .first-block{
     background-color: #f3f3f5;

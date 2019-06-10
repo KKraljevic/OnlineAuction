@@ -14,7 +14,6 @@ export class LandingPageComponent implements OnInit {
   categories: Category[];
   subcategories: Category[];
   isCollapsed: boolean;
-  canCollapse: boolean;
   parent_id:number;
 
   items: Item[];
@@ -30,20 +29,7 @@ export class LandingPageComponent implements OnInit {
   onClickCategory(id:number){
     this.parent_id=id;
     this.isCollapsed=!this.isCollapsed;
-    this.categoryService.findAllSubcategories(id).subscribe
-    (data => {
-      if(data!=null)
-      {
-        this.subcategories = data;
-      }  
-      else
-      {
-        this.subcategories = null;
-      }
-    });
+    this.subcategories=this.categories.find(x => x.category_id === id).children;
   }
-  onClickItem(id:number){
-    
-  }
-
+  
 }
