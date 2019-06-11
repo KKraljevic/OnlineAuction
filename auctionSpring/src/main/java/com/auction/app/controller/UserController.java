@@ -1,6 +1,9 @@
 package com.auction.app.controller;
 
+import com.auction.app.AuctionItemsRepository;
 import com.auction.app.UserRepository;
+import com.auction.app.model.AuctionItem;
+import com.auction.app.model.Bid;
 import com.auction.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +19,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @PostMapping("/login")
     public User findUser(@RequestBody User user) {

@@ -3,6 +3,7 @@ import { User } from '../user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
+import { Bid } from '../bid';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,12 +13,13 @@ import { AuthenticationService } from '../authentication.service';
 export class UserProfileComponent {
 
   currentUser: User;
+  bids: Bid[];
   id: number;
-  sub: Subscription;
 
   constructor(private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {
     this.currentUser = new User();
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.bids=this.currentUser.bids;
   }
 
 }

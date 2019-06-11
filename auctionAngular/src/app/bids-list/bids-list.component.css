@@ -1,0 +1,14 @@
+.container{
+    max-width:100%;
+    margin:50px auto;
+    border-style: groove;
+    border-color: lightgray;
+    border-width: 1px;
+}
+.nav-pills{
+    max-width:100%;
+    margin:50px auto; 
+}
+img{
+    max-width: 60%;
+}

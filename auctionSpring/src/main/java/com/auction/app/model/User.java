@@ -30,13 +30,28 @@ public class User{
     @JsonIgnoreProperties("user")
     private List<AuctionItem> items = new ArrayList<AuctionItem>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private List<Bid> bids = new ArrayList<Bid>();
+
+    public User(){}
+
     public User(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
         this.firstName=firstName;
         this.lastName=lastName;
     }
-    public User(){}
+
+    public User(int id, String email, String password, String firstName, String lastName, List<AuctionItem> items, List<Bid> bids) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.items = items;
+        this.bids = bids;
+    }
 
     public int getId() {
         return id;
@@ -73,6 +88,10 @@ public class User{
     public List<AuctionItem> getItems() { return items; }
 
     public void setItems(List<AuctionItem> items) { this.items = items; }
+
+    public List<Bid> getBids() { return bids; }
+
+    public void setBids(List<Bid> bids) { this.bids = bids; }
 
     @Override
     public String toString() {

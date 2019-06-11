@@ -10,6 +10,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthGuard } from './auth-guard';
 import { ItemDetailsComponent } from './item-details/item-details.component';
+import { BidsListComponent } from './bids-list/bids-list.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent},
@@ -17,8 +18,8 @@ const routes: Routes = [
   { path: 'login', component: LoginFormComponent },
   { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard]},
   { path: 'registration', component: RegistrationComponent, canActivate: [AuthGuard] },
-  { path: 'profile/:id', component: UserProfileComponent, canActivate: [AuthGuard]},
   { path: 'item/:id', component: ItemDetailsComponent},
+  { path: 'bids', component: BidsListComponent},
   { path: '**', redirectTo: '' }
 ];
 

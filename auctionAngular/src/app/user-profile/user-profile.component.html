@@ -1,5 +1,58 @@
+<div class="navbar navbar-item px-5">
+  <div class="navbar-brand">BECOME SELLER</div>
+  <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
+    <ol class="breadcrumb navbar-item mb-0">
+      <li class="breadcrumb-item">MY ACCOUNT</li>
+      <li class="breadcrumb-item active" aria-current="page">Profile</li>
+    </ol>
+  </nav>
+</div>
+<div class="container">
+  <ul class="nav nav-pills py-2 mb-0">
+    <li class="nav-item">
+      <a class="nav-link" role="link" routerLink="/profile" routerLinkActive="active-link">Profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled">Seller</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" role="link" routerLink="/bids">Bids</a>
+    </li>
+  </ul>
+  <div class="profile-container">
+    <div class="title">
+      <h4>REQUIRED</h4>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <img class="mw-60 mx-2" src="https://placehold.it/300x300">
+      </div>
+      <div class="col-9">
+        <form>
+          <div class="row">
 
-  <h1>User Profile:</h1>
-  <h1>{{ currentUser.email }}</h1>
-  <h1>{{ currentUser.password }}</h1>
+            <div class="col-md-12 form-group">
+              <label>First name</label>
+              <input disabled type="text" class="form-control" value="{{currentUser.firstName}}">
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <label>Last name</label>
+              <input disabled type="text" class="form-control" value="{{currentUser.lastName}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <label>Email</label>
+              <input disabled type="text" class="form-control" value="{{currentUser.email}}">
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

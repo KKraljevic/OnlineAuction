@@ -16,6 +16,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ItemDetailsComponent } from './item-details/item-details.component';
+import { BidsListComponent } from './bids-list/bids-list.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ItemDetailsComponent } from './item-details/item-details.component';
     AppHeaderComponent,
     RegistrationComponent,
     AppFooterComponent,
-    ItemDetailsComponent
+    ItemDetailsComponent,
+    BidsListComponent
   ],
   imports: [
     BrowserModule,

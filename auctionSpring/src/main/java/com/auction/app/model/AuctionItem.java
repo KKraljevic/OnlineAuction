@@ -42,16 +42,26 @@ public class AuctionItem {
     @JsonIgnoreProperties("items")
     private Category category;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    @JsonIgnoreProperties("item")
+    private List<Bid> bids = new ArrayList<Bid>();
+
     public AuctionItem(){};
-    public AuctionItem(int id, String name, String description, int quantity, Date endDate, Float startPrice, Float currentPrice) {
-        this.item_id = id;
+
+    public AuctionItem(int item_id, String name, String description, int quantity, Date endDate,
+                       Float startPrice, Float currentPrice, User user, Category category, List<Bid> bids) {
+        this.item_id = item_id;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.endDate = endDate;
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
+        this.user = user;
+        this.category = category;
+        this.bids = bids;
     }
+
     public int getId() {
         return item_id;
     }

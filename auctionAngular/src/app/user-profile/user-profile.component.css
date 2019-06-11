@@ -1,0 +1,36 @@
+.navbar-item{
+    color: #212529;
+    background-color: #f8f9fa;
+}
+
+.profile-container{
+    
+    max-width:100%;
+    margin:50px auto;
+    border-style: groove;
+    border-color: #dfdfdf;
+    border-width: 1px;
+}
+.nav-pills{
+    max-width:100%;
+    margin:50px auto; 
+}
+.profile-container form{
+    
+    padding: 30px 50px 50px 50px;
+}
+h4{
+    text-align:left;
+    padding-left: 10px;
+    align-content: center;
+    font-size:18px;
+    background-color:#FAFAFA;
+    vertical-align:middle;
+}
+.title{
+    background-color:#FAFAFA;
+    height: 54px;
+    padding: 10px 0 0 0;
+    font-weight: bold;
+
+}
