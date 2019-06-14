@@ -11,26 +11,16 @@ import { ItemService } from '../item.service';
 })
 export class LandingPageComponent implements OnInit {
   
-  categories: Category[];
-  subcategories: Category[];
-  isCollapsed: boolean;
-  parent_id:number;
+  categories: Category[] = [];
   items: Item[] = [];
 
   constructor(private categoryService: CategoryService,private itemService: ItemService) {
-    this.isCollapsed=false;
-    
-    
+  
   }
   ngOnInit(): void {
     this.categoryService.findAll().subscribe(data => {this.categories = data;});
     this.itemService.findAll().subscribe(data => {this.items = data;});
     }
 
-  onClickCategory(id:number){
-    this.parent_id=id;
-    this.isCollapsed=!this.isCollapsed;
-    this.subcategories=this.categories.find(x => x.category_id === id).children;
-  }
   
 }

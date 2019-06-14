@@ -1,26 +1,27 @@
 <div class="container m-0 p-0 mw-100">
     <div class="container m-0 px-5 mw-100 first-block">
         <div class="row">
-            <div class="col-3 py-0">
+            <div class="col-3 py-0" id="categoriesList">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
                             <h6>CATEGORIES</h6>
                         </div>
                     </div>
-                    <ul class="categories list-group list-group-flush">
-                        <li *ngFor="let category of categories" class="list-group-item" (click)="onClickCategory(category.category_id)">
-                            <a role="button" aria-controls="collapseSubcategories">{{category.categoryName}}</a>
-                            <div *ngIf="parent_id==category.category_id">
-                                <div id="collapseSubcategories" [ngbCollapse]="isCollapsed">
-                                    <ul class="subcategories list-group list-group-flush">
-                                        <li *ngFor="let subcategory of subcategories" class="list-group-item">
-                                            <a href="">{{subcategory.categoryName}}</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <ul class="categories list-group" id="categoryList">
+                        <li *ngFor="let category of categories" class="list-group-item list-group-flush">
+                            <a role="link" role="link" data-toggle="collapse" href="#{{category.categoryName}}"
+                                aria-expanded="false" attr.aria-controls="{{category.categoryName}}">{{category.categoryName}}</a>
+                            <div id="{{category.categoryName}}" class="collapse" data-parent="#categoryList">
+                                <ul class="category.children list-group">
+                                    <li *ngFor="let subcategory of category.children" class="list-group-item">
+                                        <a>{{subcategory.categoryName}}</a>
+                                    </li>
+                                </ul>
                             </div>
                         </li>
+
+
                     </ul>
 
                 </div>
@@ -39,12 +40,12 @@
                                 <p>{{items[0].description}}</p>
                                 <a [routerLink]="['/item', items[0].item_id]" class="btn btn-bid">BID NOW ></a>
                             </header>
-                        </div> 
+                        </div>
                         <div class="col-6 text-right">
                             <img src="https://df0a04043ae3b0be60ce-0769ebb99367e103e6cc409064fb3339.ssl.cf2.rackcdn.com/a8681683-3315-4d18-b878-eefce76b8762__L.jpg"
                                 class="img-fluid my-5" width="auto">
-                        </div> 
-                    </div> 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
