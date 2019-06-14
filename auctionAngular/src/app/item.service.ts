@@ -8,6 +8,7 @@ import { Item } from './item';
 })
 export class ItemService {
   private springUrl: string;
+  
   constructor(private http: HttpClient) {
     this.springUrl = 'http://localhost:8080';
   }
@@ -18,5 +19,9 @@ export class ItemService {
 
   public findById(id: number): Observable<Item> {
     return this.http.get<Item>(this.springUrl+"/item/"+id);
+  }
+
+  public updatePrice(id: number, newItem : Item) {
+    return this.http.put<Item>(this.springUrl+"/item/"+id,newItem);
   }
 }

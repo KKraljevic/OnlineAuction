@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { User } from './user';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 import { Request } from 'selenium-webdriver/http';
+import { Bid } from './bid';
+import { map } from 'rxjs/operators';
 
  
 @Injectable()
@@ -29,6 +31,16 @@ export class UserService {
 
   public findById(id :number): Observable<User> {
     return this.http.get<User>(this.usersUrl+"/profile/"+id);  
+  }
 
+  public getBids(id: number): Observable<Bid[]> {
+    return this.http.get<Bid[]>(this.usersUrl+"/bids/"+id);
+  }
+  
+  public saveBid(bid: Bid): Observable<Bid> {
+    return this.http.post<Bid>(this.usersUrl+"/createBid", bid);
+  }
+  public deleteBid(b: Bid): Observable<any> {
+    return this.http.delete(this.usersUrl+"/deleteBid"+b.bid_Id);
   }
 }

@@ -20,7 +20,7 @@ public class Bid {
 
     @ManyToOne
     @JoinColumn(name = "id")
-    @JsonIgnoreProperties("bids")
+    @JsonIgnoreProperties(value = "bids")
     private User user;
 
     @ManyToOne

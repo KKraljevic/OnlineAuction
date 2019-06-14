@@ -3,7 +3,7 @@
   <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
     <ol class="breadcrumb navbar-item">
       <li class="breadcrumb-item">SHOP</li>
-      <li class="breadcrumb-item active" aria-current="page">{{item.category.categoryName}}</li>
+      <li class="breadcrumb-item active" aria-current="page">{{item.category?.categoryName}}</li>
     </ol>
   </nav>
 </div>
@@ -33,7 +33,17 @@
     <div class="col-lg-7 col-sm-7">
       <h2>{{item.name}}</h2>
       <h5>Start from - ${{item.startPrice}}</h5>
-      <input class="input-price p-1" type="number" /> <button class="btn btn-bid ml-2">PLACE BID ></button>
+      <form (ngSubmit)="makeBid()" [formGroup]="bidForm" class="form-inline">
+        
+          <input type="number" formControlName="price" class="form-control input-price p-1"
+            [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+          <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+            <div *ngIf="f.price.errors.required">Price is required</div>
+            <div *ngIf="f.price.errors.min">Higher value required</div>
+          </div>
+          <input type="submit" class="btn btn-bid ml-2" value="PLACE BID >" />
+        
+      </form>
       <p>Enter ${{item.startPrice+10}} or more<br><br>
         Highest bid: ${{item.currentPrice}}<br>
         No bid: <br>
@@ -44,5 +54,25 @@
       <hr>
       <p>{{item.description}}</p>
     </div>
+  </div>
+  <div *ngIf="item.bids" class="row">
+    <table class="table col-12">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">User photo</th>
+          <th scope="col">Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody class="item.bids">
+        <tr *ngFor="let b of item.bids">
+          <td><img height="100" width="100" src="https://placehold.it/300x300"></td>
+          <td>{{b.user.firstName}} {{b.user.lastName}}</td>
+          <td>{{b.bidTime}}</td>
+          <td>{{b.bidPrice}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

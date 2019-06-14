@@ -14,6 +14,16 @@
 .nav-pills{
     max-width:100%;
     margin:50px auto; 
+    
+}
+a.nav-link:active,
+a.nav-link:focus{
+    background-color:blueviolet !important ;
+    color: white !important;
+  }
+a.nav-link{
+  background-color: #dfdfdf !important ;
+  color: white !important;
 }
 .profile-container form{
     

@@ -7,52 +7,84 @@
     </ol>
   </nav>
 </div>
-<div class="container">
+<div class="container" id="userProfile">
   <ul class="nav nav-pills py-2 mb-0">
-    <li class="nav-item">
-      <a class="nav-link" role="link" routerLink="/profile" routerLinkActive="active-link">Profile</a>
+    <li class="nav-item active">
+      <a class="nav-link" role="link" data-toggle="collapse" data-target="#collapseProfile" aria-expanded="true"
+        aria-controls="collapseProfile">Profile</a>
     </li>
     <li class="nav-item">
       <a class="nav-link disabled">Seller</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" role="link" routerLink="/bids">Bids</a>
+      <a class="nav-link" data-toggle="collapse" data-target="#collapseBids" aria-expanded="false"
+        aria-controls="collapseBids">Bids</a>
     </li>
   </ul>
-  <div class="profile-container">
-    <div class="title">
-      <h4>REQUIRED</h4>
+  <div class="collapse show" id="collapseProfile" data-parent="#userProfile">
+    <div class="profile-container mt-1">
+      <div class="title">
+        <h4>REQUIRED</h4>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <img class="mw-60 mx-2 col" src="https://placehold.it/300x300">
+        </div>
+        <div class="col-9">
+          <form>
+            <div class="row">
+              <div class="col form-group">
+                <label>First name</label>
+                <input disabled type="text" class="form-control" value="{{currentUser.firstName}}">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col form-group">
+                <label>Last name</label>
+                <input disabled type="text" class="form-control" value="{{currentUser.lastName}}">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col form-group">
+                <label>Email</label>
+                <input disabled type="text" class="form-control" value="{{currentUser.email}}">
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-3">
-        <img class="mw-60 mx-2" src="https://placehold.it/300x300">
-      </div>
-      <div class="col-9">
-        <form>
-          <div class="row">
+  </div>
+  <div class="collapse" id="collapseBids" data-parent="#userProfile">
+    <div class="container">
 
-            <div class="col-md-12 form-group">
-              <label>First name</label>
-              <input disabled type="text" class="form-control" value="{{currentUser.firstName}}">
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 form-group">
-              <label>Last name</label>
-              <input disabled type="text" class="form-control" value="{{currentUser.lastName}}">
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 form-group">
-              <label>Email</label>
-              <input disabled type="text" class="form-control" value="{{currentUser.email}}">
-            </div>
-          </div>
-        </form>
-
-      </div>
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Name</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Your Price</th>
+            <th scope="col">Highest Bid</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody class="bids">
+          <tr *ngFor="let bid of bids">
+            <th scope="row"><img class="mw-60" src="https://placehold.it/300x300"></th>
+            <td>{{bid.item.name}}</td>
+            <td>{{bid.item.endDate}}</td>
+            <td>{{bid.bidPrice}} </td>
+            <td>{{bid.item.currentPrice}}</td>
+            <td>
+              <button class="form-control" role="link" [routerLink]="['/item', bid.item.item_id]">VIEW</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

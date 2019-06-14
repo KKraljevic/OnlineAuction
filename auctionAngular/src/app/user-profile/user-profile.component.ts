@@ -4,22 +4,31 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Bid } from '../bid';
+import { UserService } from '../user-service.service';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit{
 
   currentUser: User;
-  bids: Bid[];
+  bids: Bid[]=[];
   id: number;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {
+  constructor(private authenticationService: AuthenticationService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     this.currentUser = new User();
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    this.bids=this.currentUser.bids;
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser=x;
+    });
+  }
+
+  ngOnInit(): void {
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser=x;
+    });
+    this.userService.getBids(this.currentUser.id).subscribe(b=>this.bids=b);
   }
 
 }

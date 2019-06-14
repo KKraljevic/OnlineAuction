@@ -1,6 +1,7 @@
 package com.auction.app.controller;
 
 import com.auction.app.AuctionItemsRepository;
+import com.auction.app.BidRepository;
 import com.auction.app.UserRepository;
 import com.auction.app.model.AuctionItem;
 import com.auction.app.model.Bid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -20,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
 
     @PostMapping("/login")
     public User findUser(@RequestBody User user) {
@@ -46,8 +51,19 @@ public class UserController {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
-
         return users;
     }
+
+    @GetMapping("/bids/{id}")
+    public List<Bid> getUserBids(@PathVariable Integer id) {
+        return userRepository.findById(id).get().getBids();
+    }
+
+    @PostMapping("/createBid")
+    public Bid makeBid(@RequestBody Bid bid) {
+        Bid b=bidRepository.save(new Bid(bid.getBid_Id(),bid.getBidPrice(),bid.getBidTime(),bid.isActive(),bid.getUser(),bid.getItem()));
+        return b;
+    }
+
 
 }

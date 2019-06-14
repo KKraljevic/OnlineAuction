@@ -32,17 +32,17 @@ public class AuctionItem {
     @Column
     private Float currentPrice;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name ="id")
-    @JsonIgnoreProperties("items")
+    @JsonIgnoreProperties(value = "items")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnoreProperties("items")
+    @JsonIgnoreProperties(value = "items")
     private Category category;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item",cascade = CascadeType.ALL )
     @JsonIgnoreProperties("item")
     private List<Bid> bids = new ArrayList<Bid>();
 
@@ -125,4 +125,20 @@ public class AuctionItem {
     public Category getCategory() { return category; }
 
     public void setCategory(Category category) { this.category = category; }
+
+    public int getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(int item_id) {
+        this.item_id = item_id;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
 }
