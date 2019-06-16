@@ -38,7 +38,7 @@
                                 <h4>{{items[0].name}}</h4>
                                 <p>Start from - ${{items[0].startPrice}}</p>
                                 <p>{{items[0].description}}</p>
-                                <a [routerLink]="['/item', items[0].item_id]" class="btn btn-bid">BID NOW ></a>
+                                <a [routerLink]="['/item', items[0].id]" class="btn btn-bid">BID NOW ></a>
                             </header>
                         </div>
                         <div class="col-6 text-right">
@@ -55,10 +55,10 @@
         <hr>
         <div class="row items">
             <div *ngFor="let item of items" class="card col-3">
-                <a role="link" [routerLink]="['/item', item.item_id]"><img class="card-img-top"
+                <a role="link" [routerLink]="['/item', item.id]"><img class="card-img-top"
                         src="https://placehold.it/300x300"></a>
                 <div class="card-body p-2">
-                    <h6 class="card-title"><a role="link" [routerLink]="['/item', item.item_id]">{{item.name}}</a></h6>
+                    <h6 class="card-title"><a role="link" [routerLink]="['/item', item.id]">{{item.name}}</a></h6>
                     <p class="card-text">Start from ${{item.startPrice}}</p>
                 </div>
             </div>

@@ -1,18 +1,24 @@
 package com.auction.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "auctionItems")
-public class AuctionItem {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class AuctionItem implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int item_id;
+    @Column(name = "item_id")
+    private int id;
 
     @Column
     private String name;
@@ -32,42 +38,40 @@ public class AuctionItem {
     @Column
     private Float currentPrice;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name ="id")
-    @JsonIgnoreProperties(value = "items")
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties(value = {"items","userBids"})
+    private User seller;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @JsonIgnoreProperties(value = "items")
     private Category category;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item",cascade = CascadeType.ALL )
-    @JsonIgnoreProperties("item")
-    private List<Bid> bids = new ArrayList<Bid>();
+    @OneToMany(mappedBy = "auctionItem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = "auctionItem")
+    private List<Bid> itemBids = new ArrayList<Bid>();
 
-    public AuctionItem(){};
+    public AuctionItem(){
+    };
 
     public AuctionItem(int item_id, String name, String description, int quantity, Date endDate,
-                       Float startPrice, Float currentPrice, User user, Category category, List<Bid> bids) {
-        this.item_id = item_id;
+                       Float startPrice, Float currentPrice) {
+        this.id = item_id;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.endDate = endDate;
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
-        this.user = user;
-        this.category = category;
-        this.bids = bids;
     }
 
     public int getId() {
-        return item_id;
+        return id;
     }
 
     public void setId(int id) {
-        this.item_id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -118,27 +122,19 @@ public class AuctionItem {
         this.currentPrice = currentPrice;
     }
 
-    public User getUser() { return user; }
+    public User getSeller() { return seller; }
 
-    public void setUser(User user) { this.user = user; }
+    public void setSeller(User seller) { this.seller = seller; }
 
     public Category getCategory() { return category; }
 
     public void setCategory(Category category) { this.category = category; }
 
-    public int getItem_id() {
-        return item_id;
+    public List<Bid> getItemBids() {
+        return itemBids;
     }
 
-    public void setItem_id(int item_id) {
-        this.item_id = item_id;
-    }
-
-    public List<Bid> getBids() {
-        return bids;
-    }
-
-    public void setBids(List<Bid> bids) {
-        this.bids = bids;
+    public void setItemBids(List<Bid> itemBids) {
+        this.itemBids = itemBids;
     }
 }

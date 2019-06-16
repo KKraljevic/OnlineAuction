@@ -1,50 +1,45 @@
 package com.auction.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "bids")
-public class Bid {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Bid implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int bid_Id;
+    private int bid_id;
+
     @Column
     private float bidPrice;
     @Column
     private Date bidTime;
     @Column
-    private boolean isActive;
+    private boolean active;
 
-    @ManyToOne
-    @JoinColumn(name = "id")
-    @JsonIgnoreProperties(value = "bids")
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties(value = "userBids")
+    private User bidder;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "item_id")
-    @JsonIgnoreProperties("bids")
-    private AuctionItem item;
+    @JsonIgnoreProperties(value = "itemBids")
+    private AuctionItem auctionItem;
 
     public Bid(){};
 
-    public Bid(int bid_Id, float bidPrice, Date bidTime, boolean isActive, User user, AuctionItem item) {
-        this.bid_Id = bid_Id;
+    public Bid(float bidPrice, Date bidTime, boolean active) {
         this.bidPrice = bidPrice;
         this.bidTime = bidTime;
-        this.isActive = isActive;
-        this.user = user;
-        this.item = item;
-    }
-
-    public int getBid_Id() {
-        return bid_Id;
-    }
-
-    public void setBid_Id(int bid_Id) {
-        this.bid_Id = bid_Id;
+        this.active = active;
     }
 
     public float getBidPrice() {
@@ -64,26 +59,34 @@ public class Bid {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
-    public User getUser() {
-        return user;
+    public User getBidder() {
+        return bidder;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setBidder(User bidder) {
+        this.bidder = bidder;
     }
 
-    public AuctionItem getItem() {
-        return item;
+    public AuctionItem getAuctionItem() {
+        return auctionItem;
     }
 
-    public void setItem(AuctionItem item) {
-        this.item = item;
+    public void setAuctionItem(AuctionItem auctionItem) {
+        this.auctionItem = auctionItem;
+    }
+
+    public int getBid_id() {
+        return bid_id;
+    }
+
+    public void setBid_id(int bid_id) {
+        this.bid_id = bid_id;
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="categories")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +27,7 @@ public class Category {
     private List<Category> children = new ArrayList<Category>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnoreProperties("category")
+    @JsonIgnoreProperties(value="category")
     private List<AuctionItem> items = new ArrayList<AuctionItem>();
 
     public Category(){};

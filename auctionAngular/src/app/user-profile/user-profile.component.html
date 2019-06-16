@@ -75,12 +75,12 @@
         <tbody class="bids">
           <tr *ngFor="let bid of bids">
             <th scope="row"><img class="mw-60" src="https://placehold.it/300x300"></th>
-            <td>{{bid.item.name}}</td>
-            <td>{{bid.item.endDate}}</td>
+            <td>{{bid.auctionItem.name}}</td>
+            <td>{{bid.auctionItem.endDate}}</td>
             <td>{{bid.bidPrice}} </td>
-            <td>{{bid.item.currentPrice}}</td>
+            <td>{{bid.auctionItem.currentPrice}}</td>
             <td>
-              <button class="form-control" role="link" [routerLink]="['/item', bid.item.item_id]">VIEW</button>
+              <button class="form-control" role="link" [routerLink]="['/item',bid.auctionItem.id]">VIEW</button>
             </td>
           </tr>
         </tbody>

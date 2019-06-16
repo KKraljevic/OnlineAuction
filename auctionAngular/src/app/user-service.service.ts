@@ -6,6 +6,7 @@ import { jsonpCallbackContext } from '@angular/common/http/src/module';
 import { Request } from 'selenium-webdriver/http';
 import { Bid } from './bid';
 import { map } from 'rxjs/operators';
+import { Item } from './item';
 
  
 @Injectable()
@@ -22,7 +23,7 @@ export class UserService {
   }
  
   public save(user: User) {
-    return this.http.post<User>(this.usersUrl+"/create", user);
+    return this.http.post<User>(this.usersUrl+"/users", user);
   }
 
   public findUser(user: User) {
@@ -30,17 +31,18 @@ export class UserService {
   }
 
   public findById(id :number): Observable<User> {
-    return this.http.get<User>(this.usersUrl+"/profile/"+id);  
+    return this.http.get<User>(this.usersUrl+"/users/"+id);  
   }
 
   public getBids(id: number): Observable<Bid[]> {
     return this.http.get<Bid[]>(this.usersUrl+"/bids/"+id);
   }
   
-  public saveBid(bid: Bid): Observable<Bid> {
-    return this.http.post<Bid>(this.usersUrl+"/createBid", bid);
+  public saveBid(bid: Bid,userId: number, itemId: number): Observable<Bid> {
+    return this.http.post<Bid>(this.usersUrl+"/bids/"+userId+"/"+itemId, bid);
   }
-  public deleteBid(b: Bid): Observable<any> {
-    return this.http.delete(this.usersUrl+"/deleteBid"+b.bid_Id);
+
+  public getUsersItems(id: number) {
+    return this.http.get<Item[]>(this.usersUrl+"/users/"+id+"/items");
   }
 }

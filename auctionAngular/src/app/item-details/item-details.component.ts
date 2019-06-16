@@ -18,10 +18,12 @@ export class ItemDetailsComponent implements OnInit {
 
   currentUser: User;
   item: Item;
+  itemBids: Bid[] = [];
+  minPrice: number;
   id: number;
   bid: Bid;
 
-  
+
   bidForm: FormGroup;
   submitted = false;
   error: string;
@@ -37,10 +39,13 @@ export class ItemDetailsComponent implements OnInit {
       this.id = Number.parseInt(params.get("id"));
       this.itemService.findById(this.id).toPromise().then(data => {
         this.item = data;
-        this.item.bids = data.bids;
         this.item.category = data.category;
+        this.minPrice=data.startPrice+10;
       });
     });
+    this.itemService.getItemsBids(this.id).toPromise().then(data => {
+      this.itemBids = data;
+    })
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
     });
@@ -58,43 +63,23 @@ export class ItemDetailsComponent implements OnInit {
 
   makeBid() {
     this.submitted = true;
-    this.bid.bidPrice = this.bidForm.get('price').value;
 
     if (this.bidForm.invalid) {
       return;
     }
-
+    this.bid.bidPrice = this.bidForm.get('price').value;
     this.bid.bidTime = new Date();
-    this.bid.isActive = true;
-    this.bid.item = this.item;
-    this.userService.findById(this.currentUser.id).toPromise().then(user => {
-      if (user != null) {
-        this.bid.user = user;
-        if (this.bid.bidPrice > this.item.currentPrice) {
-          this.item.currentPrice = this.bid.bidPrice;
-        }
-        this.userService.saveBid(this.bid).toPromise().then(
-          r => {
-            if (r == null)
-              alert("Bid not correct!");
-            else {
+    this.bid.active = true;
 
-              this.router.navigate(["/profile"]);
-            }
-          });
-      }
-      else
-        alert("User not correct!");
-    });
+    this.userService.saveBid(this.bid, this.currentUser.id, this.item.id).toPromise().then(
+      r => {
+        if (r == null)
+          alert("Bid not correct!");
+        else {
+
+          this.router.navigate(["/profile"]);
+        }
+      });
   }
 
 }
-/*this.itemService.updatePrice(this.item.item_id, this.item).toPromise().then(
-                  r => {
-                    if (r == null)
-                      alert("Update not correct!");
-                    else {
-                      this.router.navigate(["/profile"]);
-                    }
-                  }
-                );*/
