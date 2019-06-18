@@ -1,7 +1,7 @@
 <div class="container m-0 p-0 mw-100">
     <div class="container m-0 px-5 mw-100 first-block">
         <div class="row">
-            <div class="col-3 py-0" id="categoriesList">
+            <div class="col-md-3 py-0" id="categoriesList">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
@@ -29,19 +29,19 @@
             </div>
             <!-- end Categories -->
 
-            <div class="col-9">
+            <div class="col-md-9">
 
                 <div class="container my-3">
                     <div class="row d-flex">
-                        <div class="col-6 d-flex align-items-center" *ngIf="items[0]">
+                        <div class="col-12 col-md-6 d-flex align-items-center" *ngIf="items[0]">
                             <header class="intro-wrap text-black">
                                 <h4>{{items[0].name}}</h4>
-                                <p>Start from - ${{items[0].startPrice}}</p>
+                                <p id="startPrice">Start from - ${{items[0].startPrice}}</p>
                                 <p>{{items[0].description}}</p>
                                 <a [routerLink]="['/item', items[0].id]" class="btn btn-bid">BID NOW ></a>
                             </header>
                         </div>
-                        <div class="col-6 text-right">
+                        <div class="col-12 col-md-6 text-right">
                             <img src="https://df0a04043ae3b0be60ce-0769ebb99367e103e6cc409064fb3339.ssl.cf2.rackcdn.com/a8681683-3315-4d18-b878-eefce76b8762__L.jpg"
                                 class="img-fluid my-5" width="auto">
                         </div>
@@ -54,7 +54,7 @@
         <h5>Featured items</h5>
         <hr>
         <div class="row items">
-            <div *ngFor="let item of items" class="card col-3">
+            <div *ngFor="let item of items" class="card col-md-3 col-12">
                 <a role="link" [routerLink]="['/item', item.id]"><img class="card-img-top"
                         src="https://placehold.it/300x300"></a>
                 <div class="card-body p-2">

@@ -10,7 +10,9 @@
     border-width: 0;
     border-radius: 0;
 }
-.card-title h6{
+.card-body h6 a,
+.card-title h6,
+#startPrice{
     color:#8367D8;
 }
 .card-img-top{

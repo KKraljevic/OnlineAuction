@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { Bid } from '../bid';
 import { UserService } from '../user-service.service';
+import { Item } from '../item';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,6 +16,7 @@ export class UserProfileComponent implements OnInit{
 
   currentUser: User;
   bids: Bid[]=[];
+  items: Item[] =[];
   id: number;
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
@@ -29,6 +31,7 @@ export class UserProfileComponent implements OnInit{
       this.currentUser=x;
     });
     this.userService.getBids(this.currentUser.id).subscribe(b=>this.bids=b);
+    this.userService.getUsersItems(this.currentUser.id).subscribe(i=>this.items=i);
   }
 
 }

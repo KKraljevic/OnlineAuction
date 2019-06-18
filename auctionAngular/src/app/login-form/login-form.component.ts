@@ -15,12 +15,11 @@ import { first } from 'rxjs/operators';
 })
 export class LoginFormComponent implements OnInit {
 
-
   user: User;
   loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
-  error: string;
+  errorMessage: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder, private userService: UserService, private authService: AuthenticationService) {
     this.user = new User();
@@ -52,11 +51,9 @@ export class LoginFormComponent implements OnInit {
           if (data != null) {
             this.router.navigate(['/']);
           }
-          else
-            alert("Incorrect email or password!");
-        });
-
-
+        },
+        error => this.errorMessage="Incorrect email or password"
+        );
   }
 
   gotoUserProfile(id) {

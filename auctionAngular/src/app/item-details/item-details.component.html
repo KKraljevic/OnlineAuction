@@ -16,16 +16,16 @@
       </div>
       <hr>
       <div class="row">
-        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
           <img src="https://placehold.it/300x300" class="card-img-top" alt="">
         </div>
-        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
           <img src="https://placehold.it/300x300" class="card-img-top" alt="">
         </div>
-        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
           <img src="https://placehold.it/300x300" class="card-img-top" alt="">
         </div>
-        <div class="col-xs-3 col-sm-3 mb-1 p-1">
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
           <img src="https://placehold.it/300x300" class="card-img-top" alt="">
         </div>
       </div>
@@ -34,7 +34,7 @@
       <h2>{{item.name}}</h2>
       <h5>Start from - ${{item.startPrice}}</h5>
       <div *ngIf="(currentUser!=null)&&(item.seller?.id!=currentUser.id)">
-      <form (ngSubmit)="makeBid()" [formGroup]="bidForm" class="form-inline" >
+        <form (ngSubmit)="makeBid()" [formGroup]="bidForm" class="form-inline">
 
           <input type="number" formControlName="price" class="form-control input-price p-1"
             [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
@@ -43,9 +43,9 @@
             <div *ngIf="f.price.errors.min">Higher value required</div>
           </div>
           <input type="submit" class="btn btn-bid ml-2" value="PLACE BID >" />
-      </form>
-      <p>Enter ${{item.startPrice+10}} or more</p>
-    </div>
+        </form>
+        <p>Enter ${{item.startPrice+10}} or more</p>
+      </div>
       <div *ngIf="currentUser==null" class="alert alert-light" role="alert">
         Login or register to make a bid!
       </div>
@@ -60,7 +60,7 @@
       <p>{{item.description}}</p>
     </div>
   </div>
- <div *ngIf="itemBids" class="row">
+  <div *ngIf="itemBids" class="row">
     <table class="table col-12">
       <thead class="thead-light">
         <tr>
@@ -72,7 +72,9 @@
       </thead>
       <tbody class="itemBids">
         <tr *ngFor="let b of itemBids">
-          <td><img height="100" width="100" src="https://placehold.it/300x300"></td>
+          <td><img height="100" width="100"
+              src="https://i2.wp.com/www.ahfirstaid.org/wp-content/uploads/2014/07/avatar-placeholder.png?fit=204%2C204">
+          </td>
           <td>{{b.bidder.firstName}} {{b.bidder.lastName}}</td>
           <td>{{b.bidTime | date:'medium'}}</td>
           <td>{{b.bidPrice}}</td>

@@ -1,4 +1,4 @@
-<div class="navbar navbar-first px-5">
+<div class="navbar navbar-expand-md navbar-first px-5">
   <ul class=" nav">
     <li class="nav-item">
       <a class="nav-link p-1" href="#"><i class="fa fa-facebook-official"></i></a>
@@ -13,7 +13,11 @@
       <a class="nav-link p-1" href="#"><i class="fa fa-google-plus-official"></i></a>
     </li>
   </ul>
-  <div *ngIf="currentUser; else elseBlock">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1"
+    aria-controls="navbarToggler1" aria-expanded="false">
+    <span><i class="fa fa-bars icon-white"></i></span>
+  </button>
+  <div *ngIf="currentUser; else elseBlock" class="collapse navbar-collapse justify-content-end" id="navbarToggler1">
     <ul class="nav justify-content-end">
       <li class="nav-item">
         <p class="nav-link mb-0">Welcome {{currentUser.firstName}} {{currentUser.lastName}}!</p>
@@ -24,35 +28,44 @@
     </ul>
   </div>
   <ng-template #elseBlock>
-    <ul class="nav justify-content-end">
-      <li class="nav-item">
-        <a class="nav-link" role="link" routerLink="login" >Login</a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link disabled" href="#">or</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" role="link" routerLink="registration">Create an account</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarToggler1">
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link" role="link" routerLink="login">Login</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link disabled" href="#">or</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" role="link" routerLink="registration">Create an account</a>
+        </li>
+      </ul>
+    </div>
   </ng-template>
 </div>
-<div class="navbar navbar-second px-5">
-  <a class="navbar-brand col pl-0">AUCTION</a>
-  <form class="input-group col-5 input-search">
-    <input type="text" placeholder="Try enter : Shoes" name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-  </form>
-  <ul class="nav col justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link py-0" role="link" routerLink="" routerLinkActive="active-link">HOME</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link py-0">SHOP</a>
-    </li>
-    <li class="nav-item" *ngIf="currentUser">
-      <a class="nav-link py-0" role="link" routerLink="/profile" routerLinkActive="active-link">MY ACCOUNT</a>
-    </li>
+<div class="navbar navbar-expand-md navbar-second px-5">
+  <a class="navbar-brand col-2 pl-0" href="/">AUCTION</a>
 
-  </ul>
+  <form *ngIf="path!='/login' && path!='/registration'" class="input-group col-6 input-search">
+    <input type="text" placeholder="Try enter : Shoes" name="search">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler2"
+    aria-controls="navbarToggler2" aria-expanded="false">
+    <span><i class="fa fa-bars icon-purple"></i></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarToggler2">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link py-0" role="link" routerLink="" routerLinkActive="active-link">HOME</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link py-0">SHOP</a>
+      </li>
+      <li class="nav-item" *ngIf="currentUser">
+        <a class="nav-link py-0" role="link" routerLink="/profile" routerLinkActive="active-link">MY ACCOUNT</a>
+      </li>
+    </ul>
+  </div>
 </div>

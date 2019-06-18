@@ -40,7 +40,7 @@ public class AuctionItem implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties(value = {"items","userBids"})
+    @JsonIgnoreProperties(value = {"items","userBids","email","password"})
     private User seller;
 
     @ManyToOne(fetch = FetchType.LAZY)

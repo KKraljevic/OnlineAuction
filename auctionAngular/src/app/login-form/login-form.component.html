@@ -6,7 +6,6 @@
         <h4>LOGIN</h4>
     </div>
 
-
     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
 
         <div class="row">
@@ -31,7 +30,13 @@
                 </div>
             </div>
         </div>
-
+        <div *ngIf="errorMessage" class="row">
+            <div class="col-md-12 form-group">
+                <div class="alert alert-danger" role="alert">
+                    {{errorMessage}}
+                </div>
+            </div>
+        </div>
         <div class="row col-md-12 form-group form-inline">
 
             <label><input type="checkbox" formControlName="remember"> Remember me</label>

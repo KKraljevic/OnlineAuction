@@ -19,3 +19,6 @@ footer {
 footer ul li a{
     color:white;
 }
+.row{
+    flex-wrap: nowrap;
+}

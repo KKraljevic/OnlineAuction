@@ -13,6 +13,7 @@ export class RegistrationComponent implements OnInit {
 
   registerForm: FormGroup;
   submitted = false;
+  errorMessage: String;
   user: User;
 
   constructor(private router:Router,private formBuilder: FormBuilder, private userService: UserService)
@@ -48,9 +49,9 @@ export class RegistrationComponent implements OnInit {
           if (r != null) {
             this.gotoUserProfile(r.id);
           }
-          else
-            alert("Email already exist!");
-        });
+        },
+        error => this.errorMessage="Account with this email already exicts!"
+        );
     }
 
   }

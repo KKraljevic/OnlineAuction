@@ -32,11 +32,11 @@ public class User implements Serializable {
     private String lastName;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonIgnoreProperties(value={"seller","category","itemBids","description"})
     private List<AuctionItem> items = new ArrayList<AuctionItem>();
 
     @OneToMany(mappedBy = "bidder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = "bidder")
+    @JsonIgnoreProperties(value = {"bidder"})
     private List<Bid> userBids = new ArrayList<Bid>();
 
     public User(){}

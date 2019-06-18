@@ -26,12 +26,12 @@ public class Bid implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties(value = "userBids")
+    @JsonIgnoreProperties(value = {"userBids","items","email","password"})
     private User bidder;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "item_id")
-    @JsonIgnoreProperties(value = "itemBids")
+    @JsonIgnoreProperties(value = {"itemBids","description"})
     private AuctionItem auctionItem;
 
     public Bid(){};

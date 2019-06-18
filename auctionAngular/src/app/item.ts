@@ -12,4 +12,5 @@ export class Item {
     quantity: number;
     category: Category;
     seller: User;
+    itemBids: Bid[];
 }

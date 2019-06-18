@@ -30,7 +30,12 @@ public class UserController {
 
     @PostMapping("/login")
     public User findUser(@RequestBody User user) {
-        return userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        Optional<User> optionalUser = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            throw new NotFoundException("User not found");
+        }
     }
 
     @GetMapping("/users/{id}")
@@ -45,7 +50,7 @@ public class UserController {
     @PostMapping("/users")
     public User addUser(@RequestBody User user) {
         if (userRepository.findByEmail(user.getEmail()) != null)
-            return null;
+            throw new NotFoundException("Email is taken");
         else {
             userRepository.save(user);
             return user;

@@ -18,6 +18,8 @@
     color:#8367D8 !important;
     font-weight: bold;
 }
+.icon-white {color: white}
+.icon-purple {color: #8367D8}
 
 .form-search{
     width: 100%;
@@ -26,6 +28,7 @@
 }
 .input-search{
     background-color: white;
+    flex-wrap: nowrap !important;
     padding: 8px;
     margin: 5px;
     border: 2px;
