@@ -2,21 +2,19 @@ package com.auction.app.controller;
 
 import com.auction.app.AuctionItemsRepository;
 import com.auction.app.BidRepository;
+import com.auction.app.CategoryRepository;
 import com.auction.app.UserRepository;
 import com.auction.app.conf.NotFoundException;
 import com.auction.app.model.AuctionItem;
 import com.auction.app.model.Bid;
 import com.auction.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +25,15 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuctionItemsRepository itemsRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
 
     @PostMapping("/login")
     public User findUser(@RequestBody User user) {
@@ -65,6 +72,61 @@ public class UserController {
             return users;
         else
             throw new NotFoundException("No users found");
+    }
+
+    @GetMapping("/users/{userId}/items")
+    public ResponseEntity<List<AuctionItem>>getUsersItems(@PathVariable Integer userId) {
+
+        if(!userRepository.existsById(userId)) {
+            throw new NotFoundException("User not found!");
+        }
+        List<AuctionItem> items= new ArrayList<>();
+        items=itemsRepository.findBySellerId(userId);
+        if(items.size()>0)
+            return new ResponseEntity<List<AuctionItem>>(items,HttpStatus.OK);
+        else throw new NotFoundException("Items not found!");
+    }
+
+    @PostMapping("/users/{userId}/items/{catId}")
+    public AuctionItem addAuctionItem(@PathVariable Integer userId,@PathVariable Integer catId, @Valid @RequestBody AuctionItem item) {
+        userRepository.findById(userId)
+                .map(user -> {
+                    item.setSeller(user);
+                    return true;
+                }).orElseThrow(() -> new NotFoundException("User not found!"));
+        categoryRepository.findById(catId).map(
+                cat -> {
+                    item.setCategory(cat);
+                    return true;
+                }).orElseThrow(() -> new NotFoundException("Category not found!"));
+        return itemsRepository.save(item);
+    }
+
+    @GetMapping("/users/{userId}/bids")
+    public ResponseEntity<List<Bid>> getUserBids(@PathVariable Integer userId) {
+        List<Bid> bids = new ArrayList<Bid>();
+        bidRepository.findByBidderId(userId).forEach(bids::add);
+        if(bids.size()>0)
+            return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        else
+            throw new NotFoundException("Bids not found!");
+    }
+
+    @PostMapping("/users/{userId}/bids/item/{itemId}")
+    public Bid addBid(@PathVariable Integer userId, @PathVariable Integer itemId, @Valid @RequestBody Bid bid) {
+        userRepository.findById(userId).map(user -> {
+            bid.setBidder(user);
+            return user;
+        }).orElseThrow(() -> new NotFoundException("Bidder not found!"));
+        itemsRepository.findById(itemId).map(item -> {
+            if (item.getCurrentPrice()<bid.getBidPrice()) {
+                item.setCurrentPrice(bid.getBidPrice());
+                itemsRepository.save(item);
+            }
+            bid.setAuctionItem(item);
+            return item;
+        }).orElseThrow(() -> new NotFoundException("Item not found!"));
+        return bidRepository.save(bid);
     }
 
     @PutMapping("/users/{id}")

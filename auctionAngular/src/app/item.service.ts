@@ -17,11 +17,13 @@ export class ItemService {
   public findAll(): Observable<Item[]> {
     return this.http.get<Item[]>(this.springUrl+"/items");
   }
+
   public findFeaturedItems(): Observable<Item[]> {
     return this.http.get<Item[]>(this.springUrl+"/featuredItems");
   }
+
   public findById(id: number): Observable<Item> {
-    return this.http.get<Item>(this.springUrl+"/item/"+id);
+    return this.http.get<Item>(this.springUrl+"/items/"+id);
   }
 
   public updateItem(itemId: number,newItem : Item): Observable<Item> {
@@ -29,6 +31,6 @@ export class ItemService {
   }
 
   public getItemsBids(id: number): Observable<Bid[]> {
-    return this.http.get<Bid[]>(this.springUrl+"/bids/item/"+id);
+    return this.http.get<Bid[]>(this.springUrl+"/items/"+id+"/bids");
   }
 }

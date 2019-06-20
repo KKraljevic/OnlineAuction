@@ -35,11 +35,11 @@ export class UserService {
   }
 
   public getBids(id: number): Observable<Bid[]> {
-    return this.http.get<Bid[]>(this.usersUrl+"/bids/"+id);
+    return this.http.get<Bid[]>(this.usersUrl+"/users/"+id+"/bids");
   }
   
   public saveBid(bid: Bid,userId: number, itemId: number): Observable<Bid> {
-    return this.http.post<Bid>(this.usersUrl+"/bids/"+userId+"/"+itemId, bid);
+    return this.http.post<Bid>(this.usersUrl+"/users/"+userId+"/bids/item/"+itemId, bid);
   }
 
   public getUsersItems(id: number) {
