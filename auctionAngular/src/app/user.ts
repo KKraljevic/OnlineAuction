@@ -7,5 +7,6 @@ export class User {
     password: string;
     firstName: string;
     lastName: string;
-    items: Item[];
+    items: Item[]=[];
+    userBids: Bid[]=[];
 }

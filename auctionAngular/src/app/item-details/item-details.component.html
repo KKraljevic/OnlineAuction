@@ -52,10 +52,11 @@
       <p><br><br>
         Highest bid: ${{item.currentPrice}}<br>
         No bid: {{itemBids.length+1}}<br>
-        End date: {{item.endDate}} <br>
+        End date: {{item.endDate | date: 'd MMM yyyy'}} <br>
       </p>
-      <button class="btn bg-secondary">Watchlist</button>
-      <h6>Details</h6>
+      <button class="btn btn-watchlist">Watchlist <i class="fa fa-heart"></i></button>
+      <br>
+      <h6 class="my-2">Details</h6>
       <hr>
       <p>{{item.description}}</p>
     </div>
@@ -64,8 +65,8 @@
     <table class="table col-12">
       <thead class="thead-light">
         <tr>
-          <th scope="col">User photo</th>
-          <th scope="col">Name</th>
+          <th scope="col">Bidder</th>
+          <th scope="col"></th>
           <th scope="col">Date</th>
           <th scope="col">Price</th>
         </tr>
@@ -76,8 +77,8 @@
               src="https://i2.wp.com/www.ahfirstaid.org/wp-content/uploads/2014/07/avatar-placeholder.png?fit=204%2C204">
           </td>
           <td>{{b.bidder.firstName}} {{b.bidder.lastName}}</td>
-          <td>{{b.bidTime | date:'medium'}}</td>
-          <td>{{b.bidPrice}}</td>
+          <td>{{b.bidTime | date:'d MMM yyyy'}}</td>
+          <td>$ {{b.bidPrice}}</td>
         </tr>
       </tbody>
     </table>

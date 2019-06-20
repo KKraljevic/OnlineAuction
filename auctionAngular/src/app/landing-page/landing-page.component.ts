@@ -19,7 +19,7 @@ export class LandingPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.categoryService.findAll().subscribe(data => {this.categories = data;});
-    this.itemService.findAll().subscribe(data => {this.items = data;});
+    this.itemService.findFeaturedItems().subscribe(data => {this.items = data;});
     }
 
   

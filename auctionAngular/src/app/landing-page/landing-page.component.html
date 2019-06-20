@@ -11,7 +11,8 @@
                     <ul class="categories list-group" id="categoryList">
                         <li *ngFor="let category of categories" class="list-group-item list-group-flush">
                             <a role="link" role="link" data-toggle="collapse" href="#{{category.categoryName}}"
-                                aria-expanded="false" attr.aria-controls="{{category.categoryName}}">{{category.categoryName}}</a>
+                                aria-expanded="false"
+                                attr.aria-controls="{{category.categoryName}}">{{category.categoryName}}</a>
                             <div id="{{category.categoryName}}" class="collapse" data-parent="#categoryList">
                                 <ul class="category.children list-group">
                                     <li *ngFor="let subcategory of category.children" class="list-group-item">
@@ -20,8 +21,9 @@
                                 </ul>
                             </div>
                         </li>
-
-
+                        <li class="list-group-item list-group-flush">
+                            <a role="link" role="link" disabled>All categories</a>
+                        </li>
                     </ul>
 
                 </div>

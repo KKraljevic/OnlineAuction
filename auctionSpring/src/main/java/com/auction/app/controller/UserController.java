@@ -61,7 +61,10 @@ public class UserController {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
-        return users;
+        if(users.size()>0)
+            return users;
+        else
+            throw new NotFoundException("No users found");
     }
 
     @PutMapping("/users/{id}")

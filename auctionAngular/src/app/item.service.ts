@@ -17,7 +17,9 @@ export class ItemService {
   public findAll(): Observable<Item[]> {
     return this.http.get<Item[]>(this.springUrl+"/items");
   }
-
+  public findFeaturedItems(): Observable<Item[]> {
+    return this.http.get<Item[]>(this.springUrl+"/featuredItems");
+  }
   public findById(id: number): Observable<Item> {
     return this.http.get<Item>(this.springUrl+"/item/"+id);
   }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +21,23 @@ public class User implements Serializable {
     private int id;
 
     @Column
+    @NotNull
     private String email;
 
     @Column
+    @NotNull
     private String password;
 
     @Column(name="firstname")
+    @NotNull
     private String firstName;
 
     @Column(name="lastname")
+    @NotNull
     private String lastName;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value={"seller","category","itemBids","description"})
+    @JsonIgnoreProperties(value={"seller","category","description"})
     private List<AuctionItem> items = new ArrayList<AuctionItem>();
 
     @OneToMany(mappedBy = "bidder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

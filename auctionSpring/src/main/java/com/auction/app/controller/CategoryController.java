@@ -2,6 +2,7 @@ package com.auction.app.controller;
 
 
 import com.auction.app.CategoryRepository;
+import com.auction.app.conf.NotFoundException;
 import com.auction.app.model.Category;
 import com.auction.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,24 @@ public class CategoryController {
     public ResponseEntity<List<Category>> findAllCategories() {
         List<Category> categories = new ArrayList<Category>();
         categoryRepository.findByParentIsNull().forEach(categories::add);
-        return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
+        if(categories.size()>0)
+            return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
+        else
+            throw new NotFoundException("Categories not found!");
     }
     @GetMapping("/categories/{id}")
     public Category getCategory(@PathVariable("id") Integer id) {
-        return categoryRepository.findById(id).get();
+        return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not found!"));
     }
 
     @GetMapping("/categories/{id}/children")
     public List<Category> getSubcategories(@PathVariable("id") Integer id) {
         List<Category> subcategories = new ArrayList<Category>();
         subcategories=recursiveTree(categoryRepository.findById(id).get());
-        return subcategories;
+        if(subcategories.size()>0)
+            return subcategories;
+        else
+            throw new NotFoundException("Subcategories not found!");
     }
 
     public List<Category> recursiveTree(Category cat) {

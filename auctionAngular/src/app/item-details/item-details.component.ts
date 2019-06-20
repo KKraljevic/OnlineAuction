@@ -23,7 +23,6 @@ export class ItemDetailsComponent implements OnInit {
   id: number;
   bid: Bid;
 
-
   bidForm: FormGroup;
   submitted = false;
   error: string;
@@ -56,10 +55,6 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   get f() { return this.bidForm.controls; }
-
-  getDiferenceInDays(theDate: Date): number {
-    return Math.abs(theDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24);
-  }
 
   makeBid() {
     this.submitted = true;

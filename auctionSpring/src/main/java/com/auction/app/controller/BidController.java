@@ -33,21 +33,30 @@ public class BidController {
     public ResponseEntity<List<Bid>> getAllBids() {
         List<Bid> bids = new ArrayList<Bid>();
         bidRepository.findAll().forEach(bids::add);
-        return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        if(bids.size()>0)
+            return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        else
+            throw new NotFoundException("Bids not found!");
     }
 
     @GetMapping("/bids/{userId}")
     public ResponseEntity<List<Bid>> getUserBids(@PathVariable Integer userId) {
         List<Bid> bids = new ArrayList<Bid>();
         bidRepository.findByBidderId(userId).forEach(bids::add);
-        return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        if(bids.size()>0)
+            return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        else
+            throw new NotFoundException("Bids not found!");
     }
 
     @GetMapping("/bids/item/{itemId}")
     public ResponseEntity<List<Bid>> getItemBids(@PathVariable Integer itemId) {
         List<Bid> bids = new ArrayList<Bid>();
         bidRepository.findByAuctionItemId(itemId).forEach(bids::add);
-        return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        if(bids.size()>0)
+            return new ResponseEntity<List<Bid>>(bids, HttpStatus.OK);
+        else
+            throw new NotFoundException("Bids not found!");
     }
 
     @PostMapping("/bids/{userId}/{itemId}")

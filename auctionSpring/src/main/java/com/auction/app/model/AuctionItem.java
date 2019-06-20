@@ -2,17 +2,22 @@ package com.auction.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.Auditable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "auctionItems")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class AuctionItem implements Serializable {
+public class AuctionItem implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -21,21 +26,26 @@ public class AuctionItem implements Serializable {
     private int id;
 
     @Column
+    @NotNull
     private String name;
 
     @Column
     private String description;
 
     @Column
+    @NotNull
     private int quantity;
 
     @Column
+    @NotNull
     private Date endDate;
 
     @Column
+    @NotNull
     private Float startPrice;
 
     @Column
+    @NotNull
     private Float currentPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,7 +59,7 @@ public class AuctionItem implements Serializable {
     private Category category;
 
     @OneToMany(mappedBy = "auctionItem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = "auctionItem")
+    @JsonIgnoreProperties(value = {"auctionItem"})
     private List<Bid> itemBids = new ArrayList<Bid>();
 
     public AuctionItem(){
@@ -137,4 +147,5 @@ public class AuctionItem implements Serializable {
     public void setItemBids(List<Bid> itemBids) {
         this.itemBids = itemBids;
     }
+
 }

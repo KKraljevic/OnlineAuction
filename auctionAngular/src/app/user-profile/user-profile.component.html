@@ -9,17 +9,20 @@
 </div>
 <div class="container" id="userProfile">
   <ul class="nav nav-pills py-2 mb-0">
-    <li class="nav-item active">
+    <li class="nav-item">
       <a class="nav-link" role="link" data-toggle="collapse" data-target="#collapseProfile" aria-expanded="true"
-        aria-controls="collapseProfile">Profile</a>
+        aria-controls="collapseProfile"> <i class="fa fa-user" aria-hidden="true"></i>
+        Profile</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="collapse" data-target="#collapseItems" aria-expanded="false"
-        aria-controls="collapseItems">Seller</a>
+      <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseItems" aria-expanded="false"
+        aria-controls="collapseItems"> <i class="fa fa-list" aria-hidden="true"></i>
+        Seller</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="collapse" data-target="#collapseBids" aria-expanded="false"
-        aria-controls="collapseBids">Bids</a>
+      <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseBids" aria-expanded="false"
+        aria-controls="collapseBids"> <i class="fa fa-gavel" aria-hidden="true"></i>
+        Bids</a>
     </li>
   </ul>
   <div class="collapse show" id="collapseProfile" data-parent="#userProfile">
@@ -28,11 +31,16 @@
         <h4>REQUIRED</h4>
       </div>
       <div class="row">
-        <div class="col-md-3 col-12">
-          <img class="mw-60 mx-2 col-9" src="https://placehold.it/300x300">
+        <div class="col-md-4 col-12 mx-4 align-center">
+          <div class="row">
+            <img class="col-11 align-center" src="https://placehold.it/300x300">
+          </div>
+          <div class="row">
+            <button disabled class="view-btn my-2 col-lg-12 col-md-12 col-11 mw-60 align-center">CHANGE PHOTO</button>
+          </div>
         </div>
-        <div class="col-md-9 col-12">
-          <form>
+        <div class="col-md-7 col-12 align-center">
+          <form class="px-1 py-3">
             <div class="row">
               <div class="col form-group">
                 <label>First name</label>
@@ -50,7 +58,7 @@
             <div class="row">
               <div class="dropdown col">
                 <label>I am</label><br>
-                <button class="btn btn-light dropdown-toggle" type="button" id="genderButton"
+                <button disabled class="btn btn-light dropdown-toggle col-md-6" type="button" id="genderButton"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Gender
                 </button>
@@ -65,20 +73,20 @@
             <div class="row">
               <div class="dropdown col">
                 <label>Date of birth</label><br>
-                <button class="btn btn-light dropdown-toggle col-4" type="button" id="dayButton"
+                <button disabled class="btn btn-light dropdown-toggle col-3" type="button" id="dayButton"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Day
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dayButton">
                 </div>
-                <button class="btn btn-light dropdown-toggle col-4" type="button" id="monthButton"
+                <button disabled class="btn btn-light dropdown-toggle col-3 align-right" type="button" id="monthButton"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Month
                 </button>
                 <div class="dropdown-menu" aria-labelledby="monthButton">
                 </div>
-                <button class="btn btn-light dropdown-toggle col-4" type="button" id="yearButton" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
+                <button disabled class="btn btn-light dropdown-toggle col-3" type="button" id="yearButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Year
                 </button>
                 <div class="dropdown-menu" aria-labelledby="yearButton">
@@ -87,11 +95,11 @@
             </div>
 
             <div class="row">
-                <div class="col form-group">
-                  <label>Phone</label>
-                  <input disabled type="text" class="form-control" value="123-456-789">
-                </div>
+              <div class="col form-group">
+                <label>Phone</label>
+                <input disabled type="text" class="form-control" value="123-456-789">
               </div>
+            </div>
 
             <div class="row">
               <div class="col form-group">
@@ -106,38 +114,42 @@
     </div>
   </div>
   <div class="collapse" id="collapseBids" data-parent="#userProfile">
-    <div class="container">
-
-      <table class="table">
+    <div *ngIf="!showInfoBids" class="container">
+      <table class="table profile-container">
         <thead class="thead-light">
           <tr>
             <th scope="col">Item</th>
             <th scope="col">Name</th>
-            <th scope="col">End Date</th>
+            <th scope="col">Time Left</th>
             <th scope="col">Your Price</th>
             <th scope="col">Highest Bid</th>
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody class="bids">
+        <tbody>
           <tr *ngFor="let bid of bids">
             <th scope="row"><img height="100" width="100" src="https://placehold.it/300x300"></th>
             <td>{{bid.auctionItem.name}}</td>
-            <td>{{bid.auctionItem.endDate}}</td>
-            <td>{{bid.bidPrice}} </td>
-            <td>{{bid.auctionItem.currentPrice}}</td>
+            <td>{{getTimeLeft(bid.auctionItem.endDate)}}</td>
+            <td class="text-info">$ {{bid.bidPrice}}</td>
+            <td class="text-info">$ {{bid.auctionItem.currentPrice}}</td>
             <td>
-              <button class="form-control" role="link" [routerLink]="['/item',bid.auctionItem.id]">VIEW</button>
+              <button class="form-control view-btn" role="link"
+                [routerLink]="['/item',bid.auctionItem.id]">VIEW</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div *ngIf="showInfoBids" id="infoBids" name="infoBids" class="col-md-12 form-group">
+      <div class="alert alert-info" role="alert">
+        No bids made yet!
+      </div>
+    </div>
   </div>
   <div class="collapse" id="collapseItems" data-parent="#userProfile">
-    <div class="container">
-
-      <table class="table">
+    <div *ngIf="items?.length>0;else infoItems" class="container">
+      <table class="table profile-container">
         <thead class="thead-light">
           <tr>
             <th scope="col">Item</th>
@@ -150,19 +162,24 @@
           </tr>
         </thead>
         <tbody class="items">
-          <tr *ngFor="let item of items">
+          <tr *ngFor="let item of items" class="px-3">
             <th scope="row"><img height="100" width="100" src="https://placehold.it/300x300"></th>
             <td>{{item.name}}</td>
-            <td>{{item.endDate}}</td>
-            <td>{{item.startPrice}} </td>
+            <td>{{item.endDate | date: 'd MMM yyy'}}</td>
+            <td class="text-info">$ {{item.startPrice}}</td>
             <td>{{item.itemBids?.length}}</td>
-            <td>{{item.currentPrice}}</td>
+            <td class="text-info">$ {{item.currentPrice}}</td>
             <td>
-              <button class="form-control" role="link" [routerLink]="['/item',item.id]">VIEW</button>
+              <button class="form-control view-btn" role="link" [routerLink]="['/item',item.id]">VIEW</button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div id="infoItems" name="infoItems" class="col-md-12 form-group">
+      <div class="alert alert-info" role="alert">
+        No items for sale yet!
+      </div>
     </div>
   </div>
 </div>
