@@ -1,0 +1,75 @@
+<div class="navbar navbar-item component-navbar px">
+  <div class="navbar-brand">REGISTER</div>
+</div>
+<div class="my-container container mw-70">
+  <div class="title text-center">
+    <h4>REGISTER</h4>
+  </div>
+
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label>First name</label>
+
+        <input type="text" formControlName="firstName" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+          <div *ngIf="f.firstName.errors.required">First name is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label>Last name</label>
+        <input type="text" formControlName="lastName" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+          <div *ngIf="f.lastName.errors.required">Last name is required</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label>Enter email</label>
+        <input type="text" formControlName="email" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">Email is required</div>
+          <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="errorMessage" class="row">
+      <div class="col-md-12 form-group">
+        <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 form-group">
+        <br>
+        <input type="submit" class="btn btn-block btn-purple-outline" value="REGISTER">
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <p>Already have an account?<a [routerLink]="['/login']" routerLinkActive="router-link-active"> Login</a></p>
+      <br>
+    </div>
+  </div>
+</div>

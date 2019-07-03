@@ -36,6 +36,9 @@ public class User implements Serializable {
     @NotNull
     private String lastName;
 
+    @Column
+    private String photo;
+
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value={"seller","category","description"})
     private List<AuctionItem> items = new ArrayList<AuctionItem>();
@@ -52,6 +55,15 @@ public class User implements Serializable {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public User(int id, @NotNull String email, @NotNull String password, @NotNull String firstName, @NotNull String lastName, String photo) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.photo = photo;
     }
 
     public int getId() { return id; }
@@ -94,5 +106,8 @@ public class User implements Serializable {
         this.userBids = userBids;
     }
 
+    public String getPhoto() { return photo; }
+
+    public void setPhoto(String photo) { this.photo = photo; }
 }
 

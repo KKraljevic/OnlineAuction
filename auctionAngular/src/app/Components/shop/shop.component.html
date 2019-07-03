@@ -1,0 +1,106 @@
+<div class="navbar component-navbar navbar-item px">
+  <div class="navbar-brand">SHOP</div>
+  <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
+    <ol class="breadcrumb navbar-item mb-0">
+      <li class="breadcrumb-item">SHOP</li>
+      <li class="breadcrumb-item active" aria-current="page">All categories</li>
+    </ol>
+  </nav>
+</div>
+<div class="container mx">
+  <div class="row">
+    <div class="col-md-3 py-0" id="categoriesList">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <h6>PRODUCT CATEGORIES</h6>
+          </div>
+        </div>
+        <ul class="categories list-group list-group-flush" id="categoryList">
+          <li *ngFor="let category of categories" class="list-group-item list-group-flush">
+            <a role="link" data-toggle="collapse" href="#{{category.categoryName}}" aria-expanded="false"
+              attr.aria-controls="{{category.categoryName}}">{{category.categoryName}}<span class="ml-auto"></span>
+            </a>
+            <div id="{{category.categoryName}}" class="collapse" data-parent="#categoryList">
+              <ul class="category.children list-group">
+                <li *ngFor="let subcategory of category.children" class="list-group-item">
+                  <a (click)="loadCategoryItems(subcategory.id,0)"
+                    [style.color]="'var(--light-gray)'">{{subcategory.categoryName}}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- end Categories -->
+
+    <div class="col-md-9">
+      <div class="container">
+        <!-- Sorting and View Mode-->
+        <div class="row">
+          <div class="navbar my-navbar">
+            <div class="nav-item dropdown">
+              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">{{selectedSortOrder}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" *ngFor="let sortOrder of sortOrders"
+                  (click)="ChangeSortOrder(sortOrder)">{{sortOrder}}</a>
+              </div>
+            </div>
+            <ul class="nav nav-pills nav-item">
+              <li class="nav-item">
+                <a class="nav-link ml-0" data-toggle="tab" [class.active]="showGrid" (click)="showGrid=true;">
+                  <i class="fa fa-th" aria-hidden="true"></i> Grid</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mr-0" data-toggle="tab" [class.active]="!showGrid" (click)="showGrid=false;">
+                  <i class="fa fa-list" aria-hidden="true"></i> List</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Grid or List-->
+        <div *ngIf="showGrid; else listView" class="row">
+          <div *ngFor="let item of items" class="card col-md-4 col-12">
+            <a role="link" [routerLink]="['/item', item.id]"><img class="card-img-top col"
+                [src]="item.images[0].url"></a>
+            <div class="card-body p-2">
+              <h6 class="card-title"><a role="link" [routerLink]="['/item', item.id]">{{item.name}}</a></h6>
+              <p class="card-text">Start from ${{item.startPrice}}</p>
+            </div>
+          </div>
+        </div>
+        <ng-template #listView>
+          <div *ngFor="let item of items" class="row">
+            <div class="container list-card">
+              <div class="row mb-4">
+                <div class="col-4">
+                  <img class="card-img-top col" src={{item.images[0].url}} />
+                </div>
+                <div class="col-md-8">
+                  <h5>{{item.name}}</h5>
+                  <p>{{item.description}}</p>
+                  <h4><mark>Start from - ${{item.startPrice}}</mark></h4>
+                  <button disabled class="btn btn-watchlist">Watchlist <i class="fa fa-heart"></i></button>
+                  <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]"">Bid <i class="fa fa-gavel"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ul class="nav nav-pills justify-content-center">
+          <li *ngIf="currentPage>0" class="nav-item">
+            <a class="btn btn-purple-fill nav-link" (click)="loadCategoryItems(currentCategory.id,currentPage-1)">
+              <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
+          </li>
+          <li *ngIf="currentPage+1<totalPages" class="nav-item">
+            <a class="btn btn-purple-fill nav-link" (click)="loadCategoryItems(currentCategory.id,currentPage+1)">
+              Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

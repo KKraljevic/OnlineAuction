@@ -3,31 +3,33 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppComponent } from './app.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileComponent } from './Components/user-profile/user-profile.component';
 import { HttpClientModule } from '@angular/common/http';
-import { UsersListComponent } from './users-list/users-list.component';
 import { AppRoutingModule } from './app-routing.module';
-import { UserService } from './user-service.service';
-import { LoginFormComponent } from './login-form/login-form.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { AppHeaderComponent } from './app-header/app-header.component';
+import { UserService } from './Services/user-service.service';
+import { LoginFormComponent } from './Components/login-form/login-form.component';
+import { LandingPageComponent } from './Components/landing-page/landing-page.component';
+import { AppHeaderComponent } from './Components/app-header/app-header.component';
 import { RouterModule } from '@angular/router';
-import { RegistrationComponent } from './registration/registration.component';
-import { AppFooterComponent } from './app-footer/app-footer.component';
+import { RegistrationComponent } from './Components/registration/registration.component';
+import { AppFooterComponent } from './Components/app-footer/app-footer.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { ItemDetailsComponent } from './item-details/item-details.component';
+import { ItemDetailsComponent } from './Components/item-details/item-details.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ShopComponent } from './Components/shop/shop.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     UserProfileComponent,
-    UsersListComponent,
     LoginFormComponent,
     LandingPageComponent,
     AppHeaderComponent,
     RegistrationComponent,
     AppFooterComponent,
-    ItemDetailsComponent
+    ItemDetailsComponent,
+    ShopComponent
   ],
   imports: [
     BrowserModule,

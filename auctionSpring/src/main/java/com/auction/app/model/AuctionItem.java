@@ -1,23 +1,18 @@
 package com.auction.app.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.domain.Auditable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "auctionItems")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class AuctionItem implements Serializable{
+public class AuctionItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -48,9 +43,13 @@ public class AuctionItem implements Serializable{
     @NotNull
     private Float currentPrice;
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = {"items"})
+    private List<Image> images = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties(value = {"items","userBids","email","password"})
+    @JsonIgnoreProperties(value = {"items", "userBids", "email", "password"})
     private User seller;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -62,8 +61,8 @@ public class AuctionItem implements Serializable{
     @JsonIgnoreProperties(value = {"auctionItem"})
     private List<Bid> itemBids = new ArrayList<Bid>();
 
-    public AuctionItem(){
-    };
+    public AuctionItem() {
+    }
 
     public AuctionItem(int item_id, String name, String description, int quantity, Date endDate,
                        Float startPrice, Float currentPrice) {
@@ -75,6 +74,7 @@ public class AuctionItem implements Serializable{
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
     }
+
 
     public int getId() {
         return id;
@@ -132,13 +132,21 @@ public class AuctionItem implements Serializable{
         this.currentPrice = currentPrice;
     }
 
-    public User getSeller() { return seller; }
+    public User getSeller() {
+        return seller;
+    }
 
-    public void setSeller(User seller) { this.seller = seller; }
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
 
-    public Category getCategory() { return category; }
+    public Category getCategory() {
+        return category;
+    }
 
-    public void setCategory(Category category) { this.category = category; }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public List<Bid> getItemBids() {
         return itemBids;
@@ -148,4 +156,12 @@ public class AuctionItem implements Serializable{
         this.itemBids = itemBids;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 }
+

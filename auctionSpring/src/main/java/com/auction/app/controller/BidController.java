@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://still-castle-19196.herokuapp.com")
 @RestController
 @RequestMapping("/api")
 public class BidController {

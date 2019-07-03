@@ -1,0 +1,71 @@
+<div class="navbar navbar-expand-md navbar-first px">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link p-1"><i class="fa fa-facebook-official"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link p-1"><i class="fa fa-instagram"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link p-1"><i class="fa fa-twitter-square"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link p-1"><i class="fa fa-google-plus-official"></i></a>
+    </li>
+  </ul>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1"
+    aria-controls="navbarToggler1" aria-expanded="false">
+    <span><i class="fa fa-bars icon-white"></i></span>
+  </button>
+  <div *ngIf="currentUser; else elseBlock" class="collapse navbar-collapse justify-content-end " id="navbarToggler1">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <p class="nav-link mb-0">Welcome {{currentUser.firstName}} {{currentUser.lastName}}!</p>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="link" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <ng-template #elseBlock>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarToggler1">
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link" role="link" routerLink="login">Login</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link disabled" href="#">or</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" role="link" routerLink="registration">Create an account</a>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+</div>
+<div class="navbar navbar-expand-md navbar-second px">
+  <a class="navbar-brand col-2 pl-0" href="/">AUCTION</a>
+
+  <form *ngIf="path!='/login' && path!='/registration'" class="input-group col-6 input-search">
+    <input disabled type="text" placeholder="Try enter : Shoes" name="search">
+    <button disabled type="submit"><i class="fa fa-search"></i></button>
+  </form>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler2"
+    aria-controls="navbarToggler2" aria-expanded="false">
+    <span><i class="fa fa-bars icon-purple"></i></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarToggler2">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link py-0" role="link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">HOME</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link py-0" role="link" routerLink="/shop" routerLinkActive="active-link">SHOP</a>
+      </li>
+      <li class="nav-item" *ngIf="currentUser">
+        <a class="nav-link py-0" role="link" routerLink="/profile" routerLinkActive="active-link">MY ACCOUNT</a>
+      </li>
+    </ul>
+  </div>
+</div>

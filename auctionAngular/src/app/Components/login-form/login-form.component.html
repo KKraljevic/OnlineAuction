@@ -1,0 +1,71 @@
+<div class="navbar navbar-item component-navbar px">
+    <div class="navbar-brand">LOGIN</div>
+</div>
+<div class="my-container container">
+    <div class="title text-center">
+        <h4>LOGIN</h4>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label>Enter email</label>
+                <input type="text" formControlName="email" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label>Password</label>
+                <input type="password" formControlName="password" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="errorMessage" class="row">
+            <div class="col-md-12 form-group">
+                <div class="alert alert-danger" role="alert">
+                    {{errorMessage}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group form-inline mt-3">
+                <label><input type="checkbox" formControlName="remember"> Remember me</label>
+            </div>
+        </div>
+
+        <div class="row  my-3">
+            <div class="col-md-12 form-group">
+                <input type="submit" class="btn btn-block btn-purple-fill">
+            </div>
+        </div>
+
+        <div class="row  my-3">
+            <div class="col-md-6 form-group">
+                <button class="btn facebook-btn btn-block social-btn" type="button"><span><i
+                            class="fa fa-facebook-f"></i> Sign
+                        in with Facebook</span> </button>
+
+            </div>
+            <div class="col-md-6 form-group ">
+                <button class="btn google-btn btn-block social-btn" type="button"><span><i
+                            class="fa fa-google-plus"></i> Sign
+                        in with Google+</span> </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p><a>Forgot Password?</a> </p>
+            </div>
+        </div>
+    </form>
+</div>

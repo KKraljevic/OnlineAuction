@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface AuctionItemsRepository extends CrudRepository<AuctionItem,Integer> {
     public Page<AuctionItem> findAll(Pageable pageable);
     public List<AuctionItem> findBySellerId(Integer id);
+    public List<AuctionItem> findByCategoryId(Integer id);
+    public Page<AuctionItem> findByCategoryId(Integer id,Pageable pageable);
+
 }

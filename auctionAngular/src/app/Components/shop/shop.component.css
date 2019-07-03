@@ -1,0 +1,105 @@
+.container.mx{
+    width: -webkit-fill-available;
+}
+#categoriesList .card{
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    border: 1px solid var(--darker-border);
+}
+.my-navbar{
+    padding-left:5px;
+    padding-top: 0;
+    padding-bottom: 30px;
+    padding-right: 0;
+    width: 100%;
+}
+.list-card{
+    height: 260px;
+}
+.card{
+    height: 340px;
+    border: 0;
+    border-radius: 0;
+    padding: 0 5px 0 5px;
+}
+.card-body h6 a,
+.card-title h6,
+#startPrice{
+    font-size: small;
+    color: var(--purple);
+}
+.card-img-top{
+    padding:0;
+    width: auto;
+    border-radius: 0;
+    height: 250px;
+    object-fit: cover;
+}
+.card a{
+    color: var(--black);
+}
+.card-text{
+    margin-top: auto;
+}
+.list-group-item{
+    cursor: pointer;
+    border-width: 0;
+}
+.dropdown-menu,
+.dropdown button{
+    min-width: fit-content;
+    width: 250px;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: left;
+    border-radius: 0;
+    border: 3px solid #ECECEC;
+}
+.dropdown-item.active{
+    background-color: var(--purple);
+    color: white;
+}
+.dropdown-toggle::after {
+    font-family: "FontAwesome";
+    font-weight: 900;
+    content: "\f078";
+    float: right;
+    border:0;
+    }
+.nav-pills{
+    cursor: pointer;
+    max-width:100%;
+    margin:0; 
+}
+a.nav-link.active{
+    border-radius: 0;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: var(--purple) !important ;
+    color: white !important;
+  }
+a.nav-link{
+  border-radius: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  background-color: transparent !important ;
+  color: var(--black) !important;
+}
+.dropdown .btn:focus{
+    box-shadow: 3px 3px 0 0 var(--btn-shadow);
+}
+#categoriesList a[aria-expanded=false] span:before {
+    font-family: "FontAwesome";
+    font-weight: 900;
+    content: "\f067";
+    float: right;
+    }
+    
+#categoriesList a[aria-expanded=true] span:before {
+    font-family: "FontAwesome";
+    font-weight: 900;
+    color: var(--purple);
+    content: "\f068";
+    float: right;
+    }

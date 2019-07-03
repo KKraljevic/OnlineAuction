@@ -1,0 +1,63 @@
+.navbar-first{
+    color: white;
+    background-color: var(--black);
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.navbar-first .nav{
+    margin-left: 15px;
+}
+.navbar-first a.nav-link,
+.navbar-first p.nav-link{
+    color:white;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+.navbar-second{
+    color: var(--black);
+    background-color: #ffffff;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.navbar-second .navbar-brand{
+    color: var(--purple);
+    font-size: 24px;
+    letter-spacing: 0.84px;
+}
+.navbar-second a{
+    color: var(--darker-border);
+}
+.active-link{
+    color: var(--purple) !important;
+    font-weight: bold;
+}
+.icon-white {color: white}
+.icon-purple {color:  var(--purple)}
+
+.form-search{
+    width: 100%;
+    max-width: 300px;
+    
+}
+.input-search{
+    background-color: white;
+    flex-wrap: nowrap !important;
+    padding: 8px;
+    margin: 5px;
+    border: 2px;
+    border-style: solid;
+    border-color: var(--darker-border);
+    box-shadow:2px 2px 2px var(--darker-border);
+}
+.input-search input{
+    border: 0;
+    width: 90%;
+}
+.input-search input:disabled{
+    background-color: white;
+}
+.input-search button{
+    background-color: transparent;
+    border: 0;
+    width: 10%;
+}

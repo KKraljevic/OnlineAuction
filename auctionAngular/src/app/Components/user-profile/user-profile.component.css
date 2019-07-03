@@ -1,0 +1,35 @@
+.navbar-brand{
+    margin-left: 15px;
+}
+.nav-pills{
+    max-width:100%;
+    margin:50px auto; 
+    
+}
+a.nav-link{
+    border-radius: 0;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: var(--purple) !important ;
+    color: white !important;
+  }
+a.nav-link.collapsed{
+  border-radius: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  background-color: var(--pills) !important ;
+  color: var(--black) !important;
+}
+
+.collapse .container{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.alert-info
+{
+    border-color:transparent;
+    border-width: 0;
+}
+.img-user{
+    max-height: 400px;
+}

@@ -1,0 +1,36 @@
+.img-round{
+    border-radius: 50%;
+}
+
+.input-price{
+    height: 54px;
+    font-size: 18px;
+    background: var(--input);
+    border: 1px solid var(--darker-border);
+    border-radius: 0;
+    color: var(--black);
+}
+.navbar-item a{
+    color: var(--black);
+}
+.alert{
+    border-radius: 0;
+}
+.alert-info
+{
+    padding-left: 10%;
+    text-indent: 15px;
+    border-color:transparent;
+    border-width: 0;
+}
+.form-group .alert-info{
+    padding-left: 0; 
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+h5{
+    color: var(--purple);
+}

@@ -12,7 +12,8 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int category_id;
+    @Column(name = "category_id")
+    private int id;
 
     @Column
     private String categoryName;
@@ -32,17 +33,17 @@ public class Category {
 
     public Category(){};
 
-    public Category(int category_id, String categoryName) {
-        this.category_id = category_id;
+    public Category(int id, String categoryName) {
+        this.id = id;
         this.categoryName = categoryName;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getId() {
+        return id;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCategoryName() {
@@ -69,8 +70,16 @@ public class Category {
         this.children = children;
     }
 
+    public List<AuctionItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<AuctionItem> items) {
+        this.items = items;
+    }
+
     @Override
     public String toString() {
-        return String.format("Category[id=%d, name='%s']", category_id,categoryName);
+        return String.format("Category[id=%d, name='%s']", id,categoryName);
     }
 }
