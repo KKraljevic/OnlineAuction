@@ -129,6 +129,40 @@ public class UserController {
         return bidRepository.save(bid);
     }
 
+    @GetMapping("/users/{userId}/wishlist")
+    public ResponseEntity<List<AuctionItem>> getWishlist(@PathVariable Integer userId) {
+        List<AuctionItem> wishlistItems = new ArrayList<AuctionItem>();
+        wishlistItems=userRepository.findById(userId).get().getWishlist();
+        if(wishlistItems.size()>0)
+            return new ResponseEntity<List<AuctionItem>>(wishlistItems, HttpStatus.OK);
+        else
+            throw new NotFoundException("Items not found!");
+    }
+
+    @PostMapping("/users/{userId}/wishlist/item/{itemId}")
+    public boolean addToWishlist(@PathVariable Integer userId, @PathVariable Integer itemId) {
+        return userRepository.findById(userId).map(user -> {
+            itemsRepository.findById(itemId).map(item -> {
+                user.getWishlist().add(item);
+                userRepository.save(user);
+                return true;
+            }).orElseThrow(() -> new NotFoundException("Item not found!"));
+            return true;
+        }).orElseThrow(() -> new NotFoundException("User not found!"));
+    }
+
+    @PutMapping("/users/{userId}/wishlist/item/{itemId}")
+    public String deleteUserWishlistItem(@PathVariable Integer userId,@PathVariable Integer itemId) {
+        return userRepository.findById(userId)
+                .map(user -> {
+                    List<AuctionItem> wishlistItems = new ArrayList<AuctionItem>();
+                    wishlistItems=user.getWishlist();
+                    wishlistItems.removeIf(wi-> wi.getId()==itemId);
+                    user.setWishlist(wishlistItems);
+                    userRepository.save(user);
+                    return "Deleted Successfully!";
+                }).orElseThrow(() -> new NotFoundException("User not found with id " + userId));
+    }
     @PutMapping("/users/{id}")
     public User updateUser(@PathVariable Integer id, @Valid @RequestBody User userUpdated) {
         return userRepository.findById(id)

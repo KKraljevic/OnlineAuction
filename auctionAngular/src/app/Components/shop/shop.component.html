@@ -66,6 +66,13 @@
           <div *ngFor="let item of items" class="card col-md-4 col-12">
             <a role="link" [routerLink]="['/item', item.id]"><img class="card-img-top col"
                 [src]="item.images[0].url"></a>
+            <div class="middle">
+              <div class="btn-group" role="group">
+                <button disabled class="btn btn-watchlist">Watchlist <i class="fa fa-heart" ></i></button>
+                <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]">Bid
+                  <i class=" fa fa-gavel"></i></button>
+              </div>
+            </div>
             <div class="card-body p-2">
               <h6 class="card-title"><a role="link" [routerLink]="['/item', item.id]">{{item.name}}</a></h6>
               <p class="card-text">Start from ${{item.startPrice}}</p>
@@ -83,8 +90,10 @@
                   <h5>{{item.name}}</h5>
                   <p>{{item.description}}</p>
                   <h4><mark>Start from - ${{item.startPrice}}</mark></h4>
-                  <button disabled class="btn btn-watchlist">Watchlist <i class="fa fa-heart"></i></button>
-                  <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]"">Bid <i class="fa fa-gavel"></i></button>
+
+                  <button class="btn btn-watchlist" (click)="addToWishlist(item)">Watchlist <i class="fa fa-{{icon}}"></i></button>
+                  <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]">Bid <i class=" fa
+                    fa-gavel"></i></button>
                 </div>
               </div>
             </div>

@@ -10,4 +10,5 @@ export class User {
     items: Item[]=[];
     userBids: Bid[]=[];
     photo: string;
+    wishlist?: Item[];
 }

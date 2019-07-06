@@ -42,6 +42,9 @@
 .card-text{
     margin-top: auto;
 }
+.card-body{
+    height: 110px;
+}
 .list-group-item{
     cursor: pointer;
     border-width: 0;
@@ -103,3 +106,29 @@ a.nav-link{
     content: "\f068";
     float: right;
     }
+.btn-watchlist{
+    border-radius: 0;
+    background-color: #ECECEC;
+}  
+.middle {
+    width: fit-content;
+    background: rgba(131,103,216,0.30);
+    transition: .5s ease;
+    display: none;
+    position: absolute;
+    width: 249.8px;
+    height: 250px;
+    text-align: center;
+} 
+.btn-group{
+    width: inherit;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: 42%;
+}  
+.card:hover .card-img-top{
+    opacity: 0.3;
+}
+.card:hover .middle{
+    display: block;
+}

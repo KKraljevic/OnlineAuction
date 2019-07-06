@@ -39,6 +39,9 @@ public class User implements Serializable {
     @Column
     private String photo;
 
+    @ElementCollection
+    private List<AuctionItem> wishlist = new ArrayList<>();
+
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value={"seller","category","description"})
     private List<AuctionItem> items = new ArrayList<AuctionItem>();
@@ -49,12 +52,14 @@ public class User implements Serializable {
 
     public User(){}
 
-    public User(int id, String email, String password, String firstName, String lastName) {
+    public User(int id, @NotNull String email, @NotNull String password, @NotNull String firstName, @NotNull String lastName, String photo, List<AuctionItem> wishlist) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.photo = photo;
+        this.wishlist = wishlist;
     }
 
     public User(int id, @NotNull String email, @NotNull String password, @NotNull String firstName, @NotNull String lastName, String photo) {
@@ -109,5 +114,13 @@ public class User implements Serializable {
     public String getPhoto() { return photo; }
 
     public void setPhoto(String photo) { this.photo = photo; }
+
+    public List<AuctionItem> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<AuctionItem> wishlist) {
+        this.wishlist = wishlist;
+    }
 }
 

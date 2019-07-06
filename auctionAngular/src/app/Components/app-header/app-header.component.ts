@@ -1,6 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute, Event, NavigationEnd, NavigationStart } from '@angular/router';
 import { User } from '../../Model/user';
 import { AuthenticationService } from '../../Services/authentication.service';
 
