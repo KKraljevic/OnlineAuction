@@ -1,0 +1,64 @@
+<div *ngIf="hasItems;else infoItems">
+  <table class="my-table table">
+    <thead class="thead">
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col" class="w-auto">Name</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Your Price</th>
+        <th scope="col" class="text-center">No Bids</th>
+        <th scope="col">Highest Bid</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody class="items">
+      <tr *ngFor="let item of items" class="px-3">
+        <td><img height="100" width="100" src="{{item.images[0].url}}"></td>
+        <td>{{item.name}}</td>
+        <td>{{item.endDate | date: 'd MMM yyy'}}</td>
+        <td class="text-info">$ {{item.startPrice}}</td>
+        <td class="text-center">{{item.itemBids?.length}}</td>
+        <td class="text-info">$ {{item.currentPrice}}</td>
+        <td>
+          <button class="form-control view-btn" role="link" [routerLink]="['/item',item.id]">VIEW</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ul class="nav nav-pills justify-content-center py-4">
+    <li *ngIf="currentPage>0" class="nav-item">
+      <a class="btn btn-purple-outline nav-link" (click)="loadItems(currentPage-1)">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
+    </li>
+    <li *ngIf="currentPage+1<totalPages" class="nav-item">
+      <a class="btn btn-purple-outline nav-link" (click)="loadItems(currentPage+1)">
+        Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
+    </li>
+  </ul>
+</div>
+<ng-template #infoItems>
+  <!--<div class="col-md-12 px-0">
+    <div class="alert alert-info" role="alert">
+      No items for sale yet!
+    </div>
+  </div>-->
+  <div class="my-container" *ngIf="show" id="infoSelling">
+    <div class="title text-center">
+      <h4>SELL</h4>
+    </div>
+    <div> 
+      <div class="row my-5">
+        <div class="col-md-12 justify-content-center mx-auto" id="imgSell">
+          <img src="/assets/icons/clothes-plus.png">
+        </div>
+      </div>
+      <div class="row my-5">
+        <div class="col-md-12 justify-content-center">
+          <p class="text-center">You do not have any scheduled items for sale.</p>
+          <button class="btn btn-purple-outline" [routerLink]="['/account/newitem']">START SELLING <i
+              class="fa fa-chevron-right pull-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -34,7 +34,7 @@
           <a class="nav-link" role="link" routerLink="login">Login</a>
         </li>
         <li class="nav-item ">
-          <a class="nav-link disabled" href="#">or</a>
+          <a class="nav-link disabled" [style.color]="'gray'">or</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" role="link" routerLink="registration">Create an account</a>
@@ -44,11 +44,13 @@
   </ng-template>
 </div>
 <div class="navbar navbar-expand-md navbar-second px">
-  <a class="navbar-brand col-2 pl-0" href="/">AUCTION</a>
+  <a class="navbar-brand col-2 pl-0" href="/"><i class="fa fa-gavel"></i><span>AUCTION</span></a>
 
-  <form *ngIf="path!='/login' && path!='/registration'" class="input-group col-6 input-search">
-    <input disabled type="text" placeholder="Try enter : Shoes" name="search">
-    <button disabled type="submit"><i class="fa fa-search"></i></button>
+  <form *ngIf="path!='/login' && path!='/registration'" (ngSubmit)="searchItems()" [formGroup]="searchForm"
+    class="input-group col-5 input-search">
+    <input formControlName="search" type="text" autocomplete="off" placeholder="Try enter : Shoes" name="search"
+      [ngClass]="{ 'is-invalid': submitted && this.searchForm?.search?.errors }">
+    <button type="submit"><i class="fa fa-search"></i></button>
   </form>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler2"
@@ -58,13 +60,23 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarToggler2">
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="nav-link py-0" role="link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">HOME</a>
+        <a class="nav-link py-0" role="link" routerLink="/" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }">HOME</a>
       </li>
       <li class="nav-item">
         <a class="nav-link py-0" role="link" routerLink="/shop" routerLinkActive="active-link">SHOP</a>
       </li>
-      <li class="nav-item" *ngIf="currentUser">
-        <a class="nav-link py-0" role="link" routerLink="/profile" routerLinkActive="active-link">MY ACCOUNT</a>
+      <li #profileOptios class="nav-item dropdown" *ngIf="currentUser">
+        <a class="nav-link py-0" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" routerLinkActive="active-link">MY ACCOUNT
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" [routerLink]="['/account/profile']">Profile</a>
+          <a class="dropdown-item" [routerLink]="['/account/newitem']">Add Item</a>
+          <a class="dropdown-item" [routerLink]="['/account/items']">Your Items</a>
+          <a class="dropdown-item" [routerLink]="['/account/bids']">Your Bids</a>
+          <a class="dropdown-item" [routerLink]="['/account/wishlist']">Wishlist</a>
+        </div>
       </li>
     </ul>
   </div>

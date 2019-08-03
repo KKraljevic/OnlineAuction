@@ -1,0 +1,60 @@
+.img-user{
+    object-fit: cover;
+    height: 400px;
+    max-height: 400px;
+}
+.btn-edit{
+    display: flex;
+    line-height: 54px;
+    background-color: transparent;
+    float: right;
+    border-radius: 0;
+    border-width: 0;
+    font-size: 28px;
+    color: var(--light-gray);
+}
+.btn-edit:focus{
+    outline-width: 0;
+    outline-color: transparent;
+}
+.btn-combo{
+    cursor: pointer;
+    border-radius: 0;
+    height: 54px;
+    font-size: 18px;
+    text-align-last: center;
+}
+.btn-light:focus{
+    border: 0ch;
+    box-shadow: 0 0 0 0 transparent !important;
+}
+ 
+[type="file"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.updateTitle{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 24px;
+    line-height: initial;
+    color: var(--light-gray);
+}
+
+.alert{
+    border-radius: 0;
+    border-width: 0;
+}
+.dropdown-menu{
+    width: 47.5%;
+    border-radius: 0;
+    background-color: var(--header);
+}
+  

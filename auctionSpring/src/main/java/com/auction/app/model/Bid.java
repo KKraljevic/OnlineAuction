@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "bids")
+@Table(name = "bids",schema = "public")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Bid implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -19,7 +19,9 @@ public class Bid implements Serializable {
 
     @Column
     private float bidPrice;
+
     @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date bidTime;
     @Column
     private boolean active;
@@ -31,7 +33,7 @@ public class Bid implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "item_id")
-    @JsonIgnoreProperties(value = {"itemBids","description"})
+    @JsonIgnoreProperties(value = {"itemBids","description" })
     private AuctionItem auctionItem;
 
     public Bid(){};

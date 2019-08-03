@@ -25,6 +25,7 @@ body{
     padding-left: 10%;
     padding-right: 10%;
 }
+
 .my-container{   
     margin-top: 40px;
     margin-bottom: 15%;
@@ -40,12 +41,17 @@ body{
     padding: 10px 0px 2px 0;
     padding-left: 30px;
 }
+.my-container .title.text-center{
+    padding-left: 0;
+}
 
 .my-container form{
     padding: 30px 50px 20px 50px;
 }
-
+.my-container textarea,
 .my-container input[type="text"],
+.my-container input[type="date"],
+.my-container input[type="number"],
 .my-container input[type="password"]{
     height: 54px;
     font-size: 18px;
@@ -66,7 +72,7 @@ body{
 .btn-purple-outline{
     background: #FFFFFF;
     border: 3px solid var(--purple);
-    border-radius: 0;
+    border-radius: 0 !important;
     box-shadow: 3px 3px 0 0 var(--btn-shadow);
     height: auto;
     font-size: 18px;
@@ -86,6 +92,8 @@ body{
     background: #FFFFFF;
     border: 3px solid var(--light-border);
     box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
+    border-radius: 0;
+    cursor: pointer;
 }
 .view-btn{
     align-items: center;
@@ -101,7 +109,12 @@ body{
 .btn-watchlist{
     border: 3px solid #ECECEC;
 }
+.btn-grey-fill{
+    border-radius: 0;
+    background-color: #ECECEC;
+}
 .component-navbar{
+    cursor: default;
     background-color: var(--header) !important;
     color: var(--black);
 }
@@ -111,6 +124,7 @@ body{
     margin-bottom: 0;
     background-color: transparent;
 }
+
 .navbar-brand{
     margin-left: 15px;
 }
@@ -131,7 +145,7 @@ body{
 }
 .my-table thead th{
     max-width: fit-content;
-    width: 15%;
+    width: 12%;
 }
 .my-table thead th:first-child{
     width:120px;
@@ -157,3 +171,42 @@ mark{
     color: var(--purple);
     background-color: transparent;
 }
+.alert.alert-info
+{
+  border-color:transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+.btn:focus,
+.form-control:focus,
+textarea:focus{
+    border-color: #ECECEC;
+    outline: 0;
+    box-shadow:0 0 0 0.2rem rgba(131,103,216,0.30);
+}
+.btn-date:focus{
+    box-shadow: 0 0 0 0 transparent;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+} 
+.dropdown-item:focus{
+    outline-color: transparent;
+}
+.dropdown-item:active{
+    background-color: var(--btn-shadow);
+}
+a:hover{
+    cursor: pointer;
+}
+ 
+select.btn:focus {
+    border-width: 0 !important;
+    box-shadow: 0 0 0 0 transparent !important;
+}
+.btn-light:hover{
+    background-color: #FAFAFA;
+}
+

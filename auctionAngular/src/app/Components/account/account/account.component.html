@@ -1,0 +1,39 @@
+<div class="navbar component-navbar navbar-item px">
+  <div class="navbar-brand">{{navTitle}}</div>
+  <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
+    <ol class="breadcrumb navbar-item mb-0">
+      <li class="breadcrumb-item">MY ACCOUNT</li>
+      <li class="breadcrumb-item active" aria-current="page">{{currentSection | titlecase}}</li>
+    </ol>
+  </nav>
+</div>
+<div class="container mx w-auto" id="userProfile">
+  <ng-container [ngTemplateOutlet]="currentSection.startsWith('new')? none : tabs"></ng-container>
+  <ng-template #tabs>
+    <ul class="nav nav-pills py-2">
+      <li class="nav-item">
+        <a class="nav-link ml-0" [routerLink]="['/account/profile']" routerLinkActive="active-link"> <i
+            class="fa fa-user" aria-hidden="true"></i>
+          Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/account/items']" routerLinkActive="active-link"> <i class="fa fa-list"
+            aria-hidden="true"></i>
+          Seller</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/account/bids']" routerLinkActive="active-link"> <i class="fa fa-gavel"></i>
+          Bids</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/account/wishlist']" routerLinkActive="active-link"> <i
+            class="fa fa-heart"></i>
+          Wishlist</a>
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template #none>
+  </ng-template>
+  <div>
+    <router-outlet></router-outlet>
+  </div>

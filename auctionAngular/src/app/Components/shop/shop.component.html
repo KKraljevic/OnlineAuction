@@ -3,7 +3,13 @@
   <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
     <ol class="breadcrumb navbar-item mb-0">
       <li class="breadcrumb-item">SHOP</li>
-      <li class="breadcrumb-item active" aria-current="page">All categories</li>
+      <ng-container *ngIf="currentCategory!=null; else allCat">
+        <li class="breadcrumb-item">{{currentCategory.parent?.categoryName}}</li>
+        <li class="breadcrumb-item active">{{currentCategory.categoryName}}</li>
+      </ng-container>
+      <ng-template #allCat>
+        <li class="breadcrumb-item active">All categories</li>
+      </ng-template>
     </ol>
   </nav>
 </div>
@@ -24,8 +30,8 @@
             <div id="{{category.categoryName}}" class="collapse" data-parent="#categoryList">
               <ul class="category.children list-group">
                 <li *ngFor="let subcategory of category.children" class="list-group-item">
-                  <a (click)="loadCategoryItems(subcategory.id,0)"
-                    [style.color]="'var(--light-gray)'">{{subcategory.categoryName}}</a>
+                  <a [routerLink]="['/shop',category.categoryName,subcategory.categoryName]"
+                    [style.color]="'gray'">{{subcategory.categoryName}}</a>
                 </li>
               </ul>
             </div>
@@ -35,7 +41,7 @@
     </div>
     <!-- end Categories -->
 
-    <div class="col-md-9">
+    <div class=" col-md-9">
       <div class="container">
         <!-- Sorting and View Mode-->
         <div class="row">
@@ -62,19 +68,52 @@
           </div>
         </div>
         <!-- Grid or List-->
+        <h3 *ngIf="msgNotFound">Items not found!</h3>
         <div *ngIf="showGrid; else listView" class="row">
           <div *ngFor="let item of items" class="card col-md-4 col-12">
             <a role="link" [routerLink]="['/item', item.id]"><img class="card-img-top col"
                 [src]="item.images[0].url"></a>
-            <div class="middle">
-              <div class="btn-group" role="group">
-                <button disabled class="btn btn-watchlist">Watchlist <i class="fa fa-heart" ></i></button>
-                <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]">Bid
-                  <i class=" fa fa-gavel"></i></button>
+            <ng-container [ngTemplateOutlet]="item.seller.id===currentUser?.id? SellerItem : ShopItem"></ng-container>
+            <ng-template #SellerItem>
+              <div class="seller-label">
+                Your Item
               </div>
-            </div>
+            </ng-template>
+
+            <ng-template #ShopItem>
+              <div class="middle">
+                <div class="btn-group" role="group">
+                  <ng-container [ngTemplateOutlet]='currentUser ? btnBid : btnView'
+                    [ngTemplateOutletContext]="{item:item}"></ng-container>
+                  <ng-template #btnView>
+                    <button class="btn btn-watchlist" [style.width]="'inherit'" [routerLink]="['/item', item.id]">VIEW
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </ng-template>
+                  <ng-template #btnBid>
+
+                    <ng-container [ngTemplateOutlet]='checkWishlist(item) ? inWishlist : notInWishlist'
+                      [ngTemplateOutletContext]="{item:item}"></ng-container>
+
+                    <ng-template #inWishlist>
+                      <button class="btn btn-watchlist">Wishlist
+                        <span class="fa fa-heart"></span></button>
+                    </ng-template>
+                    <ng-template #notInWishlist>
+                      <button class="btn btn-watchlist" (click)="addToWishlist(item)">Wishlist
+                        <span class="fa fa-heart-o"></span></button>
+                    </ng-template>
+
+                    <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]">Bid
+                      <i class="fa fa-gavel"></i></button>
+                  </ng-template>
+                </div>
+              </div>
+            </ng-template>
+
             <div class="card-body p-2">
-              <h6 class="card-title"><a role="link" [routerLink]="['/item', item.id]">{{item.name}}</a></h6>
+              <h6 class="card-title"><a role="link" [routerLink]="['/item', item.id]">{{item.name}}</a>
+              </h6>
               <p class="card-text">Start from ${{item.startPrice}}</p>
             </div>
           </div>
@@ -89,23 +128,48 @@
                 <div class="col-md-8">
                   <h5>{{item.name}}</h5>
                   <p>{{item.description}}</p>
-                  <h4><mark>Start from - ${{item.startPrice}}</mark></h4>
+                  <div class="btns">
+                    <ng-container [ngTemplateOutlet]='(currentUser!==null) && (currentUser?.id!==item.seller.id) ? btnBid : btnView'
+                      [ngTemplateOutletContext]="{item:item}"></ng-container>
+                    <ng-template #btnView>
+                      <div>
+                        <h4><mark>Start from - ${{item.startPrice}}</mark></h4>
+                        <button class="btn btn-watchlist" [style.width]="'200px'" [routerLink]="['/item', item.id]">VIEW
+                          <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </ng-template>
+                    <ng-template #btnBid>
+                      <h4><mark>Start from - ${{item.startPrice}}</mark></h4>
+                      <ng-container [ngTemplateOutlet]='checkWishlist(item) ? inWishlist : notInWishlist'
+                        [ngTemplateOutletContext]="{item:item}"></ng-container>
+                      <ng-template #inWishlist>
+                        <button class="btn btn-watchlist">Wishlist
+                          <span class="fa fa-heart"></span></button>
+                      </ng-template>
+                      <ng-template #notInWishlist>
+                        <button class="btn btn-watchlist" (click)="addToWishlist(item)">Wishlist
+                          <span class="fa fa-heart-o"></span></button>
+                      </ng-template>
+                      <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]">Bid
+                        <i class="fa fa-gavel"></i></button>
+                    </ng-template>
 
-                  <button class="btn btn-watchlist" (click)="addToWishlist(item)">Watchlist <i class="fa fa-{{icon}}"></i></button>
-                  <button class="btn btn-watchlist ml-2" [routerLink]="['/item', item.id]">Bid <i class=" fa
-                    fa-gavel"></i></button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </ng-template>
-        <ul class="nav nav-pills justify-content-center">
+        <ul class="nav nav-pills justify-content-center py-4">
           <li *ngIf="currentPage>0" class="nav-item">
-            <a class="btn btn-purple-fill nav-link" (click)="loadCategoryItems(currentCategory.id,currentPage-1)">
+            <a class="btn btn-purple-fill nav-link"
+              (click)="loadCategoryItems(currentCategory==null?0:currentCategory.id,currentPage-1,undefined,this.currentUser ? this.currentUser.id : undefined)">
               <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
           </li>
           <li *ngIf="currentPage+1<totalPages" class="nav-item">
-            <a class="btn btn-purple-fill nav-link" (click)="loadCategoryItems(currentCategory.id,currentPage+1)">
+            <a class="btn btn-purple-fill nav-link"
+              (click)="loadCategoryItems(currentCategory==null?0:currentCategory.id,currentPage+1,undefined,this.currentUser ? this.currentUser.id : undefined)">
               Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
           </li>
         </ul>

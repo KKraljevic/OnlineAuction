@@ -1,0 +1,234 @@
+<div class="container justify-content-center">
+  <ul class="progressbar">
+    <li [class.active]="progress>0"></li>
+    <li [class.active]="progress>1"></li>
+    <li [class.active]="progress>2"></li>
+  </ul>
+</div>
+<div class="my-container">
+  <div class="title text-center">
+    <h4>{{titles[progress-1]}}</h4>
+  </div>
+  <!--Dodati filtere za boju i size-->
+  <div #detailForm [hidden]="progress!=1">
+    <form [formGroup]="step1Form">
+
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>What do you want to sell?</label>
+          <input type="text" formControlName="name" class="form-control"
+            [ngClass]="{ 'is-invalid': next && f1.name.errors }" />
+          <small class="form-text text-muted pull-right">2-5 words (60 characters)</small>
+          <div *ngIf="next && !!f1.name.errors" class="invalid-feedback">
+            <div *ngIf="!!f1.name.errors.required">Name of item is required!</div>
+            <div *ngIf="!!f1.name.errors.maxLength">Name is too long!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3 ">
+        <!--Category-->
+        <div class="col-md-6">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false"
+              [disabled]="categories===undefined">{{selectedCategory?.categoryName || "Select Category"}}
+            </button>
+            <div *ngIf="categories!=null" class="dropdown-menu">
+              <a class="dropdown-item" *ngFor="let cat of categories"
+                (click)="chooseCategory(cat)">{{cat.categoryName}}</a>
+            </div>
+          </div>
+        </div>
+        <!--Subcategory-->
+        <div class="col-md-6">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="text" id="dropdownSubCat" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false"
+              [disabled]="selectedCategory===undefined">{{selectedSubcategory?.categoryName ||'Select Subcategory'}}
+            </button>
+            <div *ngIf="selectedCategory!=null" class="dropdown-menu">
+              <a class="dropdown-item" *ngFor="let subcat of selectedCategory.children"
+                (click)="chooseSubcategory(subcat)">{{subcat.categoryName}}</a>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="next && (!!f1.subCat.errors || !!f1.cat.errors)" id="errorCat" class="invalid-feedback">
+            <div>Category and subcategory of item are required!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>Description</label>
+          <textarea class="form-control" formControlName="description" rows="3"
+            [ngClass]="{ 'is-invalid': next && f1.description.errors }"></textarea>
+          <small class="form-text text-muted pull-right">40 words (250 characters)</small>
+          <div *ngIf="next && !!f1.description.errors" class="invalid-feedback">
+            <div *ngIf="!!f1.description.errors.required">Description of item is required!</div>
+            <div *ngIf="!!f1.description.errors.maxlength">Description is too long!</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <input #fileInput type="file" ng2FileSelect [uploader]="uploader" multiple />
+
+        <div class="drop-box" ng2FileDrop [ngClass]="{'dragover': isDropOver}" [uploader]="uploader"
+          (fileOver)="fileOverAnother($event)" (click)="fileClicked()">
+          <span class="drag-in-title">Import or drag file here</span>
+          <span class="drag-over-title">Drop the file</span>
+        </div>
+        <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
+        <div *ngIf="next && !!f1.images.errors" class="invalid-feedback">
+          <div *ngIf="!!f1.images.errors.min">4 images are required!</div>
+        </div>
+
+      </div>
+      <div class="row" *ngIf="uploader.queue.length">
+
+        <div id="imgUpload" *ngFor="let item of uploader.queue" class="col-md-3 col-12 my-2">
+          <img height="80" width="80" [src]="preview(item)">
+
+          <button type="button" class="btn btn-danger" (click)="item.remove()">
+            <span class="fa fa-trash"></span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+  <div #priceForm [hidden]="progress!=2">
+    <form [formGroup]="step2Form" autocomplete="off">
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>Your start Price</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="number" step="0.01" name="price" id="price" placeholder="Enter Price" min="0"
+              formControlName="price" class="form-control" [ngClass]="{ 'is-invalid':next && f2.price.errors }"
+              aria-label="Amount (to the nearest dollar)">
+            <div *ngIf="!!next && !!f2.price.errors" class="invalid-feedback">
+              <div *ngIf="!!f2.price.errors?.required">Price of item is required!</div>
+              <div *ngIf="!!f2.price.errors?.pattern">Price format should be like 100.00!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-5">
+        <div class="col-md-12">
+          <label>End date</label>
+          <div class="input-group myDate" [ngClass]="{ 'is-invalid': next && !!f2.endDate.errors }">
+            <input formControlName="endDate" type="text" class="form-control" name="dp2" ngbDatepicker
+              #d2="ngbDatepicker" />
+            <div class="input-group-append" (click)="d2.toggle()">
+              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+          <div *ngIf="next && !!f2.endDate.errors" class="invalid-feedback">
+            <div *ngIf="!!f2.endDate.errors?.required">End date is required! Choose a date from calendar!</div>
+            <div *ngIf="!!f2.endDate.errors?.incorrect">End date passed! Choose up coming date!</div>
+            <div *ngIf="!!f2.endDate.errors?.ngbDate">End date should be in format like 2019-01-01!</div>
+          </div>
+        </div>
+        <small class="form-text text-muted my-3 col-md-8">
+          Date format: 2019-01-01
+          <br>
+          The auction will be automatically closed when the end time comes.
+          The highest bid will win the auction.</small>
+      </div>
+
+    </form>
+
+  </div>
+  <div #locationForm [hidden]="progress!=3">
+    <form [formGroup]="step3Form">
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>Address</label>
+          <input type="text" class="form-control" formControlName="address"
+            [ngClass]="{ 'is-invalid': next && f3.address.errors }" placeholder="e.g.678 Berge Tunnel Apt. 278" />
+          <div *ngIf="next && !!f3.address.errors" class="invalid-feedback">
+            <div *ngIf="!!f3.address.errors.required">Address of item is required!</div>
+            <div *ngIf="!!f3.address.errors.maxLength">Address is too long!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3">
+        <!--Country-->
+        <div class="col-md-6">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" [disabled]="countries===undefined" type="button" id="dropdownContry"
+              data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">{{selectedCountry?.fullName || "Select Country"}}
+            </button>
+            <div *ngIf="countries!=null" class="dropdown-menu" aria-labelledby="dropdownContry">
+              <input type="text" placeholder="Search.." [(ngModel)]="searchCountry" class="pl-4"
+                [ngModelOptions]="{standalone: true}" id="myInput" (input)="filterCountries()">
+              <a class="dropdown-item" *ngFor="let c of countries" (click)="chooseCountry(c)">{{c.fullName}}</a>
+            </div>
+          </div>
+        </div>
+        <!--City-->
+        <div class="col-md-6">
+          <div class="dropdown">
+            <button [disabled]="selectedCountry===undefined && cities===undefined" class="btn dropdown-toggle"
+              type="button" id="dropdownCity" aria-haspopup="true" aria-expanded="false"
+              data-toggle="dropdown">{{selectedCity?.name || "Select City"}}
+            </button>
+            <div *ngIf="cities!=null" class="dropdown-menu" aria-labelledby="dropdownCity">
+              <a class="dropdown-item" *ngFor="let city of cities" (click)="chooseCity(city)">{{city.name}}</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="next && (!!f3.country.errors || !!f3.city.errors)" id=errorCC class="invalid-feedback">
+            <div>Country and city are required!</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>Zip Code</label>
+          <input type="text" class="form-control" formControlName="zipCode"
+            [ngClass]="{ 'is-invalid': next && !!f3.zipCode.errors }" placeholder="e.g.51000" />
+          <div *ngIf="next && !!f3.zipCode.errors" class="invalid-feedback">
+            <div *ngIf="!!f3.zipCode.errors.required">Zipcode of item is required!</div>
+            <div *ngIf="!!f3.zipCode.errors.maxLength">Zipcode is too long!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-8 form-group">
+          <label><input type="checkbox" formControlName="freeshippment" (onclick)="checkBox()"> Do you want to bear
+            shipping cost?</label>
+          <small id="nameInfo" class="form-text text-muted pl-1">The average priece of shipping cost is $10.00.
+            You have to provide us payment infromations.
+          </small>
+
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row my-3 bn-row">
+    <div class="col-md-4 form-group">
+      <button class="btn btn-purple-outline nav-link" [disabled]="progress===1" (click)="backStep()">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i> Back</button>
+    </div>
+    <div class="col-md-4 offset-md-4 form-group">
+      <button *ngIf="progress<3" class="btn btn-purple-outline nav-link" [disabled]="progress===3" (click)="nextStep()">
+        Next <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+      <button *ngIf="progress===3" class="btn btn-purple-fill nav-link" (click)="addItem()">
+        DONE</button>
+    </div>
+  </div>
+
+
+</div>

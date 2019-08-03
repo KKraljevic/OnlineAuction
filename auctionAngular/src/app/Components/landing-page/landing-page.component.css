@@ -15,9 +15,14 @@
     width: auto;
     border-radius: 0;
     height: 250px;
+    object-fit: cover;
 }
 .card a{
     color: var(--black);
+}
+.card-text:last-child{
+    position: absolute;
+    bottom: 0;
 }
 .list-group-item{
     cursor: pointer;

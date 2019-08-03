@@ -6,6 +6,11 @@
     border-radius: 0;
     padding: 0;
     border: 1px solid var(--darker-border);
+    height: fit-content;
+}
+#categoriesList .card-body{
+    height: fit-content;
+    max-height: max-content;
 }
 .my-navbar{
     padding-left:5px;
@@ -40,7 +45,9 @@
     color: var(--black);
 }
 .card-text{
-    margin-top: auto;
+    position: absolute;
+    bottom: 0;
+    left: inherit;
 }
 .card-body{
     height: 110px;
@@ -106,17 +113,32 @@ a.nav-link{
     content: "\f068";
     float: right;
     }
+    a.btn-watchlist:visited > span:before,
+    a.btn-watchlist:visited > span:after,
+    a.btn.btn-watchlist:visited > span{
+    font-family: "FontAwesome";
+    font-weight: 900;
+    content: "\f068";
+    float: right;
+    color:red;
+}
+
 .btn-watchlist{
     border-radius: 0;
     background-color: #ECECEC;
-}  
+} 
+.btns{
+    position: absolute;
+    bottom: 0;
+    left: inherit;
+} 
 .middle {
     width: fit-content;
     background: rgba(131,103,216,0.30);
     transition: .5s ease;
     display: none;
     position: absolute;
-    width: 249.8px;
+    width: inherit;
     height: 250px;
     text-align: center;
 } 
@@ -125,10 +147,28 @@ a.nav-link{
     padding-left: 10px;
     padding-right: 10px;
     top: 42%;
-}  
+} 
+.card{
+    margin-bottom: 1rem !important;
+} 
 .card:hover .card-img-top{
     opacity: 0.3;
 }
 .card:hover .middle{
+    display: block;
+}
+.seller-label{
+    color: white;
+    font-family: Lato;
+    font-size: small;
+    padding: 3px;
+    background-color: #6c757d;
+    text-align: center;
+    opacity: 0.8;
+    display:none;
+    position: absolute;
+    width: inherit;
+}
+.card:hover .seller-label{
     display: block;
 }

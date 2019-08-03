@@ -1,5 +1,6 @@
 import { Item } from './item';
 import { Bid } from './bid';
+import { Image } from './image';
 
 export class User {
     id: number;
@@ -7,6 +8,9 @@ export class User {
     password: string;
     firstName: string;
     lastName: string;
+    phone?: string;
+    birthDate?: Date;
+    gender?: string;
     items: Item[]=[];
     userBids: Bid[]=[];
     photo: string;

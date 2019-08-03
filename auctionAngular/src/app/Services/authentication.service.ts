@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../Model/user';
 import { map } from 'rxjs/operators';
+import { UserService } from './user-service.service';
 
 
 @Injectable({
@@ -15,10 +16,12 @@ export class AuthenticationService {
 
   private user: User;
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser') || 'null'));
-    this.currentUser = this.currentUserSubject.asObservable();
+  springURL: string = "http://localhost:8080";
+  herokuURL: string ="https://still-castle-19196.herokuapp.com";
 
+  constructor(private http: HttpClient, private userService: UserService) {
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || 'null'));
+    this.currentUser = this.currentUserSubject.asObservable();
     this.user = new User();
   }
 
@@ -30,14 +33,15 @@ export class AuthenticationService {
     this.user.email = email;
     this.user.password = password;
     console.log(remember);
-    return this.http.post<User>('/api/login', this.user)
+    return this.http.post<User>(this.herokuURL+'/api/login', this.user)
       .pipe(map(user => {
-        if (remember)
+        if (remember!=null || remember)
           localStorage.setItem('currentUser', JSON.stringify(user));
         else {
           sessionStorage.setItem('currentUser', JSON.stringify(user));
         }
         this.currentUserSubject.next(user);
+        
         return user;
       }));
   }

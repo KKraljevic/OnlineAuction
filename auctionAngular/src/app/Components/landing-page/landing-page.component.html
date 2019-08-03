@@ -16,7 +16,9 @@
                             <div id="{{category.categoryName}}" class="collapse" data-parent="#categoryList">
                                 <ul class="category.children list-group" *ngIf="category.children!=null">
                                     <li *ngFor="let subcategory of category.children" class="list-group-item">
-                                        <a role="link" [routerLink]="['/shop', subcategory.id]">{{subcategory.categoryName}}</a>
+                                        <a role="link"
+                                            [routerLink]="['/shop', category.categoryName, subcategory.categoryName]"
+                                            routerLinkActive="active-link">{{subcategory.categoryName}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -32,19 +34,19 @@
             <!-- end Categories -->
 
             <div class="col-md-9">
-
-                <div class="container my-3">
+                   
+                <div class="container my-3" *ngIf="featuredItem">
                     <div class="row d-flex">
-                        <div class="col-12 col-md-6 d-flex align-items-center" *ngIf="items[0]">
+                        <div class="col-12 col-md-6 d-flex align-items-center">
                             <header class="intro-wrap text-black">
-                                <h4>{{items[0].name}}</h4>
-                                <p id="startPrice">Start from - ${{items[0].startPrice}}</p>
-                                <p>{{items[0].description}}</p>
-                                <a [routerLink]="['/item', items[0].id]" class="btn btn-purple-outline">BID NOW ></a>
+                                <h4>{{featuredItem.name}}</h4>
+                                <p id="startPrice">Start from - ${{featuredItem.startPrice}}</p>
+                                <p>{{featuredItem.description}}</p>
+                                <a [routerLink]="['/item', featuredItem.id]" class="btn btn-purple-outline">BID NOW ></a>
                             </header>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <a [routerLink]="['/item', items[0].id]"><img [src]="items[0].images[0].url"
+                            <a [routerLink]="['/item', featuredItem.id]"><img [src]="featuredItem.images[0].url"
                                     class="img-fluid my-5" height="300" width="auto"></a>
                         </div>
                     </div>
@@ -53,19 +55,48 @@
         </div>
     </div>
     <div class="container m-0 py-4 px mw-100">
-        <h5>Featured items</h5>
+        <h5>Latest items</h5>
         <hr>
         <div class="row items">
             <div *ngFor="let item of items" class="card col-md-3 col-12">
-                <a role="link" [routerLink]="['/item', item.id]"><img class="card-img-top col"
+                <a role="link" [routerLink]="['/item', item?.id]"><img class="card-img-top col"
                         [src]="item.images[0].url"></a>
                 <div class="card-body p-2">
-                    <h6 class="card-title"><a role="link" [routerLink]="['/item', item.id]">{{item.name}}</a></h6>
+                    <h6 class="card-title"><a role="link" [routerLink]="['/item', item?.id]">{{item.name}}</a></h6>
                     <p class="card-text">Start from ${{item.startPrice}}</p>
                 </div>
             </div>
         </div>
 
     </div>
+    <div class="container m-0 py-4 px mw-100">
+        <h5>Featured items</h5>
+        <hr>
+        <div class="row">
+            <div *ngFor="let othitem of otherItems" class="card col-md-3 col-12">
+                <a role="link" [routerLink]="['/item', othitem?.id]"><img class="card-img-top col"
+                        [src]="othitem?.images[0].url"></a>
+                <div class="card-body p-2">
+                    <h6 class="card-title"><a role="link" [routerLink]="['/item', othitem?.id]">{{othitem.name}}</a></h6>
+                    <p class="card-text">Start from ${{othitem.startPrice}}</p>
+                </div>
+            </div>
+        </div>
 
+    </div>
+    <div class="container m-0 py-4 px mw-100" *ngIf="currentUser!=null && sellerItems.length>0">
+            <h5>Your items</h5>
+            <hr>
+            <div class="row" *ngIf="sellerItems">
+                <div *ngFor="let item of sellerItems" class="card col-md-3 col-12">
+                    <a role="link" [routerLink]="['/item', item?.id]"><img class="card-img-top col"
+                            [src]="item.images[0].url"></a>
+                    <div class="card-body p-2">
+                        <h6 class="card-title"><a role="link" [routerLink]="['/item', item?.id]">{{item.name}}</a></h6>
+                        <p class="card-text">Start from ${{item.startPrice}}</p>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
 </div>

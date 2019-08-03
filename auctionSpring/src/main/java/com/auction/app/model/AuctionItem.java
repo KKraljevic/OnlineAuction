@@ -1,16 +1,19 @@
 package com.auction.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "auctionItems")
+@Table(name = "auctionItems", schema = "public")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AuctionItem implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,10 +32,7 @@ public class AuctionItem implements Serializable {
 
     @Column
     @NotNull
-    private int quantity;
-
-    @Column
-    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     @Column
@@ -46,6 +46,9 @@ public class AuctionItem implements Serializable {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = {"items"})
     private List<Image> images = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shippmentItem")
+    private Shipping shipping;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -61,20 +64,23 @@ public class AuctionItem implements Serializable {
     @JsonIgnoreProperties(value = {"auctionItem"})
     private List<Bid> itemBids = new ArrayList<Bid>();
 
+    @ManyToMany(mappedBy = "wishlist")
+    @JsonIgnore
+    private List<User> fans = new ArrayList<>();
+
+
     public AuctionItem() {
     }
 
-    public AuctionItem(int item_id, String name, String description, int quantity, Date endDate,
+    public AuctionItem(int item_id, String name, String description, Date endDate,
                        Float startPrice, Float currentPrice) {
         this.id = item_id;
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
         this.endDate = endDate;
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
     }
-
 
     public int getId() {
         return id;
@@ -98,14 +104,6 @@ public class AuctionItem implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Date getEndDate() {
@@ -162,6 +160,14 @@ public class AuctionItem implements Serializable {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
     }
 }
 

@@ -6,6 +6,9 @@ import { Category } from 'src/app/Model/category';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/Model/user';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { UserService } from 'src/app/Services/user-service.service';
+import { Subscription, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shop',
@@ -14,13 +17,17 @@ import { AuthenticationService } from 'src/app/Services/authentication.service';
 })
 export class ShopComponent implements OnInit {
 
+  searchMode: boolean;
+  searchInput: string;
+  msgNotFound: boolean;
+
+  sub: Subscription;
   currentUser: User;
-  wishlist: Item[] = [];
-  icon: string = "heart-o";
+  wishlist: Item[];
 
   items: Item[] = [];
   categories: Category[] = [];
-  currentCategory: Category = new Category();
+  currentCategory: Category;
   id: number;
   showGrid: boolean = true;
 
@@ -31,31 +38,15 @@ export class ShopComponent implements OnInit {
   currentPage: number = 0;
 
   constructor(private router: Router, private route: ActivatedRoute, private authenticationService: AuthenticationService,
-    private categoryService: CategoryService, private itemService: ItemService) { }
+    private categoryService: CategoryService, private itemService: ItemService, private userService: UserService, ) { }
 
   ngOnInit() {
+
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       if (x != null) {
-        this.wishlist = x.wishlist;
-      }
-    });
-
-    this.route.paramMap.subscribe(params => {
-      if (params.get("id") != null) {
-
-        this.id = Number.parseInt(params.get("id"));
-
-        this.itemService.findCategoryItems(this.id, 0).subscribe(data => {
-          this.items = data['content'];
-          this.totalPages = data['totalPages'];
-          this.currentPage = data['number'];
-          this.currentCategory = this.items[0].category;
-        });
-      }
-      else {
-        this.itemService.findFeaturedItems().subscribe(data => {
-          this.items = data;
+        this.userService.getAllWishlist(x.id).subscribe(wl => {
+          this.wishlist = wl;
         });
       }
     });
@@ -63,22 +54,57 @@ export class ShopComponent implements OnInit {
     this.categoryService.findAll().subscribe(data => {
       this.categories = data;
     });
+
+    this.sub = this.route.paramMap.subscribe(params => {
+      if (!params.has('search')) {
+
+        this.searchMode = false;
+
+        if (params.get("cat") != null && params.get("subcat") != null) {
+          return this.categoryService.findCategoryByName(params.get("subcat")).subscribe(cat => {
+            this.currentCategory = cat;
+            console.log("OnInit: " + this.currentCategory.categoryName);
+            this.loadCategoryItems(this.currentCategory.id, 0, undefined);
+          });
+        }
+        else {
+          this.loadCategoryItems(0, 0, 0);
+        }
+      }
+      else {
+        this.searchMode = true;
+        this.searchInput = params.get('search');
+        this.searchInput = this.searchInput != null ? this.searchInput : "";
+        this.loadCategoryItems(0, 0, 0);
+      }
+    });
   }
 
-  loadCategoryItems(id: number, page: number, sort?: number) {
-    if (id > 0) {
-      if (sort) { this.sortMode = sort; }
-      this.itemService.findCategoryItems(id, page, this.sortMode).subscribe(data => {
+  loadCategoryItems(id: number, page?: number, sort?: number) {
+    if (Number.isInteger(sort)) { this.sortMode = sort; }
+    if (this.searchMode) {
+      this.itemService.findItems(this.searchInput, page, this.sortMode).subscribe(data => {
         this.items = data['content'];
         this.totalPages = data['totalPages'];
         this.currentPage = data['number'];
-        this.currentCategory = this.items[0].category;
+        this.msgNotFound=this.items.length? false : true;
+      });
+    }
+    else if (id > 0) {
+      this.categoryService.findCategoryItems(id, page, this.sortMode).subscribe(data => {
+        this.items = data['content'];
+        this.totalPages = data['totalPages'];
+        this.currentPage = data['number'];
+        this.msgNotFound=this.items.length? false : true;
       });
     }
     else {
-      /*All items with pagination*/
-      this.itemService.findFeaturedItems().subscribe(data => {
-        this.items = data;
+      this.currentCategory = null;
+      this.itemService.findAll(page, sort).subscribe(data => {
+        this.items = data['content'];
+        this.totalPages = data['totalPages'];
+        this.currentPage = data['number'];
+        this.msgNotFound=this.items.length? false : true;
       });
     }
   }
@@ -86,34 +112,42 @@ export class ShopComponent implements OnInit {
   ChangeSortOrder(newSortOrder: string) {
     this.selectedSortOrder = newSortOrder;
     this.sortMode = this.sortOrders.indexOf(newSortOrder);
-    this.loadCategoryItems(this.currentCategory.id, 0, this.sortMode);
+      if (this.currentCategory == null) {
+        this.loadCategoryItems(0, 0, this.sortMode);
+      }
+      else {
+        this.loadCategoryItems(this.currentCategory.id, 0, this.sortMode);
+      }
   }
 
   addToWishlist(item: Item) {
-    if (this.currentUser != null) {
-      if (!this.currentUser.wishlist.includes(item, 0)) {
-        this.icon = "heart";
-        this.wishlist.push(item);
-        this.currentUser.wishlist.push(item);
-        return;
-      }
-      console.log(this.wishlist);
+    if (!this.checkWishlist(item)) {
+      this.userService.saveWishlist(this.currentUser.id, item.id).subscribe(
+        result => {
+          if (result) {
+            this.wishlist=result;
+            console.log("WishlistItem Added");
+          }
+          else
+            alert("Greska u dodavanju");
+        });
     }
+    if (this.wishlist === undefined)
+      this.wishlist = [];
+
+    this.wishlist.push(item);
+    console.log("Dodat: " + item.id);
   }
 
   checkWishlist(i: Item) {
-    if (this.currentUser != null && this.wishlist!=null) {
-      if (this.wishlist.indexOf(i) > 0) {
-        this.icon = "heart";
-        return true;
-      }
-      else {
-        this.icon = "heart-o";
-        return false;
-      }
+    if (this.wishlist == undefined) {
+      return false;
     }
-    this.icon = "heart-o";
-    return false;
+    else
+      return this.wishlist.find(item => item.id === i.id);
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }
 

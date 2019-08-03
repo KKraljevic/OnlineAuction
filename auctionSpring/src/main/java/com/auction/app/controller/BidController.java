@@ -1,11 +1,8 @@
 package com.auction.app.controller;
 
 
-import com.auction.app.AuctionItemsRepository;
-import com.auction.app.BidRepository;
-import com.auction.app.UserRepository;
+import com.auction.app.repository.BidRepository;
 import com.auction.app.conf.NotFoundException;
-import com.auction.app.model.AuctionItem;
 import com.auction.app.model.Bid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "https://still-castle-19196.herokuapp.com")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class BidController {

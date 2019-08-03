@@ -1,5 +1,6 @@
 package com.auction.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "images")
+@Table(name = "images",schema = "public")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,7 +24,7 @@ public class Image implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
-    @JsonIgnoreProperties(value = {"images"})
+    @JsonIgnore
     private AuctionItem item;
 
     public Image(){};

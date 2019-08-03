@@ -57,10 +57,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   gotoUserProfile(id) {
-    this.router.navigate(['/profile/', id]);
-  }
-  gotoUserList() {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/account/profile/', id]);
   }
 
 }

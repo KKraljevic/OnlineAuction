@@ -3,6 +3,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../Services/user-service.service';
 import { User } from '../../Model/user';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registration',
@@ -16,10 +18,10 @@ export class RegistrationComponent implements OnInit {
   errorMessage: String;
   user: User;
 
-  constructor(private router:Router,private formBuilder: FormBuilder, private userService: UserService)
-   { 
-     this.user=new User();
-   }
+  constructor(private router: Router, private formBuilder: FormBuilder, private userService: UserService,
+    private authService: AuthenticationService) {
+    this.user = new User();
+  }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -40,24 +42,23 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     else {
-      this.user.firstName=this.registerForm.get('firstName').value;
-      this.user.lastName=this.registerForm.get('lastName').value;
-      this.user.email=this.registerForm.get('email').value;
-      this.user.password=this.registerForm.get('password').value;
+      this.user.firstName = this.registerForm.get('firstName').value;
+      this.user.lastName = this.registerForm.get('lastName').value;
+      this.user.email = this.registerForm.get('email').value;
+      this.user.password = this.registerForm.get('password').value;
+      this.user.photo = "https://purecremation.azurewebsites.net/Content/images/profile-placeholder.png";
       this.userService.save(this.user).subscribe(
-        r=>{
-          if (r != null) {
-            this.gotoUserProfile(r.id);
-          }
+        r => {
+          this.user.id = r.id;
         },
-        error => this.errorMessage="Account with this email already exicts!"
-        );
+        error => this.errorMessage = "Account with this email already exicts!"
+      );
+      this.router.navigate(['/login']);
     }
-
   }
-  
-  gotoUserProfile(id){
-    this.router.navigate(['/profile/', id]);
-}
+
+  gotoUserProfile(id) {
+    this.router.navigate(['/account/profile/', id]);
+  }
 
 }

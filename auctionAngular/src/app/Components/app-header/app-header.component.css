@@ -7,6 +7,9 @@
 .navbar-first .nav{
     margin-left: 15px;
 }
+.navbar-first li > a{
+    cursor:pointer;
+}
 .navbar-first a.nav-link,
 .navbar-first p.nav-link{
     color:white;
@@ -27,6 +30,20 @@
 .navbar-second a{
     color: var(--darker-border);
 }
+.navbar-second a.dropdown-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.navbar-second a.dropdown-item:hover{
+    color: var(--purple);
+    font-weight: bold;
+}
+.navbar-second i{
+    height: 29px;
+    color: var(--btn-shadow);
+    transform: rotate(90deg);
+    padding-right: 5px;
+}
 .active-link{
     color: var(--purple) !important;
     font-weight: bold;
@@ -43,7 +60,7 @@
     background-color: white;
     flex-wrap: nowrap !important;
     padding: 8px;
-    margin: 5px;
+    margin: 3px 5px 3px 10%;
     border: 2px;
     border-style: solid;
     border-color: var(--darker-border);
@@ -56,8 +73,32 @@
 .input-search input:disabled{
     background-color: white;
 }
+.input-search :focus,
+.input-search button :focus{
+    outline: 0;
+    background-color: transparent;
+}
+input:-internal-autofill-selected{
+    background-color: white !important;
+}
 .input-search button{
     background-color: transparent;
     border: 0;
     width: 10%;
 }
+
+#dropdownMenuButton .dropdown-item:active {
+    background: transparent;
+    color:var(--purple);
+}
+.dropdown-menu{
+    background: #FFFFFF;
+    border-radius: 0;
+    border-color: var(--darker-border);
+    border-width: 1px;
+    left: 11%;
+}
+#dropdownMenuButton {
+    cursor: pointer;
+}
+
