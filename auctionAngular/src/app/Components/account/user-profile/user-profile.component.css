@@ -52,9 +52,43 @@
     border-radius: 0;
     border-width: 0;
 }
-.dropdown-menu{
+#genderButton.btn.disabled{
+    cursor:default;
+}
+#genderDropdown.dropdown-menu{
     width: 47.5%;
     border-radius: 0;
     background-color: var(--header);
 }
+.dropdown button{
+    height: 54px;
+  }
+  .dropdown-menu{
+    overflow-y:scroll;
+    overflow:auto;
+    max-height: 280px;
+  }
+  .dropdown-menu,
+  .dropdown input,
+  .dropdown button{
+      min-width: fit-content;
+      width: -webkit-fill-available;
+      font-size: 1rem;
+      line-height: 1.5;
+      text-align: left;
+      border-radius: 0;
+      background: #FCFCFC;
+      border: 1px solid #D8D8D8;
+  }
+  .dropdown-item.active{
+      background-color: var(--purple);
+      color: white;
+  }
+  .dropdown-toggle::after {
+      font-family: "FontAwesome";
+      font-weight: 900;
+      content: "\f078";
+      float: right;
+      border:0;
+      }
   

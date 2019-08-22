@@ -1,10 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 import { Item } from 'src/app/Model/item';
 import { User } from 'src/app/Model/user';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/Services/user-service.service';
-import { AuthenticationService } from 'src/app/Services/authentication.service';
-import { error } from 'protractor';
+import { ItemService } from 'src/app/Services/item.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-items',
@@ -13,43 +11,46 @@ import { error } from 'protractor';
 })
 export class ItemsComponent implements OnInit {
 
-  currentUser: User;
-  items: Item[] = [];
-  hasItems: boolean;
-  show: boolean = false;
+  @Input() currentUser: User;
+  @Input() items: Item[] = [];
+
+  @Output() deleteConfirmed = new EventEmitter();
 
   currentPage: number = 0;
   totalPages: number;
 
-  constructor(private authenticationService: AuthenticationService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  modalRef: BsModalRef;
+  msg: string;
+  deleted:boolean=false;
+
+  constructor(private itemService: ItemService, private modalService: BsModalService) {
   }
 
   ngOnInit() {
-    this.authenticationService.currentUser.subscribe(user => {
-      this.currentUser = user;
-
-      this.userService.getUsersItems(user.id).subscribe(data => {
-        this.items = data['content'];
-        this.totalPages = data['totalPages'];
-        this.currentPage = data['number'];
-        if (this.items.length===0)
-          this.hasItems = false;
-        else
-          this.hasItems = true;
-        this.show = true;
-      },
-        error => this.show = true
-      );
-    });
   }
 
-  loadItems(page: number) {
-    this.userService.getUsersItems(this.currentUser.id, page).subscribe(
-      data => {
-        this.items = data['content'];
-        this.totalPages = data['totalPages'];
-        this.currentPage = data['number'];
-      }
-    )
+  openModal(template: TemplateRef<any>) {
+    this.msg="Are you sure you want to delete this item?";
+    this.deleted=false;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
+
+  confirm(id: number): void {
+    this.itemService.deleteItem(id).toPromise().then(resp => {
+      console.log("deleted");
+      this.deleteConfirmed.emit(true);
+      this.modalRef.hide(),
+      error => this.modalRef.setClass('is-invalid');
+    }
+    );
+    this.msg="Successfully deleted!";
+    this.deleted=true;
+  }
+  ok(){
+    this.modalRef.hide();
+  }
+  decline(): void {
+    this.modalRef.hide();
+  }
+
 }

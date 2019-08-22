@@ -21,7 +21,7 @@
           <small class="form-text text-muted pull-right">2-5 words (60 characters)</small>
           <div *ngIf="next && !!f1.name.errors" class="invalid-feedback">
             <div *ngIf="!!f1.name.errors.required">Name of item is required!</div>
-            <div *ngIf="!!f1.name.errors.maxLength">Name is too long!</div>
+            <div *ngIf="!!f1.name.errors.maxlength">Name is too long!</div>
           </div>
         </div>
       </div>
@@ -72,13 +72,14 @@
         </div>
       </div>
 
-      <div>
-        <input #fileInput type="file" ng2FileSelect [uploader]="uploader" multiple />
+      <div id="uploadArea">
+        <input #fileInput type="file" ng2FileSelect [uploader]="uploader" multiple placeholder="Upload images"/>
 
-        <div class="drop-box" ng2FileDrop [ngClass]="{'dragover': isDropOver}" [uploader]="uploader"
+        <div id="dropUploadImages" class="drop-box" ng2FileDrop [ngClass]="{'dragover': isDropOver}" [uploader]="uploader"
           (fileOver)="fileOverAnother($event)" (click)="fileClicked()">
-          <span class="drag-in-title">Import or drag file here</span>
-          <span class="drag-over-title">Drop the file</span>
+          <span class="drag-in-title"><mark>Upload photos</mark> or just drag and drop
+          <br>+ Add at least 4 photos
+        </span>
         </div>
         <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
         <div *ngIf="next && !!f1.images.errors" class="invalid-feedback">
@@ -156,7 +157,7 @@
             [ngClass]="{ 'is-invalid': next && f3.address.errors }" placeholder="e.g.678 Berge Tunnel Apt. 278" />
           <div *ngIf="next && !!f3.address.errors" class="invalid-feedback">
             <div *ngIf="!!f3.address.errors.required">Address of item is required!</div>
-            <div *ngIf="!!f3.address.errors.maxLength">Address is too long!</div>
+            <div *ngIf="!!f3.address.errors.maxlength">Address is too long!</div>
           </div>
         </div>
       </div>
@@ -201,13 +202,13 @@
             [ngClass]="{ 'is-invalid': next && !!f3.zipCode.errors }" placeholder="e.g.51000" />
           <div *ngIf="next && !!f3.zipCode.errors" class="invalid-feedback">
             <div *ngIf="!!f3.zipCode.errors.required">Zipcode of item is required!</div>
-            <div *ngIf="!!f3.zipCode.errors.maxLength">Zipcode is too long!</div>
+            <div *ngIf="!!f3.zipCode.errors.maxlength">Zipcode is too long!</div>
           </div>
         </div>
       </div>
       <div class="row my-3">
         <div class="col-md-8 form-group">
-          <label><input type="checkbox" formControlName="freeshippment" (onclick)="checkBox()"> Do you want to bear
+          <label><input type="checkbox" formControlName="freeShipping" (onclick)="checkBox()"> Do you want to bear
             shipping cost?</label>
           <small id="nameInfo" class="form-text text-muted pl-1">The average priece of shipping cost is $10.00.
             You have to provide us payment infromations.

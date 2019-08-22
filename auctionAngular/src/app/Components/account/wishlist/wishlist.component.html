@@ -1,47 +1,52 @@
-  <div *ngIf="hasWishlist; else infoWishlist">
-    <table class="my-table table">
-      <thead class="thead">
-        <tr>
-          <th scope="col">Item</th>
-          <th scope="col" class="w-auto">Name</th>
-          <th scope="col">Time left</th>
-          <th scope="col">Highest Bid</th>
-          <th scope="col">Status</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody class="items">
-        <tr *ngFor="let item of wishlist" class="px-3">
-          <td><img height="100" width="100" src="{{item.images[0].url}}"></td>
-          <td>{{item.name}}</td>
-          <td>{{getTimeLeft(item.endDate)}}</td>
+<div *ngIf="hasWishlist; else infoWishlist">
+  <table class="my-table table">
+    <thead class="thead">
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col" class="w-auto">Name</th>
+        <th scope="col">Time left</th>
+        <th scope="col">Highest Bid</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody class="items">
+      <tr *ngFor="let item of wishlist" class="px-3">
+        <td><img height="100" width="100" src="{{item.images[0].url}}"></td>
+        <td>{{item.name}}</td>
+        <ng-container [ngTemplateOutlet]="isActive(item.endDate)?Opened : Closed"></ng-container>
+        <ng-template #Opened>
+          <td>{{timeLeftInDays}}</td>
           <td class="text-info">$ {{item.currentPrice}}</td>
           <td *ngIf="isActive(item.endDate);else Closed">
             <a class="btn btn-grey-fill" [style.color]="'#417505'">OPEN</a>
           </td>
-          <ng-template #Closed>
-            <td>
-              <a class="btn btn-grey-fill" [style.color]="'#A6555F'">CLOSED</a>
-            </td>
-          </ng-template>
+        </ng-template>
+        <ng-template #Closed>
+          <td class="text-center"><i class="fa fa-history"></i></td>
+          <td class="text-info">$ {{item.currentPrice}}</td>
           <td>
-            <button class="form-control view-btn" role="link" [routerLink]="['/item',item.id]">VIEW</button>
+            <a class="btn btn-grey-fill" [style.color]="'#A6555F'">CLOSED</a>
           </td>
-        </tr>
-      </tbody>
-    </table>
-    <ul class="nav nav-pills justify-content-center py-4">
-      <li *ngIf="currentPage>0" class="nav-item">
-        <a class="btn btn-purple-outline nav-link" (click)="loadItems(currentPage-1)">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
-      </li>
-      <li *ngIf="currentPage+1<totalPages" class="nav-item">
-        <a class="btn btn-purple-outline nav-link" (click)="loadItems(currentPage+1)">
-          Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
-      </li>
-    </ul>
-  </div>
-<ng-template #infoWishlist >
+        </ng-template>
+        <td>
+          <button class="form-control view-btn" role="link" [routerLink]="['/item',item.id]">VIEW</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ul class="nav nav-pills justify-content-center py-4">
+    <li *ngIf="currentPage>0" class="nav-item">
+      <a class="btn btn-purple-outline nav-link" (click)="loadItems(currentPage-1)">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
+    </li>
+    <li *ngIf="currentPage+1<totalPages" class="nav-item">
+      <a class="btn btn-purple-outline nav-link" (click)="loadItems(currentPage+1)">
+        Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
+    </li>
+  </ul>
+</div>
+<ng-template #infoWishlist>
   <!--<div class="col-md-12 px-0">
     <div class="alert alert-info" role="alert">
       No items in wishlist yet!

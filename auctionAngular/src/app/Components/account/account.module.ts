@@ -10,6 +10,8 @@ import { NewItemComponent } from './new-item/new-item.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ComboDatepickerModule } from 'ngx-combo-datepicker';
+import { SellerItemsComponent } from './seller-items/seller-items.component';
+import { BidsTableComponent } from './bids-table/bids-table.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ComboDatepickerModule } from 'ngx-combo-datepicker';
     ItemsComponent,
     NewItemComponent,
     BidsComponent,
-    WishlistComponent
+    WishlistComponent,
+    SellerItemsComponent,
+    BidsTableComponent
   ],
   imports: [
     CommonModule,
@@ -27,11 +31,13 @@ import { ComboDatepickerModule } from 'ngx-combo-datepicker';
     AccountRoutingModule,
     NgbModule,
     ComboDatepickerModule
+    
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ]
+  ],
+  providers: []
 })
 export class AccountModule { }

@@ -9,7 +9,6 @@ import { AuthenticationService } from '../../Services/authentication.service';
 import { UserService } from '../../Services/user-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/Services/category-service.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-item-details',
@@ -19,11 +18,14 @@ import { map } from 'rxjs/operators';
 export class ItemDetailsComponent implements OnInit {
 
   currentUser: User;
+  loadedUser: boolean = false;
   wishlist: Item[];
   item: Item;
   itemBids: Bid[];
+  sellerRating: number = 0;
+  highestBidder: User;
   relatedItems: Item[];
-  hasBids: boolean = false;
+  hasBids: boolean;
   id: number;
   bid: Bid;
 
@@ -62,7 +64,7 @@ export class ItemDetailsComponent implements OnInit {
         this.item.category = data.category;
         var date = new Date(this.item.endDate.toString());
         let diff = (date.getTime() - (new Date()).getTime()) / (1000 * 60 * 60 * 24);
-        this.expired = diff > 0.5 ? false : true;
+        this.expired = diff > 0.0 ? false : true;
         console.log("Difference days:" + diff);
         this.bidForm.controls.price.setValidators([Validators.required, Validators.min(data.currentPrice + 10), Validators.maxLength(10), Validators.pattern('[0-9]*\\.?[0-9]{0,2}')]);
 
@@ -71,14 +73,15 @@ export class ItemDetailsComponent implements OnInit {
 
         this.authenticationService.currentUser.subscribe(x => {
           this.currentUser = x;
+          this.loadedUser = true;
           if (x != null) {
             this.userService.getAllWishlist(x.id).subscribe(wl => {
               this.wishlist = wl;
             });
-            if(x.id===this.item.seller.id){
+            if (x.id === this.item.seller.id) {
               this.loadItemBids(0);
             }
-            else{
+            else {
               this.categoryService.findCategoryItems(this.item.category.id, 0, undefined).subscribe(items => {
                 this.relatedItems = items['content'];
                 this.relatedItems = this.relatedItems.filter(obj => obj.id !== this.id);
@@ -86,10 +89,20 @@ export class ItemDetailsComponent implements OnInit {
                 if (this.relatedItems.length > 3)
                   this.relatedItems = this.relatedItems.slice(0, 3);
               });
+
+              this.getHighestBidder(this.id);
+              
+              this.userService.getUserRating(this.item.seller.id).subscribe(rating =>{
+                if(rating!=null){
+                  this.sellerRating=Number.parseFloat(rating.toString());
+                  if(this.sellerRating===NaN){
+                    this.sellerRating=0;
+                  }
+                }
+              });
             }
           }
         });
-        
       });
     });
 
@@ -187,14 +200,30 @@ export class ItemDetailsComponent implements OnInit {
       return this.wishlist.find(item => item.id === i.id);
   }
 
-  loadItemBids(page:number){
-    this.itemService.getItemsBids(this.id,page).toPromise().then(data => {
+  loadItemBids(page: number) {
+    this.itemService.getItemsBids(this.id, page).toPromise().then(data => {
       if (data != null) {
         this.itemBids = data['content'];
         this.currentPage = data['number'];
         this.totalPages = data['totalPages'];
-        this.hasBids =this.itemBids.length? true : false;
+        this.hasBids = data['totalElements'] ? true : false;
+        if (this.hasBids) {
+          this.highestBidder = this.itemBids[0].bidder;
+        }
+        else {
+          this.highestBidder = null;
+        }
       }
     });
   }
+
+  getHighestBidder(id: number) {
+    this.itemService.getHighestBidder(id).subscribe(data => {
+      this.highestBidder = data;
+      if(data.id!=this.currentUser.id && this.item.paid) {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
 }

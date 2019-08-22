@@ -14,8 +14,8 @@
                                 aria-expanded="false"
                                 attr.aria-controls="{{category.categoryName}}">{{category.categoryName}}</a>
                             <div id="{{category.categoryName}}" class="collapse" data-parent="#categoryList">
-                                <ul class="category.children list-group" *ngIf="category.children!=null">
-                                    <li *ngFor="let subcategory of category.children" class="list-group-item">
+                                <ul class="category.children list-group list-group-flush" *ngIf="category.children!=null">
+                                    <li *ngFor="let subcategory of category.children" class="list-group-item list-group-flush">
                                         <a role="link"
                                             [routerLink]="['/shop', category.categoryName, subcategory.categoryName]"
                                             routerLinkActive="active-link">{{subcategory.categoryName}}</a>
@@ -46,7 +46,7 @@
                             </header>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <a [routerLink]="['/item', featuredItem.id]"><img [src]="featuredItem.images[0].url"
+                            <a [routerLink]="['/item', featuredItem.id]"><img [src]="featuredItem.images[0].url || '/assets/icons/placeholderImage-gray.png'"
                                     class="img-fluid my-5" height="300" width="auto"></a>
                         </div>
                     </div>
@@ -100,3 +100,4 @@
     
         </div>
 </div>
+

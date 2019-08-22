@@ -20,8 +20,8 @@ export class AccountComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentSection = event.url.slice(9) + "";
-        if(this.currentSection=="Newitem"){
-          this.currentSection="New item";
+        if (this.currentSection == "Newitem") {
+          this.currentSection = "New item";
         }
       }
     });

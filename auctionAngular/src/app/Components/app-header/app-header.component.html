@@ -81,3 +81,12 @@
     </ul>
   </div>
 </div>
+<div *ngIf="pendingItems && currentUser" class="alert alert-warning alert-dismissible fade show mb-0" role="alert">
+  Check your profile! You have 
+  <a [routerLink]="['/account/items']">{{pendingItems!='0'? pendingItems:''}}</a>
+  {{pendingItems!='0'&& wonBids!='0'?' and ':''}} 
+  <a [routerLink]="['/account/bids']">{{wonBids!='0'? wonBids:'!'}}</a>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

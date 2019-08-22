@@ -113,6 +113,13 @@ body{
     border-radius: 0;
     background-color: #ECECEC;
 }
+.btn-delete{
+    -webkit-appearance: none;
+    background-color: var(--light-border);
+    border-width: 0;
+    border-radius: 0;
+    width: min-content;
+}
 .component-navbar{
     cursor: default;
     background-color: var(--header) !important;
@@ -171,6 +178,13 @@ mark{
     color: var(--purple);
     background-color: transparent;
 }
+.img-round{
+    border-radius: 50%;
+}
+.modal-content{
+    border-radius: 0;
+  }
+.alert,
 .alert.alert-info
 {
   border-color:transparent;

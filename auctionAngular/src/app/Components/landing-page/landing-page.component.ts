@@ -28,7 +28,7 @@ export class LandingPageComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       if (x != null) {
-        this.userService.getUsersItems(x.id).toPromise().then(
+        this.userService.getItems(x.id,undefined,0).toPromise().then(
           items => {
             this.sellerItems = items['content'];
             if (this.sellerItems.length > 4)

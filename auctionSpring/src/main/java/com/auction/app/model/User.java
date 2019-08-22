@@ -39,10 +39,6 @@ public class User implements Serializable {
     @NotNull
     private String lastName;
 
-    /*@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private Image photo;*/
-
     @Column
     private String photo;
 
@@ -75,6 +71,10 @@ public class User implements Serializable {
     //@JsonIgnoreProperties(value = {"bidder","auctionItem"})
     @JsonIgnore
     private List<Bid> userBids = new ArrayList<Bid>();
+
+    @OneToMany(mappedBy = "ratedSeller", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Rating> ratings = new ArrayList<>();
 
     public User() {
     }
@@ -186,6 +186,14 @@ public class User implements Serializable {
 
     public void setWishlist(List<AuctionItem> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
 }
 

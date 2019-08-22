@@ -8,7 +8,7 @@ import { Item } from '../Model/item';
   providedIn: 'root'
 })
 export class CategoryService {
-  
+
   springURL: string = "http://localhost:8080";
   herokuURL: string = "https://still-castle-19196.herokuapp.com";
 
@@ -16,19 +16,19 @@ export class CategoryService {
   }
 
   public findAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.herokuURL+"/api/categories");
+    return this.http.get<Category[]>(this.springURL+"/api/categories");
   }
 
   public findAllSubcategories(id: number): Observable<Category[]> {
-    return this.http.get<Category[]>(this.herokuURL+"/api/categories/"+id+"/children");
+    return this.http.get<Category[]>(this.springURL+"/api/categories/" + id + "/children");
   }
 
-  public findCategoryById(id: number): Observable<Category>{
-    return this.http.get<Category>(this.herokuURL+"/api/categories/"+id);
+  public findCategoryById(id: number): Observable<Category> {
+    return this.http.get<Category>(this.springURL+"/api/categories/" + id);
   }
 
-  public findCategoryByName(name: string): Observable<Category>{
-    return this.http.get<Category>(this.herokuURL+"/api/category/"+name);
+  public findCategoryByName(name: string): Observable<Category> {
+    return this.http.get<Category>(this.springURL+"/api/category/" + name);
   }
 
   public findCategoryItems(id: number, page: number, sort?: number) {
@@ -38,8 +38,7 @@ export class CategoryService {
     params = params.set('page', page.toString());
     params = params.append('size', size.toString());
     params = Number.isInteger(sort) ? params.append('sort', sortCriterias[sort]) : params;
-    return this.http.get<Item[]>(this.herokuURL+"/api/categories/" + id + "/items", { params: params });
+    return this.http.get<Item[]>(this.springURL+"/api/categories/" + id + "/items", { params: params });
   }
-
 
 }

@@ -23,8 +23,9 @@ public class Image implements Serializable {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", nullable = false)
     @JsonIgnore
+    @NotNull
     private AuctionItem item;
 
     public Image(){};

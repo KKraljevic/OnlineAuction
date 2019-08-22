@@ -1,16 +1,18 @@
-<div class="my-container">
-
+<div class="my-container mb-0">
   <div class="title">
     <h4>PROFILE</h4>
   </div>
   <div class="row">
     <div class="col-md-4 col-12 mx-4 pt-4 align-center">
       <div class="row justify-content-center">
-        <img class="col-11 img-fluid img-user" [src]="userPhoto">
+        <div class="col-11">
+          <img class="img-fluid img-user" [src]="userPhoto">
+        </div>
       </div>
       <div class="row justify-content-center" *ngIf="editMode">
         <div class="col-11 pt-4">
           <input id="profilePhoto" type="file" ng2FileSelect [uploader]="uploader" class="align-center">
+          <div *ngIf="errorMessage" class="invalid-feedback d-block">{{errorMessage}}</div>
           <label for="profilePhoto" class="btn btn-grey-outline align-center">CHANGE PHOTO</label>
           <br>
         </div>
@@ -50,9 +52,10 @@
           <div class="dropdown col">
             <label>I am</label><br>
             <input formControlName="gender" [class.disabled]="!editMode" class="btn btn-light btn-combo col-md-6"
-              readonly placeholder="Gender" id="genderButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-              value="{{gender}}"  [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
-            <div class="dropdown-menu" aria-labelledby="genderButton">
+              readonly placeholder="Gender" id="genderButton" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false" value="{{gender || 'Gender'}}"
+              [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+            <div class="dropdown-menu" id="genderDropdown" aria-labelledby="genderButton">
               <a class="dropdown-item" (click)="gender='Male'">Male</a>
               <a class="dropdown-item" (click)="gender='Female'">Female</a>
               <a class="dropdown-item" (click)="gender='Other'">Other</a>
@@ -67,48 +70,26 @@
         <div class="row">
           <div class="col">
             <label>Date of birth</label><br>
-            <ng-container [ngTemplateOutlet]="editMode? enableDatepicker : disableDatepicker"></ng-container>
-            <ng-template #enableDatepicker>
-              <div class="select">
-                <ngx-combo-datepicker formControlName="birthDate" [date]="currentUser.birthDate!=null? currentUser.birthDate : null"
-                  placeholder="Year,Month,Date" [attrsDate]="{ 'class': 'btn btn-light col-4','style': 'border-radius: 0;
-              height: 54px;
-              font-size: 18px;
-              text-align-last: center;'}" [attrsMonth]="{ 'class': 'btn btn-light col-4','style': 'border-radius: 0;
-              height: 54px;
-              font-size: 18px;
-              text-align-last: center;'}" [attrsYear]="{ 'class': 'btn btn-light col-4' ,'style': 'border-radius: 0;
-              height: 54px;
-              font-size: 18px;
-              text-align-last: center;'}">
-                </ngx-combo-datepicker>
+            <div class="input-group myDate" [ngClass]="{ 'is-invalid': submitted && !!f.birthDate.errors }">
+              <input formControlName="birthDate" type="text" class="form-control" name="dp2" ngbDatepicker
+                #d2="ngbDatepicker" placeholder="Year-Month-Date" [markDisabled]="!editMode" />
+              <div class="input-group-append">
+                <button class="input-group-text" [disabled]="!editMode" (click)="d2.toggle()"><span><i
+                      class="fa fa-calendar"></i></span></button>
               </div>
-            </ng-template>
-            <ng-template #disableDatepicker>
-              <ngx-combo-datepicker [disabled]="true" [date]="currentUser.birthDate!=null? currentUser.birthDate : null" formControlName="birthDate"
-                placeholder="Year,Month,Date" [attrsDate]="{ 'class': 'btn btn-light col-4','style': 'border-radius: 0;
-              height: 54px;
-              font-size: 18px;
-              text-align-last: center;'}" [attrsMonth]="{ 'class': 'btn btn-light col-4','style': 'border-radius: 0;
-              height: 54px;
-              font-size: 18px;
-              text-align-last: center;'}" [attrsYear]="{ 'class': 'btn btn-light col-4' ,'style': 'border-radius: 0;
-              height: 54px;
-              font-size: 18px;
-              text-align-last: center;'}">
-              </ngx-combo-datepicker>
-            </ng-template>
-
+            </div>
             <div *ngIf="submitted && !!f.birthDate.errors" class="invalid-feedback d-block">
-              <div *ngIf="!!f.birthDate.errors.required">Date of birth is required</div>
+              <div *ngIf="!!f.birthDate.errors?.required">Date of birth is required! Choose a date from calendar!</div>
+              <div *ngIf="!!f.birthDate.errors?.incorrect">Date of birth is invalid. Choose older date!</div>
+              <div *ngIf="!!f.birthDate.errors?.ngbDate">Date of birth should be in format like 2019-01-01!</div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col form-group">
             <label>Phone</label>
-            <input formControlName="phone" type="text" class="form-control" placeholder="123/456-789" value="{{currentUser.phone}}"
-              [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+            <input formControlName="phone" type="text" class="form-control" placeholder="123/456-789"
+              value="{{currentUser.phone}}" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
             <div *ngIf="submitted && !!f.phone.errors" class="invalid-feedback">
               <div *ngIf="!!f.phone.errors.required">Phone is required</div>
               <div *ngIf="!!f.phone.errors.pattern">Phone number cannot contain letters</div>
@@ -140,3 +121,74 @@
   </div>
 
 </div>
+<div class="my-container">
+  <div class="title">
+    <h4>CARD INFORMATION</h4>
+  </div>
+  <div class="row">
+    <div class="col-md-7 offset-md-4 col-12 align-center">
+      <form class="px-1 py-3">
+        <div class="row">
+          <div class="col-md-12 form-group form-inline mt-3">
+            <label><input type="checkbox">Pay Pal</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group form-inline mt-3">
+            <label><input type="checkbox">Credit Card</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p>We accpet the following credit cards</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <img height="50px" src="/assets/icons/credit-cards.JPG">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 form-group">
+            <label>Name on card</label>
+            <input type="text" class="form-control" placeholder="e.g. Adam Smith" />
+          </div>
+          <div class="col-6 form-group">
+            <label>Card number</label>
+            <input type="text" class="form-control" placeholder="e.g.4242 4242 4242 4242" />
+          </div>
+        </div>
+        <div class="row my-3 ">
+          <div class="col-md-6">
+            <label>Expiration date</label>
+            <div class="row">
+              <div class="col-6">
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" id="dropdownYear" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Year
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="text" id="dropdownMonth" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Month</button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label>CVC/CW</label>
+            <input type="text" class="form-control" placeholder="1234" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

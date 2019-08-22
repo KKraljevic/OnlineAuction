@@ -8,9 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "auctionItems", schema = "public")
@@ -43,12 +41,22 @@ public class AuctionItem implements Serializable {
     @NotNull
     private Float currentPrice;
 
+    @Column(columnDefinition = "boolean default false",nullable = true)
+    private boolean paid;
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = {"items"})
     private List<Image> images = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shippmentItem")
-    private Shipping shipping;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "shipping_id", name="location_id")
+    @JsonIgnore
+    private Location location;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "shipping_id", name="shipmentLocation_id")
+    @JsonIgnore
+    private Location shipmentLocation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -64,7 +72,7 @@ public class AuctionItem implements Serializable {
     @JsonIgnoreProperties(value = {"auctionItem"})
     private List<Bid> itemBids = new ArrayList<Bid>();
 
-    @ManyToMany(mappedBy = "wishlist")
+    @ManyToMany(mappedBy = "wishlist",cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<User> fans = new ArrayList<>();
 
@@ -73,13 +81,14 @@ public class AuctionItem implements Serializable {
     }
 
     public AuctionItem(int item_id, String name, String description, Date endDate,
-                       Float startPrice, Float currentPrice) {
+                       Float startPrice, Float currentPrice, boolean paid) {
         this.id = item_id;
         this.name = name;
         this.description = description;
         this.endDate = endDate;
         this.startPrice = startPrice;
         this.currentPrice = currentPrice;
+        this.paid=paid;
     }
 
     public int getId() {
@@ -130,6 +139,14 @@ public class AuctionItem implements Serializable {
         this.currentPrice = currentPrice;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
     public User getSeller() {
         return seller;
     }
@@ -162,12 +179,20 @@ public class AuctionItem implements Serializable {
         this.images = images;
     }
 
-    public Shipping getShipping() {
-        return shipping;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setShipping(Shipping shipping) {
-        this.shipping = shipping;
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Location getShipmentLocation() {
+        return shipmentLocation;
+    }
+
+    public void setShipmentLocation(Location shipmentLocation) {
+        this.shipmentLocation = shipmentLocation;
     }
 }
 

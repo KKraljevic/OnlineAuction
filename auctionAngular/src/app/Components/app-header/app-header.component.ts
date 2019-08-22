@@ -18,6 +18,9 @@ export class AppHeaderComponent implements OnInit {
   hasWishlist: boolean;
   hasBids: boolean;
   hasItems: boolean;
+  pendingItems: string;
+  wonBids: string;
+  notificationMsg: string;
   path: any;
 
   searchForm: FormGroup;
@@ -38,14 +41,54 @@ export class AppHeaderComponent implements OnInit {
       this.currentUser = user;
       console.log(this.currentUser);
       if (this.currentUser != null) {
-        this.userService.hasBids(user.id).subscribe(res => this.hasBids = res);
-        this.userService.hasItems(user.id).subscribe(res => this.hasItems = res);
-        this.userService.hasWishlist(user.id).subscribe(res => this.hasWishlist = res);
+        //this.userService.hasBids(user.id).subscribe(res => this.hasBids = res);
+        //this.userService.hasItems(user.id).subscribe(res => this.hasItems = res);
+        //this.userService.hasWishlist(user.id).subscribe(res => this.hasWishlist = res);
+        this.userService.countPendingItems(user.id).toPromise().then(res => {
+          console.log(res);
+          this.pendingItems = res.toString();
+          if (this.pendingItems === '1') {
+            this.pendingItems += ' item with expired auction date';
+          }
+          else if (this.pendingItems != '0') {
+            this.pendingItems += ' items with expired auction date';
+          }
+        });
+        this.userService.countWonBids(user.id).toPromise().then(res => {
+          console.log(res);
+          this.wonBids = res.toString();
+          if (this.wonBids === '1') {
+            this.wonBids += ' auction that you have won!';
+          }
+          else if (this.wonBids != '0') {
+            this.wonBids += ' auctions that you have won!';
+          }
+        });
       }
     });
     this.searchForm = this.fb.group({
       search: ['']
     });
+    //this.getNotificationMsg();
+
+  }
+
+  ngAfterContentInit() {
+    this.getNotificationMsg();
+  }
+
+  getNotificationMsg() {
+    if (this.pendingItems && this.wonBids) {
+      if (this.pendingItems[0] != '0' && this.wonBids[0] != '0') {
+        this.notificationMsg = this.pendingItems + " and " + this.wonBids;
+      }
+      else if (this.pendingItems[0] != '0') {
+        this.notificationMsg = this.pendingItems + "!";
+      }
+      else if (this.wonBids[0] != '0') {
+        this.notificationMsg = this.wonBids;
+      }
+    }
   }
 
   logout() {

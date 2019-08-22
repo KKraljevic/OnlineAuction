@@ -9,6 +9,8 @@ export class User {
     firstName: string;
     lastName: string;
     phone?: string;
+    paymentId?: string;
+    paymentCode?: string;
     birthDate?: Date;
     gender?: string;
     items: Item[]=[];

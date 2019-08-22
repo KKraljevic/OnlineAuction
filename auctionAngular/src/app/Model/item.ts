@@ -2,7 +2,7 @@ import { User } from './user';
 import { Category } from './category';
 import { Bid } from './bid';
 import { Image } from './image';
-import { Shipping } from './shipping';
+import { Location } from './location';
 
 export class Item {
     id: number;
@@ -11,9 +11,12 @@ export class Item {
     currentPrice: number;
     startPrice: number;
     endDate: Date;
+    paid: boolean;
     images: Image[];
     category: Category;
     seller: User;
     itemBids: Bid[];
-    shipping?: Shipping;
+    location?: Location;
+    shipmentLocation?: Location;
+
 }

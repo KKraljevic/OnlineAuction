@@ -25,8 +25,9 @@
                 <label>Password</label>
                 <input type="password" formControlName="password" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="submitted && !!f.password.errors" class="invalid-feedback">
+                    <div *ngIf="!!f.password.errors.required">Password is required</div>
+                    <div *ngIf="!!f.password.errors.minlength">Password is too short</div>
                 </div>
             </div>
         </div>
@@ -45,7 +46,7 @@
 
         <div class="row  my-3">
             <div class="col-md-12 form-group">
-                <input type="submit" class="btn btn-block btn-purple-fill">
+                <input type="submit" value="Submit" class="btn btn-block btn-purple-fill">
             </div>
         </div>
 

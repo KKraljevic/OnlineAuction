@@ -83,7 +83,7 @@ export class ShopComponent implements OnInit {
   loadCategoryItems(id: number, page?: number, sort?: number) {
     if (Number.isInteger(sort)) { this.sortMode = sort; }
     if (this.searchMode) {
-      this.itemService.findItems(this.searchInput, page, this.sortMode).subscribe(data => {
+      this.itemService.findItems(this.searchInput.toLowerCase(), page, this.sortMode).subscribe(data => {
         this.items = data['content'];
         this.totalPages = data['totalPages'];
         this.currentPage = data['number'];

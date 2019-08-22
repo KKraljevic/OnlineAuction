@@ -23,4 +23,14 @@ public class DevCorsConfiguration {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
+    /*
+    @Configuration
+public class MVCProperties extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS");
+    }
+}*/
 }

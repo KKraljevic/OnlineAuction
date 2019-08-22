@@ -28,7 +28,7 @@
     letter-spacing: 0.84px;
 }
 .navbar-second a{
-    color: var(--darker-border);
+    color: var(--black);
 }
 .navbar-second a.dropdown-item {
     padding-top: 10px;
@@ -101,4 +101,13 @@ input:-internal-autofill-selected{
 #dropdownMenuButton {
     cursor: pointer;
 }
-
+.alert{
+    padding-left: 10%;
+    text-indent: 15px;
+    background-color: #F2EFF9;
+    color: var(--purple);
+}
+.alert a{
+    color: var(--purple);
+    font-weight: 700;
+}

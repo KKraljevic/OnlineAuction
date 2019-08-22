@@ -8,7 +8,7 @@
     </ol>
   </nav>
 </div>
-<div *ngIf="currentUser==null" class="alert alert-info mb-0" role="alert">
+<div *ngIf="currentUser==null && loadedUser" class="alert alert-info mb-0" role="alert">
   Login or register to make a bid!
 </div>
 <div *ngIf="show">
@@ -16,12 +16,27 @@
     Congrats! You are the highest bidder!
   </div>
   <div *ngIf="!highest" class="alert alert-warning mb-0" role="alert">
-    There are higher bids than yours. You could give a secon try!
+    There are higher bids than yours. You could give a second try!
   </div>
 </div>
-<div *ngIf="expired" class="alert alert-danger alert-info mb-0" role="alert">
-  Time for bidding expired!
+<div *ngIf="expired && currentUser.id===item.seller?.id; else generalExpiredInfo">
+  <ng-container [ngTemplateOutlet]="hasBids? paymentInfo : noBidsInfo"></ng-container>
+  <ng-template #paymentInfo>
+    <div class="alert alert-success alert-info mb-0" role="alert">
+      Time for bidding expired! The payment from the highest bidder is pending.
+    </div>
+  </ng-template>
+  <ng-template #noBidsInfo>
+    <div *ngIf="hasBids!=undefined" class="alert alert-danger alert-info mb-0" role="alert">
+      Time for bidding expired! There is no bids for this item.
+    </div>
+  </ng-template>
 </div>
+<ng-template #generalExpiredInfo>
+  <div *ngIf="expired!=undefined && expired && !item?.paid" class="alert alert-danger alert-info mb-0" role="alert">
+    Time for bidding expired for this item!
+  </div>
+</ng-template>
 <div class="container mx w-fit" *ngIf="item.images">
   <div class="row mb-2">
     <div class="col-lg-6 col-sm-6 pr-0">
@@ -64,11 +79,10 @@
       </div>
 
     </div>
-
     <div class="col-lg-6 col-sm-6">
       <h2>{{item.name}}</h2>
-      <h5><mark>Start from - ${{item.startPrice}}</mark></h5>
-      <div *ngIf="(currentUser!=null)&&(item.seller?.id!=currentUser.id)">
+      <h5><mark>Start from ${{item.startPrice}}</mark></h5>
+      <div *ngIf="(currentUser!=null) && (item.seller?.id!=currentUser.id) && !item.paid">
         <form (ngSubmit)="makeBid()" [formGroup]="bidForm" class="form-inline">
           <input type="number" formControlName="price" class="form-control input-price p-1"
             [ngClass]="{ 'is-invalid': submitted && f.price.errors }" (input)="viewPrice()" />
@@ -82,9 +96,20 @@
         </form>
         <p>Enter ${{item.currentPrice+10}} or more</p>
       </div>
-      <div class="row">
-        <div *ngIf="(currentUser!=null)&&(item.seller?.id!=currentUser.id); else infoSeller" class="col-md-6">
-          <p><br><br>
+      <div *ngIf="(currentUser!=null) && (highestBidder?.id===currentUser?.id) && item.paid">
+        <div class="alert alert-warning alert-purple alert-dismissible fade show mb-0" role="alert">
+          <b>Congradulation!</b>You outbid the competition. <i class="fa fa-check-circle"></i>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-12 px-0">
+        <p>Seller: <img class="img-round" [src]="item.seller?.photo" height="40" width="40"> {{item.seller?.firstName}}
+          {{item.seller?.lastName}} <i class="fa fa-star"></i> {{sellerRating | number: '1.1-2'}}/5</p>
+        <div *ngIf="(currentUser!=null)&&(item.seller?.id!=currentUser.id); else infoSeller">
+          <p><br>
             Highest bid: <mark>${{item.currentPrice}}</mark>
             <br>
             No bid: {{(itemBids?.length || 0)+1}}
@@ -104,69 +129,91 @@
           </ng-template>
         </div>
         <ng-template #infoSeller>
-          <div class="col-md-6">
-            <p><br><br>
-              Highest bid: <mark>${{item.currentPrice}}</mark>
-              <br>
-              Number of bids: {{itemBids?.length || 0}}
-              <br>
-              End date: {{item.endDate | date: 'd MMM yyyy'}} <br>
-            </p>
-          </div>
+          <p><br><br>
+            Highest bid: <mark>${{item.currentPrice}}</mark>
+            <br>
+            Number of bids: {{itemBids?.length || 0}}
+            <br>
+            End date: {{item.endDate | date: 'd MMM yyyy'}} <br>
+          </p>
         </ng-template>
-        <div class="col-md-6">
-          <br>
-          <br>
-          <p>Seller:  {{item.seller?.firstName}} {{item.seller?.lastName}}</p>
-          <img class="img-round" [src]="item.seller?.photo" height="80" width="80">
-        </div>
+        <br>
+        <h6 class="my-2">Details</h6>
+        <hr>
+        <p>{{item.description}}</p>
       </div>
-      <br>
-      <h6 class="my-2">Details</h6>
-      <hr>
-      <p>{{item.description}}</p>
     </div>
   </div>
   <div *ngIf="currentUser" class="row my-2">
-    <ng-container [ngTemplateOutlet]="currentUser.id===item.seller.id? TableBids : RelatedItems">
+    <ng-container [ngTemplateOutlet]="currentUser.id===item.seller.id? Bids : RelatedItems">
     </ng-container>
-    <ng-template #TableBids>
-      <div class="col-lg-12">
-        <table class="my-table col-12">
-          <thead>
-            <tr>
-              <th scope="col" class="pl-3">Bidder</th>
-              <th scope="col" class="w-auto"></th>
-              <th scope="col" class="w-auto">Date</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody *ngIf="hasBids">
-            <tr *ngFor="let b of itemBids">
-              <td><img class="img-round" height="80" width="80" src="{{b.bidder.photo}}">
-              </td>
-              <td class="pl-3">{{b.bidder.firstName}} {{b.bidder.lastName}}</td>
-              <td>{{b.bidTime | date:'d MMM yyyy'}}</td>
-              <td>$ {{b.bidPrice}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <ul class="nav nav-pills justify-content-center py-4" *ngIf="totalPages>0">
-          <li *ngIf="currentPage>0" class="nav-item">
-            <a class="btn btn-purple-outline nav-link" (click)="loadItemBids(currentPage-1)">
-              <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
-          </li>
-          <li *ngIf="currentPage+1<totalPages" class="nav-item">
-            <a class="btn btn-purple-outline nav-link" (click)="loadItemBids(currentPage+1)">
-              Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
-          </li>
-        </ul>
-      </div>
-      <div *ngIf="!hasBids" class="col-md-12 form-group">
-        <div class="alert alert-info" role="alert">
-          No bids made yet!
+    <ng-template #Bids>
+      <ng-container [ngTemplateOutlet]="expired? HighestBidder : TableBids"></ng-container>
+      <ng-template #TableBids>
+        <div class="col-lg-12">
+          <table class="my-table col-12">
+            <thead>
+              <tr>
+                <th scope="col" class="pl-3">Bidder</th>
+                <th scope="col" class="w-auto"></th>
+                <th scope="col" class="w-auto">Date</th>
+                <th scope="col" class="w-auto">Price</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="hasBids">
+              <tr *ngFor="let b of itemBids">
+                <td><img class="img-round" height="80" width="80" src="{{b.bidder.photo}}">
+                </td>
+                <td class="pl-3">{{b.bidder.firstName}} {{b.bidder.lastName}}</td>
+                <td>{{b.bidTime | date:'d MMM yyyy'}}</td>
+                <td>$ {{b.bidPrice}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="nav nav-pills justify-content-center py-4" *ngIf="totalPages>0">
+            <li *ngIf="currentPage>0" class="nav-item">
+              <a class="btn btn-purple-outline nav-link" (click)="loadItemBids(currentPage-1)">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev</a>
+            </li>
+            <li *ngIf="currentPage+1<totalPages" class="nav-item">
+              <a class="btn btn-purple-outline nav-link" (click)="loadItemBids(currentPage+1)">
+                Next <i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
+            </li>
+          </ul>
         </div>
-      </div>
+        <div *ngIf="!hasBids" class="col-md-12 form-group">
+          <div class="alert alert-info" role="alert">
+            No bids made yet!
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #HighestBidder>
+        <div class="col-lg-12 my-container" *ngIf="highestBidder">
+          <div class="title">
+            <h5>HIGHEST BIDDER</h5>
+          </div>
+          <div class="row">
+            <div class="col-md-3 text-center">
+              <img class="img-round p-1" height="80" width="80" src="{{highestBidder.photo}}">
+            </div>
+            <div class="col-md-3 text-center my-auto">
+              {{highestBidder.firstName}} {{highestBidder.lastName}}
+            </div>
+            <div class="col-md-3 text-center my-auto">
+              Price: <mark>${{item.currentPrice}}</mark>
+            </div>
+            <div class="col-md-3  text-center my-auto">
+              <ng-container [ngTemplateOutlet]="item.paid? Paid : Pending"></ng-container>
+              <ng-template #Pending>
+                <a class="btn btn-grey-fill" [style.color]="'#A6555F'">PENDING</a>
+              </ng-template>
+              <ng-template #Paid>
+                <a class="btn btn-grey-fill" [style.color]="'#417505'">PAID</a>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </ng-template>
     <ng-template #RelatedItems>
       <div class="container m-0 py-4 mw-100">
@@ -187,5 +234,4 @@
     </ng-template>
 
   </div>
-
 </div>

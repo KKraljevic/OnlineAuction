@@ -10,12 +10,14 @@ import { AuthGuard } from 'src/app/auth-guard';
 import { AccountComponent } from './account/account.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { NewItemComponent } from './new-item/new-item.component';
+import { SellerItemsComponent } from './seller-items/seller-items.component';
+import { PaymentComponent } from '../payment/payment.component';
 
 const accountRoutes: Routes = [
   { path: 'account', component: AccountComponent,
     children: [
       { path: 'profile',component: UserProfileComponent},
-      { path: 'items',component: ItemsComponent},
+      { path: 'items',component: SellerItemsComponent},
       { path: 'newitem',component: NewItemComponent},
       { path: 'bids',component: BidsComponent},
       { path: 'addItem',component: UserProfileComponent},

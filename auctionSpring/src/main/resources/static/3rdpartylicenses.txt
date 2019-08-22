@@ -166,6 +166,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+ngx-bootstrap/component-loader
+
+ngx-bootstrap/modal
+
+ngx-bootstrap/positioning
+
+ngx-bootstrap/utils
+
 ngx-combo-datepicker
 MIT
 

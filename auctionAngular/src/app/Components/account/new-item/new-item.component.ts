@@ -11,7 +11,7 @@ import { Country } from 'src/app/Model/country';
 import { City } from 'src/app/Model/city';
 import { NgbDateStruct, NgbDate, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { AccountModule } from '../account.module';
-import { Shipping } from 'src/app/Model/shipping';
+import { Location } from 'src/app/Model/location';
 import { UserService } from 'src/app/Services/user-service.service';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { User } from 'src/app/Model/user';
@@ -49,7 +49,7 @@ export class NewItemComponent implements OnInit {
 
 
   progress: number = 1;
-  titles: string[] = ["DETAIL INFORMATION ABOUT PRODUCT", "PRICE & DATE", "LOCATION & SHIPPING"];
+  titles: string[] = ["DETAIL INFORMATION ABOUT PRODUCT", "PRICE & DATE", "LOCATION & Location"];
   step1Form: FormGroup;
   step2Form: FormGroup;
   step3Form: FormGroup;
@@ -83,7 +83,7 @@ export class NewItemComponent implements OnInit {
       country: new FormControl({ value: '', disabled: true }, [Validators.required]),
       city: new FormControl({ value: '', disabled: true }, [Validators.required]),
       zipCode: new FormControl('', [Validators.required, Validators.maxLength(10)]),
-      freeshippment: new FormControl()
+      freeShipping: new FormControl()
     });
 
   }
@@ -109,6 +109,7 @@ export class NewItemComponent implements OnInit {
       allowedMimeType: ['image/jpeg', 'image/png'], maxFileSize: 1048000, queueLimit: 4
     });
     this.uploader.onAfterAddingFile = () => this.errorMessage = "";
+    this.uploader.onWhenAddingFileFailed = (item,filter,options) => this.onWhenAddingFileFailed(item,filter,options);
   }
 
   onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {
@@ -219,7 +220,7 @@ export class NewItemComponent implements OnInit {
   }
 
   checkBox() {
-    console.log(this.f3.freeshippment.value);
+    console.log(this.f3.freeShipping.value);
   }
 
   filterCountries() {
@@ -256,7 +257,7 @@ export class NewItemComponent implements OnInit {
           this.newItem.name = this.f1.name.value;
           this.newItem.description = this.f1.description.value;
           this.newItem.category = this.selectedSubcategory;
-
+          this.newItem.paid=false;
 
           /*let imgs: Image[] = [];
           let placeholderImg = new Image();
@@ -268,13 +269,14 @@ export class NewItemComponent implements OnInit {
           this.newItem.currentPrice = this.f2.price.value;
           this.newItem.endDate = this.f2.endDate.value;
 
-          let shippment: Shipping = new Shipping();
-          shippment.address = this.f3.address.value;
-          shippment.zipcode = this.f3.zipCode.value;
-          shippment.freeShipping = this.f3.freeshippment.value;
-          shippment.city = this.cities.find(c => c.name == this.f3.city.value);
-          this.newItem.shipping = shippment;
+          let location: Location = new Location();
+          location.address = this.f3.address.value;
+          location.zipcode = this.f3.zipCode.value;
+          location.freeShipping = this.f3.freeShipping.value;
+          location.city = this.cities.find(c => c.name == this.f3.city.value);
+          this.newItem.location = location;
 
+          console.log(this.newItem);
           this.userService.saveItem(this.newItem, this.currentUser.id).subscribe(item => {
             if (item != null) {
               this.router.navigate(['/item', item.id]);

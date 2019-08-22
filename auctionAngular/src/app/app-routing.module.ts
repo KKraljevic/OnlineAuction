@@ -10,15 +10,15 @@ import { RegistrationComponent } from './Components/registration/registration.co
 import { AuthGuard } from './auth-guard';
 import { ItemDetailsComponent } from './Components/item-details/item-details.component';
 import { ShopComponent } from './Components/shop/shop.component';
-import { ItemsComponent } from './Components/account/items/items.component';
-import { BidsComponent } from './Components/account/bids/bids.component';
 import { AccountComponent } from './Components/account/account/account.component';
+import { PaymentComponent } from './Components/payment/payment.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginFormComponent },
   { path: 'account', component: AccountComponent},
   { path: 'registration', component: RegistrationComponent, canActivate: [AuthGuard] },
+  { path: 'payment/:id',component: PaymentComponent},
   { path: 'item/:id/*', component: ItemDetailsComponent },
   { path: 'item/:id', component: ItemDetailsComponent },
   { path: 'shop/:cat/:subcat', component: ShopComponent },

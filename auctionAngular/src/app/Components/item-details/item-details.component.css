@@ -1,6 +1,3 @@
-.img-round{
-    border-radius: 50%;
-}
 
 .input-price{
     height: 54px;
@@ -19,6 +16,11 @@ a.nav-link{
 .alert{
     border-radius: 0;
     padding-left: 10%;
+}
+.alert-purple{
+    padding-left: 10%;
+    background-color: #F2EFF9;
+    color: var(--purple);
 }
 .alert-info
 {

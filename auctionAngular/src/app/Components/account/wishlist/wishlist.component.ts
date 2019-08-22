@@ -23,6 +23,7 @@ export class WishlistComponent implements OnInit {
   hourDiff: number;
   dayDiff: number;
   weekDiff: number;
+  timeLeftInDays: string;
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService) { }
 
@@ -35,7 +36,7 @@ export class WishlistComponent implements OnInit {
         this.wishlist = data['content'];
         this.totalPages = data['totalPages'];
         this.currentPage = data['number'];        
-        if (this.wishlist.length===0)
+        if (data['totalElements']===0)
           this.hasWishlist = false;
         else {
           this.hasWishlist = true;
@@ -50,8 +51,8 @@ export class WishlistComponent implements OnInit {
   isActive(endDate: Date): boolean {
     var date = new Date(endDate.toString());
     let diff = Math.round(date.getTime() - (new Date()).getTime()) / (1000 * 60 * 60);
-
-    return diff === 0 ? false : true;
+    this.timeLeftInDays = this.getTimeLeft(endDate);
+    return  diff <= 0 ? false : true;
   }
 
   getTimeLeft(bidDate: Date): string {

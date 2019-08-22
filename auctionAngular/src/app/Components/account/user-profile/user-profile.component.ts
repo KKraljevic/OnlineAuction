@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../../Services/authentication.service'
 import { UserService } from '../../../Services/user-service.service';
 import { Image } from '../../../Model/image';
 import { FormControl, Validators, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
-import { FileUploader } from 'ng2-file-upload';
+import { FileUploader, FileLikeObject } from 'ng2-file-upload';
 import { ItemService } from 'src/app/Services/item.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
@@ -23,9 +23,11 @@ export class UserProfileComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
   msgSaved: boolean;
+  now: Date = new Date();
 
   @ViewChild('profilePhoto', { static: true }) fileInput: ElementRef;
   uploader: FileUploader;
+  errorMessage: string;
 
   gender: string;
   userPhoto: any;
@@ -57,6 +59,10 @@ export class UserProfileComponent implements OnInit {
     else {
       this.editUserForm.disable();
     }
+    if (this.currentUser.birthDate)
+      this.f.birthDate.setValue(new Date(this.currentUser.birthDate));
+    else
+      this.f.birthDate.setValue('');
 
     const headers = [{ name: 'Accept', value: 'application/json' }];
     this.uploader = new FileUploader({
@@ -67,11 +73,28 @@ export class UserProfileComponent implements OnInit {
       this.uploader.clearQueue();
       this.uploader.queue.push(item);
       this.userPhoto = this.preview(item);
+      this.errorMessage = ""
     }
+    this.uploader.onWhenAddingFileFailed = (item,filter,options) => this.onWhenAddingFileFailed(item,filter,options);
   }
 
   get f() { return this.editUserForm.controls; }
 
+  onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {
+    switch (filter.name) {
+      case 'fileSize':
+        this.errorMessage = `Maximum upload size exceeded (${item.size} of 104800 allowed)`;
+        break;
+      case 'mimeType':
+        this.errorMessage = `Type is not allowed. Allowed types: .jpeg, .png`;
+        break;
+        case 'queueLimit':
+        this.errorMessage = `Maximum upload size (1 file) exceeded`;
+        break;
+      default:
+        this.errorMessage = `Unknown error (filter is ${filter.name})`;
+    }
+  }
   getFormValidationErrors(form: FormGroup) {
     Object.keys(form.controls).forEach(key => {
 
@@ -109,6 +132,7 @@ export class UserProfileComponent implements OnInit {
       this.uploader.clearQueue();
       this.userPhoto = this.currentUser.photo;
       this.gender = this.GenderFullName(this.currentUser.gender);
+      this.submitted=false;
     }
     this.currentValues();
   }
@@ -145,7 +169,10 @@ export class UserProfileComponent implements OnInit {
   SaveChanges() {
     this.submitted = true;
     this.f.gender.setValue(this.gender);
-
+    if (this.f.birthDate.value >= this.now) {
+      this.f.birthDate.setErrors({ 'incorrect': true });
+    }
+    console.log(this.f.birthDate.value);
     if (this.editUserForm.invalid) {
       this.getFormValidationErrors(this.editUserForm);
       return;
@@ -177,7 +204,7 @@ export class UserProfileComponent implements OnInit {
               this.msgSaved = true;
             }
             else {
-              alert("greska");
+              alert("Greska pri cuvanju promjena");
             }
           });
         });
@@ -190,12 +217,15 @@ export class UserProfileComponent implements OnInit {
             this.msgSaved = true;
           }
           else {
-            alert("greska");
+            alert("Greska pri cuvanju promjena");
           }
         });
       }
     }
   }
+
+  
+  
 }
 
 
