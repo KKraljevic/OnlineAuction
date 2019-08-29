@@ -1,0 +1,31 @@
+<table class="my-table table">
+  <thead class="thead">
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col" class="w-auto">Name</th>
+      <th scope="col">Time Left</th>
+      <th scope="col">Your Price</th>
+      <th scope="col">Highest Bid</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let bid of bids" class="px-3">
+      <td><img height="100" width="100" src="{{bid.auctionItem?.images[0].url}}"></td>
+      <td class="name-col">{{bid.auctionItem.name}}</td>
+      <td *ngIf="activeTab===0; else expiredTime">{{getTimeLeft(bid.auctionItem.endDate)}}</td>
+      <ng-template #expiredTime>
+        <td [style.color]="'#A6555F'">EXPIRED</td>
+      </ng-template>
+      <td class="text-info">$ {{bid.bidPrice}}</td>
+      <td class="text-info">$ {{bid.auctionItem.currentPrice}}</td>
+      <td>
+        <button  *ngIf="activeTab!=2; else Payment" class="form-control view-btn" role="link" [routerLink]="['/item',bid.auctionItem.id]">VIEW</button>
+      <ng-template #Payment>
+        <button *ngIf="!bid.auctionItem.paid" class="form-control btn-purple-fill" role="link" [routerLink]="['/payment',bid.auctionItem.id]">PAY</button>
+        <label *ngIf="bid.auctionItem.paid"><mark>PAID</mark></label>
+      </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>

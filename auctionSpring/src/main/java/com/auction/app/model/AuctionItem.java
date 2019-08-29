@@ -50,12 +50,10 @@ public class AuctionItem implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "shipping_id", name="location_id")
-    @JsonIgnore
     private Location location;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "shipping_id", name="shipmentLocation_id")
-    @JsonIgnore
     private Location shipmentLocation;
 
     @ManyToOne(fetch = FetchType.LAZY)

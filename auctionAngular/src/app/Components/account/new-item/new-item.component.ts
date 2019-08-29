@@ -49,7 +49,7 @@ export class NewItemComponent implements OnInit {
 
 
   progress: number = 1;
-  titles: string[] = ["DETAIL INFORMATION ABOUT PRODUCT", "PRICE & DATE", "LOCATION & Location"];
+  titles: string[] = ["DETAIL INFORMATION ABOUT PRODUCT", "PRICE & DATE", "LOCATION"];
   step1Form: FormGroup;
   step2Form: FormGroup;
   step3Form: FormGroup;
@@ -115,7 +115,7 @@ export class NewItemComponent implements OnInit {
   onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {
     switch (filter.name) {
       case 'fileSize':
-        this.errorMessage = `Maximum upload size exceeded (${item.size} of 104800 allowed)`;
+        this.errorMessage = `Maximum upload size exceeded. Allowed 1MB`;
         break;
       case 'mimeType':
         this.errorMessage = `Type is not allowed. Allowed types: .jpeg, .png`;
@@ -196,6 +196,7 @@ export class NewItemComponent implements OnInit {
   chooseCategory(c: Category) {
     this.selectedCategory = c;
     this.selectedSubcategory = null;
+    this.step1Form.get('subCat').setValue('');
     this.step1Form.get('cat').setValue(this.selectedCategory.categoryName);
     this.step1Form.get('subCat').enable();
   }
@@ -208,7 +209,9 @@ export class NewItemComponent implements OnInit {
   chooseCountry(c: Country) {
     this.selectedCountry = c;
     this.selectedCity = null;
+    this.step3Form.get('city').setValue('');
     this.step3Form.get('country').setValue(this.selectedCountry.iso3);
+    this.step3Form.get('city').disable();
     this.itemService.getCountryCities(c.iso3).subscribe(c => {
       this.cities = c,
       this.step3Form.get('city').enable();

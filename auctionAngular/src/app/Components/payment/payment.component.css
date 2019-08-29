@@ -1,0 +1,98 @@
+.my-container{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 700px;
+}
+.dropdown button{
+  height: 54px;
+}
+.dropdown-menu{
+  overflow-y:scroll;
+  overflow:auto;
+  max-height: 280px;
+}
+.dropdown-menu,
+.dropdown input,
+.dropdown button{
+    min-width: fit-content;
+    width: -webkit-fill-available;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: left;
+    border-radius: 0;
+    border: 3px solid #ECECEC;
+}
+.dropdown-item.active{
+    background-color: var(--purple);
+    color: white;
+}
+input#dropdownSubCat::after,
+.dropdown-toggle::after {
+    font-family: "FontAwesome";
+    font-weight: 900;
+    content: "\f078";
+    float: right;
+    border:0;
+    }
+#myInput {
+  box-sizing: border-box;
+  width: inherit;
+  font-size: 16px;
+  padding: 14px 20px 12px 10px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+input#myInput :focus{
+  outline-color: transparent;
+  outline-width: 0;
+}
+.btn-purple-outline, 
+.btn-purple-fill{
+    width: inherit;
+}
+.input-group-text{
+    border-radius: 0;
+    font-size: 18px;
+    width: 54px;
+    justify-content: center;
+    background: var(--input);
+    border: 1px solid var(--darker-border);
+}
+.container.justify-content-center{
+    width:auto;
+    max-width:550px;
+    height:fit-content;
+  }
+.my-container form.justify{
+  align-content: center;
+  width: -webkit-fill-available;
+    padding-left: 65px;
+    padding-right: 65px;
+}
+.section-title{
+  display: block;
+  width: -webkit-fill-available;
+  padding-left: 65px;
+  padding-right: 65px;
+}
+.bn-row{
+  margin-left: 35px;
+  margin-right: 35px;
+}
+.modal-header{
+  background-color: var(--header);
+  border-bottom: 0; 
+}
+.btn-purple-fill{
+  font-size: 16px;
+}
+.alert-purple{
+  border-radius: 0;
+  border-width: 0;
+  background-color: var(--btn-shadow);
+  color: var(--purple);
+}
+ngb-rating{
+  color: var(--purple);
+  font-size: 35px;
+}

@@ -49,7 +49,9 @@ export class RegistrationComponent implements OnInit {
       this.user.photo = "https://purecremation.azurewebsites.net/Content/images/profile-placeholder.png";
       this.userService.save(this.user).subscribe(
         r => {
-          this.user.id = r.id;
+          if(r!=null){
+            this.user.id = r.id;
+          }
         },
         error => this.errorMessage = "Account with this email already exicts!"
       );

@@ -36,7 +36,7 @@ public interface BidRepository extends CrudRepository<Bid, Integer> {
     @Query("select b from Bid b join b.bidder b1 join b.auctionItem ai where b1.id=?1 and ai.endDate < ?2 and ai.currentPrice!=b.bidPrice group by b.bidTime,b.id")
     Page<Bid> getLostUserBids(Integer userId, Date nowDate, Pageable pageable);
 
-    @Query("select b from Bid b join b.bidder b1 join b.auctionItem ai where b1.id=?1 and ai.endDate < ?2 and ai.currentPrice=b.bidPrice")
+    @Query("select b from Bid b join b.bidder b1 join b.auctionItem ai where b1.id=?1 and ai.endDate < ?2 and ai.currentPrice=b.bidPrice order by ai.paid")
     Page<Bid> getWonUserBids(Integer userId, Date nowDate, Pageable pageable);
 
 

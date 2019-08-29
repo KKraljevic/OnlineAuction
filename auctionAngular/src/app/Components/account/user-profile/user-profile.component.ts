@@ -197,9 +197,11 @@ export class UserProfileComponent implements OnInit {
           console.log("Nova slika:" + data);
           this.currentUser.photo = data.toString();
           this.uploader.clearQueue();
-          this.userService.updateUser(this.currentUser).subscribe(data => {
-            if (data != null) {
-              this.currentUser = data;
+          console.log(this.currentUser);
+          this.userService.updateUser(this.currentUser).subscribe(resp => {
+            console.log("update sa slikom odg:" + resp);
+            if (resp != null) {
+              this.currentUser = resp;
               this.EditMode();
               this.msgSaved = true;
             }
@@ -210,9 +212,9 @@ export class UserProfileComponent implements OnInit {
         });
       }
       else {
-        this.userService.updateUser(this.currentUser).subscribe(data => {
-          if (data != null) {
-            this.currentUser = data;
+        this.userService.updateUser(this.currentUser).subscribe(resp => {
+          if (resp != null) {
+            this.currentUser = resp;
             this.EditMode();
             this.msgSaved = true;
           }

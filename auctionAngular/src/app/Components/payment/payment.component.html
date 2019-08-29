@@ -1,0 +1,199 @@
+<div class="navbar component-navbar navbar-item px">
+  <div class="navbar-brand">PAYMENT</div>
+</div>
+<div class="my-container">
+  <div class="title text-center">
+    <h4>PAYMENT</h4>
+  </div>
+  <div class="row mb-2 justify-content-center">
+    <form [formGroup]="shippmentForm" class="justify pt-0">
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>Shipping address</label>
+          <input type="text" class="form-control" formControlName="address"
+            [ngClass]="{ 'is-invalid': submitted && f.address.errors }" placeholder="e.g.678 Berge Tunnel Apt. 278" />
+          <div *ngIf="submitted && !!f.address.errors" class="invalid-feedback">
+            <div *ngIf="!!f.address.errors?.required">Address is required!</div>
+            <div *ngIf="!!f.address.errors?.maxlength">Address is too long!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3">
+        <!--Country-->
+        <div class="col-md-6">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" [disabled]="countries===undefined" type="button" id="dropdownContry"
+              data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">{{selectedCountry?.fullName || "Select Country"}}
+            </button>
+            <div *ngIf="countries!=null" class="dropdown-menu" aria-labelledby="dropdownContry">
+              <input type="text" placeholder="Search.." [(ngModel)]="searchCountry" class="pl-4"
+                [ngModelOptions]="{standalone: true}" id="myInput" (input)="filterCountries()">
+              <a class="dropdown-item" *ngFor="let c of countries" (click)="chooseCountry(c)">{{c.fullName}}</a>
+            </div>
+          </div>
+        </div>
+        <!--City-->
+        <div class="col-md-6">
+          <div class="dropdown">
+            <button [disabled]="selectedCountry===undefined && (cities===undefined || cities===null || cities.length<1)" class="btn dropdown-toggle"
+              type="button" id="dropdownCity" aria-haspopup="true" aria-expanded="false"
+              data-toggle="dropdown">{{selectedCity?.name || "Select City"}}
+            </button>
+            <div *ngIf="cities!=null" class="dropdown-menu" aria-labelledby="dropdownCity">
+              <a class="dropdown-item" *ngFor="let city of cities" (click)="chooseCity(city)">{{city.name}}</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="submitted && (!!f.country.errors || !!f.city.errors)" id=errorCC class="invalid-feedback d-block">
+            <div>Country and city are required!</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row my-3">
+        <div class="col-md-12 form-group">
+          <label>Zip Code</label>
+          <input type="text" class="form-control" formControlName="zipCode"
+            [ngClass]="{ 'is-invalid': submitted && !!f.zipCode.errors }" placeholder="e.g.51000" />
+          <div *ngIf="submitted && !!f.zipCode.errors" class="invalid-feedback">
+            <div *ngIf="!!f.zipCode.errors?.required">Zipcode of item is required!</div>
+            <div *ngIf="!!f.zipCode.errors?.maxlength">Zipcode is too long!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-md-8 form-group">
+          <label><input type="checkbox" formControlName="freeShippment"> Do you want to bear
+            shipping cost?</label>
+          <small id="nameInfo" class="form-text text-muted pl-1">The average priece of shipping cost is $10.00.
+            You have to provide us payment infromations.
+          </small>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row mb-2 justify-content-center">
+    <div class="section-title">
+      <h5>Card information</h5>
+      <hr>
+    </div>
+    <form class="justify pt-0" [formGroup]="cardForm">
+      <div class="row pl-4">
+        <div class="col-md-12">
+          <p>We accpet the following credit cards</p>
+        </div>
+      </div>
+      <div class="row pl-4 mb-3">
+        <div class="col-md-12">
+          <img height="50px" src="/assets/icons/credit-cards.JPG">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label>Name on card</label>
+          <input formControlName="cardHolder" type="text" class="form-control" placeholder="e.g. Adam Smith" />
+          <div *ngIf="submitted && !!cardForm.invalid" class="invalid-feedback d-block">
+            <div *ngIf="!!cardForm.get('cardHolder').errors?.required">Card holder name is required!</div>
+            <div *ngIf="!!cardForm.get('cardHolder').errors?.maxlength">Card holder name is too long!</div>
+          </div>
+        </div>
+        <div class="col-md-6 form-group">
+          <label>Card number</label>
+          <input formControlName="cardNumber" type="text" class="form-control" placeholder="e.g.4242 4242 4242 4242" />
+          <div *ngIf="submitted && !!cardForm.invalid" class="invalid-feedback d-block">
+            <div *ngIf="!!cardForm.get('cardNumber').errors?.required">Card number is required!</div>
+            <div *ngIf="!!cardForm.get('cardNumber').errors?.maxlength">Card number is too long!</div>
+            <div *ngIf="!!cardForm.get('cardNumber').errors?.minlength">Card number is too short!</div>
+            <div *ngIf="!!cardForm.get('cardNumber').errors?.pattern">Card number is not valid!</div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-3 ">
+        <div class="col-md-6 form-group">
+          <label>Expiration date</label>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="text" id="dropdownMonth" data-toggle="dropdown"
+                  placeholder="Month" aria-placeholder="Month" aria-haspopup="true"
+                  aria-expanded="false">{{cardForm.get('expMonth').value || 'Month'}}</button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" *ngFor="let month of months"
+                    (click)="cardForm.get('expMonth').setValue(month)">{{month}}</a>
+                </div>
+              </div>
+              <div *ngIf="submitted && !!cardForm.invalid" class="invalid-feedback d-block">
+                <div *ngIf="!!cardForm.get('expMonth').errors?.required">Expiration month is required!</div>
+                <div *ngIf="!!cardForm.get('expMonth').errors?.min">Expiration month is not valid!</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownYear" data-toggle="dropdown"
+                  aria-placeholder="Year" aria-haspopup="true"
+                  aria-expanded="false">{{cardForm.get('expYear').value || 'Year'}}
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" *ngFor="let year of years" (click)="chooseYear(year)">{{year}}</a>
+                </div>
+              </div>
+              <div *ngIf="submitted && !!cardForm.invalid" class="invalid-feedback d-block">
+                <div *ngIf="!!cardForm.get('expYear').errors?.required">Expiration year is required!</div>
+                <div *ngIf="!!cardForm.get('expYear').errors?.min">Expiration year is not valid!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 form-group">
+          <label>CVC/CW</label>
+          <input formControlName="cvc" type="number" pattern="\d{4}" class="form-control" placeholder="1234" />
+          <div *ngIf="submitted && !!cardForm.invalid" class="invalid-feedback d-block">
+            <div *ngIf="!!cardForm.get('cvc').errors?.required">CVC/CW is required!</div>
+            <div *ngIf="!!cardForm.get('cvc').errors?.pattern">CVC/CW is not valid!</div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <h4>Amount: <mark>${{item?.currentPrice}}</mark></h4>
+    </div>
+
+  </div>
+  <div class="row my-3 bn-row">
+
+    <div class="col-md-12">
+      <div *ngIf="submitted && cardErrorMsg" class="alert alert-warning">
+        {{cardErrorMsg}}
+      </div>
+    </div>
+
+    <div class="col-md-4 offset-md-8 form-group">
+      <button class="btn btn-purple-fill nav-link" #doneBtn (click)="finishPayment()" [hidden]="stripeCheck">
+        DONE</button>
+    </div>
+    <ng-template #template>
+        <div class="modal-header justify-content-center">
+          <h4 class="modal-title">SELLER RATING</h4>
+        </div>
+        <div class="modal-body text-center">
+          <img class="img-round" height="100" width="100" src="{{item.seller.photo}}">
+          <p>{{item.seller.firstName}} {{item.seller.lastName}}</p>
+          <br>
+          <h5>Please, rate the seller!
+          </h5>
+          <!-- RATING STARS-->
+          <ngb-rating [(rate)]="userRate" max="5"></ngb-rating>
+          <div class="row">
+            <div class="col-md-6 pl-3 pr-0">
+              <button type="button" class="btn view-btn col-8 pull-left" (click)="decline()">SKIP</button>
+            </div>
+            <div class="col-md-6 pr-3 pl-0">
+              <button type="button" class="btn btn-purple-fill col-8 pull-right"
+                (click)="confirm(item.id)">DONE</button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+  </div>

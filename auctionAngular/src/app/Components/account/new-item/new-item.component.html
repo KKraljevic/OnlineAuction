@@ -78,7 +78,7 @@
         <div id="dropUploadImages" class="drop-box" ng2FileDrop [ngClass]="{'dragover': isDropOver}" [uploader]="uploader"
           (fileOver)="fileOverAnother($event)" (click)="fileClicked()">
           <span class="drag-in-title"><mark>Upload photos</mark> or just drag and drop
-          <br>+ Add at least 4 photos
+          <br>+ Add 4 photos
         </span>
         </div>
         <div *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</div>
@@ -179,7 +179,7 @@
         <!--City-->
         <div class="col-md-6">
           <div class="dropdown">
-            <button [disabled]="selectedCountry===undefined && cities===undefined" class="btn dropdown-toggle"
+            <button [disabled]="selectedCountry===undefined && (cities===undefined || cities===null || cities.length<1)" class="btn dropdown-toggle"
               type="button" id="dropdownCity" aria-haspopup="true" aria-expanded="false"
               data-toggle="dropdown">{{selectedCity?.name || "Select City"}}
             </button>

@@ -79,7 +79,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(int id, @NotNull String email, @NotNull String password, @NotNull String firstName, @NotNull String lastName,
+    public User(int id, @NotNull String email, String password, @NotNull String firstName, @NotNull String lastName,
                 String phone, Date birthDate, Character gender, String photo) {
         this.id = id;
         this.email = email;

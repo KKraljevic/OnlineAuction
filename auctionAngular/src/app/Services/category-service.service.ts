@@ -16,19 +16,19 @@ export class CategoryService {
   }
 
   public findAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.springURL+"/api/categories");
+    return this.http.get<Category[]>("/api/categories");
   }
 
   public findAllSubcategories(id: number): Observable<Category[]> {
-    return this.http.get<Category[]>(this.springURL+"/api/categories/" + id + "/children");
+    return this.http.get<Category[]>("/api/categories/" + id + "/children");
   }
 
   public findCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(this.springURL+"/api/categories/" + id);
+    return this.http.get<Category>("/api/categories/" + id);
   }
 
   public findCategoryByName(name: string): Observable<Category> {
-    return this.http.get<Category>(this.springURL+"/api/category/" + name);
+    return this.http.get<Category>("/api/category/" + name);
   }
 
   public findCategoryItems(id: number, page: number, sort?: number) {
@@ -38,7 +38,7 @@ export class CategoryService {
     params = params.set('page', page.toString());
     params = params.append('size', size.toString());
     params = Number.isInteger(sort) ? params.append('sort', sortCriterias[sort]) : params;
-    return this.http.get<Item[]>(this.springURL+"/api/categories/" + id + "/items", { params: params });
+    return this.http.get<Item[]>("/api/categories/" + id + "/items", { params: params });
   }
 
 }

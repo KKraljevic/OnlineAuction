@@ -81,7 +81,7 @@
     </ul>
   </div>
 </div>
-<div *ngIf="pendingItems && currentUser" class="alert alert-warning alert-dismissible fade show mb-0" role="alert">
+<div *ngIf="(pendingItems!='0' || wonBids!='0') && currentUser" class="alert alert-warning alert-dismissible fade show mb-0" role="alert">
   Check your profile! You have 
   <a [routerLink]="['/account/items']">{{pendingItems!='0'? pendingItems:''}}</a>
   {{pendingItems!='0'&& wonBids!='0'?' and ':''}} 

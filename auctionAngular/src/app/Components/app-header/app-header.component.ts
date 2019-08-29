@@ -1,10 +1,9 @@
-import { Component, OnInit, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Router, ActivatedRoute, Event, NavigationEnd, NavigationStart } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, Event, NavigationEnd} from '@angular/router';
 import { User } from '../../Model/user';
 import { AuthenticationService } from '../../Services/authentication.service';
 import { UserService } from 'src/app/Services/user-service.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-header',

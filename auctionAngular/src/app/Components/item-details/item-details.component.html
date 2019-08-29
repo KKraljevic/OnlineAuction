@@ -22,9 +22,14 @@
 <div *ngIf="expired && currentUser.id===item.seller?.id; else generalExpiredInfo">
   <ng-container [ngTemplateOutlet]="hasBids? paymentInfo : noBidsInfo"></ng-container>
   <ng-template #paymentInfo>
-    <div class="alert alert-success alert-info mb-0" role="alert">
+    <div *ngIf="!item.paid; else paidItem" class="alert alert-success alert-info mb-0" role="alert">
       Time for bidding expired! The payment from the highest bidder is pending.
     </div>
+    <ng-template #paidItem>
+      <div class="alert alert-success alert-info mb-0" role="alert">
+        Time for bidding expired! The payment is completed.
+      </div>
+    </ng-template>
   </ng-template>
   <ng-template #noBidsInfo>
     <div *ngIf="hasBids!=undefined" class="alert alert-danger alert-info mb-0" role="alert">
@@ -98,7 +103,7 @@
       </div>
       <div *ngIf="(currentUser!=null) && (highestBidder?.id===currentUser?.id) && item.paid">
         <div class="alert alert-warning alert-purple alert-dismissible fade show mb-0" role="alert">
-          <b>Congradulation!</b>You outbid the competition. <i class="fa fa-check-circle"></i>
+          <b>Congratulation!</b>You outbid the competition. <i class="fa fa-check-circle"></i>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -116,7 +121,7 @@
             <br>
             End date: {{item.endDate | date: 'd MMM yyyy'}} <br>
           </p>
-          <ng-container [ngTemplateOutlet]='checkWishlist(item) ? inWishlist : notInWishlist'
+          <ng-container *ngIf="!item.paid" [ngTemplateOutlet]='checkWishlist(item) ? inWishlist : notInWishlist'
             [ngTemplateOutletContext]="{item:item}"></ng-container>
           <ng-template #inWishlist>
             <button class="btn btn-watchlist" data-toggle="popover" data-trigger="hover"
@@ -132,7 +137,7 @@
           <p><br><br>
             Highest bid: <mark>${{item.currentPrice}}</mark>
             <br>
-            Number of bids: {{itemBids?.length || 0}}
+            Number of bids: {{currentUser!=null? (itemBids?.length || 0) : '/'}}
             <br>
             End date: {{item.endDate | date: 'd MMM yyyy'}} <br>
           </p>
@@ -205,10 +210,10 @@
             <div class="col-md-3  text-center my-auto">
               <ng-container [ngTemplateOutlet]="item.paid? Paid : Pending"></ng-container>
               <ng-template #Pending>
-                <a class="btn btn-grey-fill" [style.color]="'#A6555F'">PENDING</a>
+                <label  [style.color]="'#A6555F'">PENDING</label>
               </ng-template>
               <ng-template #Paid>
-                <a class="btn btn-grey-fill" [style.color]="'#417505'">PAID</a>
+                <label [style.color]="'#417505'">PAID</label>
               </ng-template>
             </div>
           </div>

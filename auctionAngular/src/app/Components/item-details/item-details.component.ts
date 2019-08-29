@@ -91,15 +91,16 @@ export class ItemDetailsComponent implements OnInit {
               });
 
               this.getHighestBidder(this.id);
-              
-              this.userService.getUserRating(this.item.seller.id).subscribe(rating =>{
-                if(rating!=null){
-                  this.sellerRating=Number.parseFloat(rating.toString());
-                  if(this.sellerRating===NaN){
-                    this.sellerRating=0;
-                  }
-                }
-              });
+
+            }
+          }
+        });
+
+        this.userService.getUserRating(this.item.seller.id).subscribe(rating =>{
+          if(rating!=null){
+            this.sellerRating=Number.parseFloat(rating.toString());
+            if(this.sellerRating===NaN){
+              this.sellerRating=0;
             }
           }
         });

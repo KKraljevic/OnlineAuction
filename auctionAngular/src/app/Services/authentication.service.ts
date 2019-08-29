@@ -33,7 +33,7 @@ export class AuthenticationService {
     this.user.email = email;
     this.user.password = password;
     console.log(remember);
-    return this.http.post<User>(this.springURL+'/api/login', this.user)
+    return this.http.post<User>('/api/login', this.user)
       .pipe(map(user => {
         if (remember!=null || remember)
           localStorage.setItem('currentUser', JSON.stringify(user));

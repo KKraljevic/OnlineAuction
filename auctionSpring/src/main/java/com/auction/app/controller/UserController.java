@@ -55,7 +55,7 @@ public class UserController {
 
     @PostMapping("/users")
     public User addUser(@RequestBody User user) {
-        return userService.loginUser(user);
+        return userService.createUser(user);
     }
 
     @GetMapping("/users")
@@ -85,25 +85,25 @@ public class UserController {
 
     @GetMapping("/users/{userId}/items/active")
     public Page<AuctionItem> getActiveUsersItems(@PathVariable Integer userId,
-                                           @PageableDefault(sort = "id", size = pageSize, page = 0) Pageable pageable) {
+                                           @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = pageSize, page = 0) Pageable pageable) {
         return userService.getActiveUserItemsPage(userId, pageable);
     }
 
     @GetMapping("/users/{userId}/items/expired")
     public Page<AuctionItem> getExpiredUsersItems(@PathVariable Integer userId,
-                                                  @PageableDefault(sort = "id", size = pageSize, page = 0) Pageable pageable) {
+                                                  @PageableDefault(sort = "endDate", direction = Sort.Direction.DESC, size = pageSize, page = 0) Pageable pageable) {
         return userService.getExpiredUserItemsPage(userId, pageable);
     }
 
     @GetMapping("/users/{userId}/items/sold")
     public Page<AuctionItem> getSoldUsersItems(@PathVariable Integer userId,
-                                               @PageableDefault(sort = "id", size = pageSize, page = 0) Pageable pageable) {
+                                               @PageableDefault(sort = "endDate", direction = Sort.Direction.DESC, size = pageSize, page = 0) Pageable pageable) {
         return userService.getSoldUserItemsPage(userId, pageable);
     }
 
     @GetMapping("/users/{userId}/items/pending")
     public Page<AuctionItem> getPendingUsersItems(@PathVariable Integer userId,
-                                                  @PageableDefault(sort = "id", size = pageSize, page = 0) Pageable pageable) {
+                                                  @PageableDefault(sort = "endDate", direction = Sort.Direction.DESC, size = pageSize, page = 0) Pageable pageable) {
         return userService.getPendingUserItemsPage(userId, pageable);
     }
 
@@ -173,7 +173,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}/wishlist")
-    public Page<AuctionItem> getWishlist(@PathVariable Integer userId, @PageableDefault(sort = "id", size = pageSize, page = 0) Pageable pageable) {
+    public Page<AuctionItem> getWishlist(@PathVariable Integer userId, @PageableDefault(sort = "endDate", direction = Sort.Direction.DESC, size = pageSize, page = 0) Pageable pageable) {
         return userService.getWishlistPage(userId, pageable);
     }
 
