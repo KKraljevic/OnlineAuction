@@ -1,0 +1,69 @@
+.navbar-item{
+    color: #212529;
+    background-color: #f8f9fa;
+}
+.view-btn{
+    align-items: center;
+    border: 2px;
+    border-radius: 0;
+    border-style: solid;
+    border-color: rgb(206, 204, 204);
+    box-shadow:2px 2px 2px rgb(206, 204, 204);
+    box-sizing : border-box;
+    flex: 0%;
+}
+table{
+    border-style: groove;
+    border-color: #dfdfdf;
+    border-width: 1px;
+}
+thead tr th{
+    border-width: 0;
+    background-color:#f8f9fa; 
+}
+.profile-container{
+    max-width:100%;
+    margin:30px auto;
+    padding: 0;
+    border-style: groove;
+    border-color: #dfdfdf;
+    border-width: 1px;
+}
+.nav-pills{
+    max-width:100%;
+    margin:50px auto; 
+    
+}
+a.nav-link{
+    border-radius: 0;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color:blueviolet !important ;
+    color: white !important;
+  }
+a.nav-link.collapsed{
+  border-radius: 0;
+  margin-left: 8px;
+  margin-right: 8px;
+  background-color: #dfdfdf !important ;
+  color: #212529 !important;
+}
+.profile-container form{
+    
+    padding: 30px 50px 50px 50px;
+}
+h4{
+    text-align:left;
+    padding-left: 10px;
+    align-content: center;
+    font-size:18px;
+    background-color:#FAFAFA;
+    vertical-align:middle;
+}
+.title{
+    background-color:#FAFAFA;
+    height: 54px;
+    padding: 10px 0 0 0;
+    font-weight: bold;
+
+}

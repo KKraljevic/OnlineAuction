@@ -1,6 +1,8 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
+import { User } from '../user';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -8,18 +10,24 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./app-header.component.css']
 })
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  declarations: [AppHeaderComponent]
-})
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent {
+   
+  
+  currentUser: User;
+  path: String;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.router.events.subscribe((event:Event) => {
+      if(event instanceof NavigationEnd ){
+        this.path=event.url;
+      }
+  });
   }
 
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
+  
 }

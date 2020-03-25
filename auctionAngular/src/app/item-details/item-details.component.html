@@ -1,0 +1,86 @@
+<div class="navbar navbar-item px-5">
+  <div class="navbar-brand">SINGLE PRODUCT</div>
+  <nav aria-label="breadcrumb" class="justify-content-end bg-transparent">
+    <ol class="breadcrumb navbar-item">
+      <li class="breadcrumb-item">SHOP</li>
+      <li class="breadcrumb-item active" aria-current="page">{{item.category?.categoryName}}</li>
+    </ol>
+  </nav>
+</div>
+<div class=container>
+  <div class="row">
+
+    <div class="col-lg-5 col-sm-5">
+      <div>
+        <img src="https://placehold.it/200x200" class="card-img-top" alt="">
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+        <div class="col-xs-3 col-sm-3 col-3 mb-1 p-1">
+          <img src="https://placehold.it/300x300" class="card-img-top" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 col-sm-7">
+      <h2>{{item.name}}</h2>
+      <h5>Start from - ${{item.startPrice}}</h5>
+      <div *ngIf="(currentUser!=null)&&(item.seller?.id!=currentUser.id)">
+        <form (ngSubmit)="makeBid()" [formGroup]="bidForm" class="form-inline">
+
+          <input type="number" formControlName="price" class="form-control input-price p-1"
+            [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+          <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+            <div *ngIf="f.price.errors.required">Price is required</div>
+            <div *ngIf="f.price.errors.min">Higher value required</div>
+          </div>
+          <input type="submit" class="btn btn-bid ml-2" value="PLACE BID >" />
+        </form>
+        <p>Enter ${{item.startPrice+10}} or more</p>
+      </div>
+      <div *ngIf="currentUser==null" class="alert alert-light" role="alert">
+        Login or register to make a bid!
+      </div>
+      <p><br><br>
+        Highest bid: ${{item.currentPrice}}<br>
+        No bid: {{itemBids.length+1}}<br>
+        End date: {{item.endDate | date: 'd MMM yyyy'}} <br>
+      </p>
+      <button class="btn btn-watchlist">Watchlist <i class="fa fa-heart"></i></button>
+      <br>
+      <h6 class="my-2">Details</h6>
+      <hr>
+      <p>{{item.description}}</p>
+    </div>
+  </div>
+  <div *ngIf="itemBids" class="row">
+    <table class="table col-12">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Bidder</th>
+          <th scope="col"></th>
+          <th scope="col">Date</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody class="itemBids">
+        <tr *ngFor="let b of itemBids">
+          <td><img height="100" width="100"
+              src="https://i2.wp.com/www.ahfirstaid.org/wp-content/uploads/2014/07/avatar-placeholder.png?fit=204%2C204">
+          </td>
+          <td>{{b.bidder.firstName}} {{b.bidder.lastName}}</td>
+          <td>{{b.bidTime | date:'d MMM yyyy'}}</td>
+          <td>$ {{b.bidPrice}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,3 +1,47 @@
-a{
+.navbar-first{
+    color: white;
+    background-color: rgba(33, 37, 41, 0.795);
+}
+.navbar-first a{
     color:white;
+}
+.navbar-second{
+    color: #212529;
+    background-color: #ffffff;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.navbar-second a{
+    color: rgb(206, 204, 204);
+}
+.active-link{
+    color:#8367D8 !important;
+    font-weight: bold;
+}
+.icon-white {color: white}
+.icon-purple {color: #8367D8}
+
+.form-search{
+    width: 100%;
+    max-width: 300px;
+    
+}
+.input-search{
+    background-color: white;
+    flex-wrap: nowrap !important;
+    padding: 8px;
+    margin: 5px;
+    border: 2px;
+    border-style: solid;
+    border-color: rgb(206, 204, 204);
+    box-shadow:2px 2px 2px rgb(206, 204, 204);
+}
+.input-search input{
+    border: 0;
+    width: 90%;
+}
+.input-search button{
+    background-color: transparent;
+    border: 0;
+    width: 10%;
 }

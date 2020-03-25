@@ -1,0 +1,26 @@
+.btn-go{
+    box-sizing : border-box;
+    border-style: grove;
+    border-color: #8367D8;
+    border-width: 3px;
+    background-color:transparent;
+    color:white;
+}
+.input-email{
+    box-sizing : border-box;
+    background-color: rgb(87, 85, 85);
+    padding: 12px 20px;
+    margin: 8px 8px;
+    border: 0;
+}
+footer {
+    background: #212529;
+    color:white;
+    font-size: 14px;
+}
+footer ul li a{
+    color:white;
+}
+.row{
+    flex-wrap: nowrap;
+}

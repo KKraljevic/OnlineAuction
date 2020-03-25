@@ -1,0 +1,30 @@
+.btn-bid{
+    border-style: grove;
+    border-color: #8367D8;
+    border-width: 3px;
+    background-color:#fff;
+    color:#252525;
+}
+.card{
+    border-style: groove;
+    border-width: 0;
+    border-radius: 0;
+}
+.card-body h6 a,
+.card-title h6,
+#startPrice{
+    color:#8367D8;
+}
+.card-img-top{
+    width: 100%;
+    border-radius: 0;
+}
+.card a{
+    color: #252525;
+}
+.list-group-item{
+    cursor: pointer;
+}
+.first-block{
+    background-color: #f3f3f5;
+}
